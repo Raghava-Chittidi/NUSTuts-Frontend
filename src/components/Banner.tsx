@@ -19,7 +19,7 @@ export function Banner() {
     },
   ];
   return (
-    <div className="flex flex-col items-center justify-start md:justify-center h-[40rem]">
+    <div className="flex flex-col items-center justify-start md:justify-center max-h-[40rem] pb-4 md:pb-0">
       <TypewriterEffectSmooth words={words} cursorClassName="bg-amber-600" />
       <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base w-[87.5%] text-justify">
         Centralized platform tailored for Teaching Assistants (TAs) to share
@@ -29,10 +29,10 @@ export function Banner() {
         joining now!
       </p>
       <div className="flex flex-row items-center space-x-4 mt-10">
-        <button className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm">
+        <button className="w-32 sm:w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-xs sm:text-sm">
           Login as TA
         </button>
-        <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
+        <button className="w-32 sm:w-40 h-10 rounded-xl bg-white text-black border border-black text-xs sm:text-sm">
           Login as Student
         </button>
       </div>
