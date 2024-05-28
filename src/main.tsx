@@ -8,6 +8,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import App from "./App";
 import "./index.css";
 import ModulesPage from "./pages/ModulesPage";
+import ChooseUserType from "./pages/ChooseUserType";
 
 /** 
  * A browser router containing routes.
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />
+  },
+  {
+    path: "/chooseUserType",
+    element: <ChooseUserType />
   },
   // Render ModulesPage with empty modules array, to be replaced with real data in future
   {
