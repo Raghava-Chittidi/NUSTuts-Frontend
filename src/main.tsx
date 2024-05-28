@@ -9,6 +9,7 @@ import App from "./App";
 import "./index.css";
 import ModulesPage from "./pages/ModulesPage";
 import ChooseUserType from "./pages/ChooseUserType";
+import LoginPage from "./pages/LoginPage";
 
 /** 
  * A browser router containing routes.
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
   {
     path: "/chooseUserType",
     element: <ChooseUserType />
+  },
+  {
+    path: "/studentLogin",
+    element: <LoginPage userType="Student" />
+  },
+  {
+    path: "/taLogin",
+    element: <LoginPage userType="Teaching Assistant" />
   },
   // Render ModulesPage with empty modules array, to be replaced with real data in future
   {
