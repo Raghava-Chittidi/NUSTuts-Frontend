@@ -7,3 +7,14 @@ export const strToColour = (str: string) => {
 
   return `hsl(${hash % 360}, 100%, 70%)`;
 };
+
+export const getCurrentSem = () => {
+  const month = new Date().getMonth();
+  return month <= 7 ? 2 : 1;
+};
+
+export const getCurrentAY = () => {
+  const year = new Date().getFullYear();
+  const sem = getCurrentSem();
+  return sem == 1 ? `${year}-${year + 1}` : `${year - 1}-${year}`;
+};
