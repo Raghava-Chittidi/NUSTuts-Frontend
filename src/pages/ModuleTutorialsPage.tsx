@@ -8,6 +8,7 @@ import { Tutorial } from "../types";
 
 const ModuleTutorialsPage = () => {
   const { moduleCode } = useParams();
+  // Reference: We are using nusmods API
   const { error, data, isLoading } = useSWR(
     `https://api.nusmods.com/v2/${getCurrentAY()}/modules/${moduleCode}.json`,
     (url: string) => axios.get(url).then((res) => res.data)
@@ -17,8 +18,6 @@ const ModuleTutorialsPage = () => {
     return <Spinner />;
   }
 
-  console.log(data);
-  // Filter tutorial only not lecture and recitation
   return (
     <div className="w-full text-center space-y-5 my-5">
       <h1 className="font-bold text-xl">
