@@ -2,12 +2,14 @@ import { Card } from "@nextui-org/react";
 import { CiViewList } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import { strToColour } from "../../util/util";
+import { useNavigate } from "react-router-dom";
 
 export default function ModuleListItem({
   module,
 }: {
   module: { code: string; name: string };
 }) {
+  const navigate = useNavigate();
   return (
     <Card className="py-4 h-fit flex flex-row items-center p-5 space-x-4 w-[90%] sm:w-4/5 md:w-2/3 xl:w-1/2">
       <div
@@ -21,16 +23,21 @@ export default function ModuleListItem({
           {module.name}
         </p>
         <div className="flex space-x-3 items-center">
-          <CiViewList
+          <div
+            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600"
             title="View all tutorials"
-            size={30}
-            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-xl p-1 text-amber-600"
-          />
-          <FaArrowRight
+          >
+            <CiViewList
+              size={24}
+              onClick={() => navigate(`/modules/${module.code}/tutorials`)}
+            />
+          </div>
+          <div
+            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600"
             title="View current tutorial"
-            size={30}
-            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-xl p-1 text-amber-600"
-          />
+          >
+            <FaArrowRight size={24} />
+          </div>
         </div>
       </div>
     </Card>
