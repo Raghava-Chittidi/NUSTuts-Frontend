@@ -119,7 +119,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                         {userType === "Student" &&
                             <div className="flex items-center">
                                 <span className="text-sm">Don't have an account?</span>
-                                <Link to="/student/register" className="text-sm text-purple-600 ml-2">Sign up</Link>
+                                <Link to="/student/signUp" className="text-sm text-purple-600 ml-2">Sign up</Link>
                             </div>
                         }
                     </form>
