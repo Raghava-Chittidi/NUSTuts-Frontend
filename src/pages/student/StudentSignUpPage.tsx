@@ -3,15 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
 import bgpic from "../../assets/designlogin.jpg";
+import { useStudentSignup } from '../../hooks/useStudentSignup';
 
 const StudentSignUpPage = () => {
     const navigate = useNavigate();
-
-    const { status, currentUser, response, error, currentRole } = {
+    const { signup, error, isLoading} = useStudentSignup();
+    const { status, currentUser, response, currentRole } = {
         status: 'none',
         currentUser: null,
         response: '',
-        error: '',
         currentRole: ''
     }
 
@@ -22,7 +22,7 @@ const StudentSignUpPage = () => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     
         const formData = new FormData(event.currentTarget);
@@ -37,7 +37,7 @@ const StudentSignUpPage = () => {
             return;
         }
     
-        const fields = { name, email, password };
+        await signup(name, email, password);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,6 +126,7 @@ const StudentSignUpPage = () => {
                             <span className="text-sm">Already have an account?</span>
                             <Link to="/student/login" className="text-sm text-purple-600 ml-2">Log in</Link>
                         </div>
+                        {error && <div className="error">{error}</div>}
                     </form>
                 </div>
             </div>
