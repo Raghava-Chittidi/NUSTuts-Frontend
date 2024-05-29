@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
+import { Button, Checkbox, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
 import studentBg from "../assets/student.jpg";
 import taBg from "../assets/ta2.png";
@@ -14,7 +14,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
         response: '',
         error: '',
         currentRole: ''
-    }
+    };
 
     const [toggle, setToggle] = useState(false);
     const [message, setMessage] = useState("");
@@ -26,16 +26,14 @@ const LoginPage = ({ userType }: { userType: string }) => {
         event.preventDefault();
     
         const formData = new FormData(event.currentTarget);
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
+        const email = formData.get('email');
+        const password = formData.get('password');
     
         if (!email || !password) {
             if (!email) setEmailError(true);
             if (!password) setPasswordError(true);
             return;
         }
-    
-        const fields = { email, password };
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,12 +49,10 @@ const LoginPage = ({ userType }: { userType: string }) => {
             } else {
                 navigate('/teachingAssistant/dashboard');
             }
-        }
-        else if (status === 'failed') {
-            setMessage(response)
-        }
-        else if (status === 'error') {
-            setMessage("Network Error")
+        } else if (status === 'failed') {
+            setMessage(response);
+        } else if (status === 'error') {
+            setMessage("Network Error");
         }
     }, [status, currentRole, navigate, error, response, currentUser]);
 
@@ -125,12 +121,9 @@ const LoginPage = ({ userType }: { userType: string }) => {
                     </form>
                 </div>
             </div>
-            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: `url(${userType == "Student" ? studentBg : taBg})` }} />
+            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: `url(${userType === "Student" ? studentBg : taBg})` }} />
         </div>
     );
-    
-    
-    
 }
 
 export default LoginPage;
