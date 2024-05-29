@@ -10,6 +10,7 @@ import "./index.css";
 import ModulesPage from "./pages/ModulesPage";
 import ChooseUserType from "./pages/ChooseUserType";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 
 /** 
  * A browser router containing routes.
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/taLogin",
     element: <LoginPage userType="Teaching Assistant" />
+  },
+  {
+    path: "/studentSignUp",
+    element: <SignUpPage userType="Student" />
   },
   // Render ModulesPage with empty modules array, to be replaced with real data in future
   {
