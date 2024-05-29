@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
-import bgpic from "../assets/designlogin.jpg";
+import bgpic from "../../assets/designlogin.jpg";
 
-const SignUpPage = ({ userType }: { userType: string }) => {
+const StudentSignUpPage = () => {
     const navigate = useNavigate();
 
     const { status, currentUser, response, error, currentRole } = {
@@ -49,11 +49,7 @@ const SignUpPage = ({ userType }: { userType: string }) => {
 
     useEffect(() => {
         if (status === 'success' || currentUser !== null) {
-            if (userType === 'Student') {
-                navigate('/student/dashboard');
-            } else {
-                navigate('/teachingAssistant/dashboard');
-            }
+            navigate('/student/dashboard');
         }
         else if (status === 'failed') {
             setMessage(response)
@@ -67,8 +63,8 @@ const SignUpPage = ({ userType }: { userType: string }) => {
         <div className="min-h-screen flex">
             <div className="w-full md:w-1/2 flex items-center justify-center">
                 <div className="flex-1 max-w-md p-6 bg-white rounded-lg shadow-lg">
-                    <h2 className="text-3xl font-semibold text-center text-gray-800 mb-4">{userType} Sign Up</h2>
-                    <h5 className="text-sm text-center text-gray-500 mb-4">Join us! Please enter your details</h5>
+                    <h2 className="text-3xl font-semibold text-center text-gray-800 mb-4">Student Sign Up</h2>
+                    <h5 className="text-sm text-center text-gray-500 mb-4">Join tutorials by signing up as a a student.</h5>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label className="block text-sm text-gray-700">Full Name</label>
@@ -126,12 +122,10 @@ const SignUpPage = ({ userType }: { userType: string }) => {
                         >
                             SIGN UP
                         </Button>
-                        {userType === "Student" &&
-                            <div className="flex items-center">
-                                <span className="text-sm">Already have an account?</span>
-                                <Link to="/student/login" className="text-sm text-purple-600 ml-2">Log in</Link>
-                            </div>
-                        }
+                        <div className="flex items-center">
+                            <span className="text-sm">Already have an account?</span>
+                            <Link to="/student/login" className="text-sm text-purple-600 ml-2">Log in</Link>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -140,4 +134,4 @@ const SignUpPage = ({ userType }: { userType: string }) => {
     );
 }
 
-export default SignUpPage;
+export default StudentSignUpPage;
