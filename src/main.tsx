@@ -26,15 +26,15 @@ const router = createBrowserRouter([
     element: <ChooseUserType />
   },
   {
-    path: "/studentLogin",
+    path: "/student/login",
     element: <LoginPage userType="Student" />
   },
   {
-    path: "/taLogin",
+    path: "/ta/login",
     element: <LoginPage userType="Teaching Assistant" />
   },
   {
-    path: "/studentSignUp",
+    path: "/student/signUp",
     element: <StudentSignUpPage />
   },
   // Render ModulesPage with empty modules array, to be replaced with real data in future
