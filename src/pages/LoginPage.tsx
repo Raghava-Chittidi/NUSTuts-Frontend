@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
-import bgpic from "../assets/designlogin.jpg";
+import studentBg from "../assets/student.jpg";
+import taBg from "../assets/ta2.png";
 
 const LoginPage = ({ userType }: { userType: string }) => {
     const navigate = useNavigate();
@@ -124,7 +125,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                     </form>
                 </div>
             </div>
-            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: `url(${bgpic})` }} />
+            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: `url(${userType == "Student" ? studentBg : taBg})` }} />
         </div>
     );
     
