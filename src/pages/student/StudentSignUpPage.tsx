@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
-import bgpic from "../../assets/designlogin.jpg";
+import bgpic from "../../assets/student.jpg";
 import { useStudentSignup } from '../../hooks/useStudentSignup';
 
 const StudentSignUpPage = () => {
