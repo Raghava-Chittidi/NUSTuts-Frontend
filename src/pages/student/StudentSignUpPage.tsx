@@ -8,15 +8,9 @@ import { useStudentSignup } from '../../hooks/useStudentSignup';
 const StudentSignUpPage = () => {
     const navigate = useNavigate();
     const { signup, error, isLoading} = useStudentSignup();
-    const { status, currentUser, response, currentRole } = {
-        status: 'none',
-        currentUser: null,
-        response: '',
-        currentRole: ''
-    }
+
 
     const [toggle, setToggle] = useState(false);
-    const [message, setMessage] = useState("");
 
     const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
@@ -46,18 +40,6 @@ const StudentSignUpPage = () => {
         if (name === 'email') setEmailError(false);
         if (name === 'password') setPasswordError(false);
     };
-
-    useEffect(() => {
-        if (status === 'success' || currentUser !== null) {
-            navigate('/student/dashboard');
-        }
-        else if (status === 'failed') {
-            setMessage(response)
-        }
-        else if (status === 'error') {
-            setMessage("Network Error")
-        }
-    }, [status, currentRole, navigate, error, response, currentUser]);
 
     return (
         <div className="min-h-screen flex">

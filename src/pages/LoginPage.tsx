@@ -9,15 +9,8 @@ import { useLogin } from '../hooks/useLogin';
 const LoginPage = ({ userType }: { userType: string }) => {
     const navigate = useNavigate();
     const { login, error, isLoading } = useLogin(userType);
-    const { status, currentUser, response, currentRole } = {
-        status: 'none',
-        currentUser: null,
-        response: '',
-        currentRole: ''
-    };
 
     const [toggle, setToggle] = useState(false);
-    const [message, setMessage] = useState("");
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -43,20 +36,6 @@ const LoginPage = ({ userType }: { userType: string }) => {
         if (name === 'email') setEmailError(false);
         if (name === 'password') setPasswordError(false);
     };
-
-    useEffect(() => {
-        if (status === 'success' || currentUser !== null) {
-            if (userType === 'Student') {
-                navigate('/student/dashboard');
-            } else {
-                navigate('/teachingAssistant/dashboard');
-            }
-        } else if (status === 'failed') {
-            setMessage(response);
-        } else if (status === 'error') {
-            setMessage("Network Error");
-        }
-    }, [status, currentRole, navigate, error, response, currentUser]);
 
     return (
         <div className="min-h-screen flex">
