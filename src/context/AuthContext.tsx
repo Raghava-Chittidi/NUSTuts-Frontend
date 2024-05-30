@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 interface AuthState {
   user: any;
@@ -36,6 +36,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const [state, dispatch] = useReducer(authReducer, {
     user: null
   });
+
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+    console.log("userString: ", userString);
+    const user = userString ? JSON.parse(userString) : null;
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    }
+  }, []);
 
   console.log("AuthContext state: ", state);
 

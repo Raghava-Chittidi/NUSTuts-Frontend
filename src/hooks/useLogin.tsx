@@ -18,8 +18,8 @@ export const useLogin = (userType: string) => {
         });
 
 
-        localStorage.setItem("user", JSON.stringify(response.data));
-        dispatch({type: "LOGIN", payload: response.data})
+        localStorage.setItem("user", JSON.stringify(response.data.data));
+        dispatch({type: "LOGIN", payload: response.data.data})
         setIsLoading(false);
     }
      return { login, isLoading, error };
