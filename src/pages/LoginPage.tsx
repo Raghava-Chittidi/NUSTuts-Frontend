@@ -100,7 +100,11 @@ const LoginPage = ({ userType }: { userType: string }) => {
                                 <Link to="/student/signUp" className="text-sm text-purple-600 ml-2">Sign up</Link>
                             </div>
                         }
-                        {error && <div className="error">{error}</div>}
+                        {error && 
+                            <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
+                                <p className="text-sm">{error}</p>
+                            </div>
+                        }
                     </form>
                 </div>
             </div>
