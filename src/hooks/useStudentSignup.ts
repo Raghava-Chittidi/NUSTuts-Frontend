@@ -17,7 +17,7 @@ export const useStudentSignup = () => {
 
         if (response.status !== 200) {
             setIsLoading(false);
-            setError(response.data.Error);
+            setError(response.data);
             return;
         }
 

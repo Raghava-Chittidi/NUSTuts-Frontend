@@ -9,7 +9,12 @@ interface AuthAction {
   payload?: any;
 }
 
-export const AuthContext = createContext({});
+interface AuthContextInterface {
+  state: AuthState;
+  dispatch: (action: AuthAction) => void;
+}
+
+export const AuthContext = createContext<AuthContextInterface>({} as AuthContextInterface);
 
 export const authReducer = (state: AuthState, action: AuthAction) => {
     switch (action.type) {
@@ -35,7 +40,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   console.log("AuthContext state: ", state);
 
   return (
-    <AuthContext.Provider value={{...state, dispatch}}>
+    <AuthContext.Provider value={{state, dispatch}}>
       {children}
     </AuthContext.Provider>
   );

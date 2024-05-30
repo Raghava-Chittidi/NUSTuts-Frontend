@@ -4,15 +4,15 @@ import { Button, Checkbox, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
 import studentBg from "../assets/student.jpg";
 import taBg from "../assets/ta2.png";
+import { useLogin } from '../hooks/useLogin';
 
 const LoginPage = ({ userType }: { userType: string }) => {
     const navigate = useNavigate();
-
-    const { status, currentUser, response, error, currentRole } = {
+    const { login, error, isLoading } = useLogin(userType);
+    const { status, currentUser, response, currentRole } = {
         status: 'none',
         currentUser: null,
         response: '',
-        error: '',
         currentRole: ''
     };
 
@@ -22,18 +22,20 @@ const LoginPage = ({ userType }: { userType: string }) => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     
         const formData = new FormData(event.currentTarget);
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
     
         if (!email || !password) {
             if (!email) setEmailError(true);
             if (!password) setPasswordError(true);
             return;
         }
+
+        await login(email, password);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +103,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                             <Link to="#" className="text-sm text-purple-600">Forgot password?</Link>
                         </div>
                         <Button
+                            disabled={isLoading}
                             type="submit"
                             variant="ghost"
                             className="mb-4"
@@ -118,6 +121,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                                 <Link to="/student/signUp" className="text-sm text-purple-600 ml-2">Sign up</Link>
                             </div>
                         }
+                        {error && <div className="error">{error}</div>}
                     </form>
                 </div>
             </div>
