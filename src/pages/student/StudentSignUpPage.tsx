@@ -42,114 +42,232 @@ const StudentSignUpPage = () => {
         if (name === 'password') setPasswordError(false);
     };
 
-
+    // return (
+    //     <div className="min-h-screen flex">
+    //     <div className="w-full md:w-1/2 flex items-center justify-center">
+    //         <div className="flex-1 max-w-md p-6 bg-white rounded-lg shadow-lg">
+    //         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-4">
+    //             Student Sign Up
+    //         </h2>
+    //         <h5 className="text-sm text-center text-gray-500 mb-4">
+    //             Join tutorials by signing up as a student.
+    //         </h5>
+    //         <form onSubmit={handleSubmit}>
+    //             <div className="mb-4">
+    //             <label className="block text-sm text-gray-700">Full Name</label>
+    //             <Input
+    //                 type="text"
+    //                 name="name"
+    //                 autoComplete="name"
+    //                 autoFocus
+    //                 className={`w-full border rounded-md px-4 py-2 mt-2 ${
+    //                 nameError ? "border-red-500" : "border-gray-300"
+    //                 }`}
+    //                 onChange={handleInputChange}
+    //             />
+    //             {nameError && (
+    //                 <p className="text-xs text-red-500 mt-1">Name is required</p>
+    //             )}
+    //             </div>
+    //             <div className="mb-4">
+    //             <label className="block text-sm text-gray-700">
+    //                 Enter your email
+    //             </label>
+    //             <Input
+    //                 type="email"
+    //                 name="email"
+    //                 autoComplete="email"
+    //                 className={`w-full border rounded-md px-4 py-2 mt-2 ${
+    //                 emailError ? "border-red-500" : "border-gray-300"
+    //                 }`}
+    //                 onChange={handleInputChange}
+    //             />
+    //             {emailError && (
+    //                 <p className="text-xs text-red-500 mt-1">Email is required</p>
+    //             )}
+    //             </div>
+    //             <div className="mb-4">
+    //             <label className="block text-sm text-gray-700">Password</label>
+    //             <div className="relative">
+    //                 <Input
+    //                 type={toggle ? "text" : "password"}
+    //                 name="password"
+    //                 autoComplete="new-password"
+    //                 className={`w-full border rounded-md px-4 py-2 mt-2 ${
+    //                     passwordError ? "border-red-500" : "border-gray-300"
+    //                 }`}
+    //                 onChange={handleInputChange}
+    //                 />
+    //                 <Button
+    //                 type="button"
+    //                 variant="light"
+    //                 onClick={() => setToggle(!toggle)}
+    //                 className="absolute top-1/2 right-3 transform -translate-y-1/2 z-10"
+    //                 >
+    //                 {toggle ? <EyeOff /> : <Eye />}
+    //                 </Button>
+    //             </div>
+    //             {passwordError && (
+    //                 <p className="text-xs text-red-500 mt-1">
+    //                 Password is required
+    //                 </p>
+    //             )}
+    //             </div>
+    //             <Button
+    //             type="submit"
+    //             variant="ghost"
+    //             className="mb-4"
+    //             style={{
+    //                 width: "100%",
+    //                 backgroundColor: "#7f56da",
+    //                 color: "white",
+    //             }}
+    //             >
+    //             SIGN UP
+    //             </Button>
+    //             <div className="flex items-center">
+    //             <span className="text-sm">Already have an account?</span>
+    //             <Link
+    //                 to="/student/login"
+    //                 className="text-sm text-purple-600 ml-2"
+    //             >
+    //                 Log in
+    //             </Link>
+    //             </div>
+    //             {error && 
+    //                 <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
+    //                     <p className="text-sm">{error}</p>
+    //                 </div>
+    //             }
+    //         </form>
+    //         </div>
+    //     </div>
+    //     <div
+    //         className="hidden md:block w-1/2 bg-cover bg-center"
+    //         style={{ backgroundImage: `url(${bgpic})` }}
+    //     />
+    //     </div>
+    // );
 
     return (
         <div className="min-h-screen flex">
-        <div className="w-full md:w-1/2 flex items-center justify-center">
+          <div className="w-full flex items-center justify-center bg-[url('/auth-bg.jpg')] bg-cover">
             <div className="flex-1 max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-3xl font-semibold text-center text-gray-800 mb-4">
+              <h2 className="text-3xl font-semibold text-center text-gray-800 mb-4">
                 Student Sign Up
-            </h2>
-            <h5 className="text-sm text-center text-gray-500 mb-4">
+              </h2>
+              <h5 className="text-sm text-center text-gray-500 mb-4">
                 Join tutorials by signing up as a student.
-            </h5>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                <label className="block text-sm text-gray-700">Full Name</label>
-                <Input
-                    type="text"
-                    name="name"
-                    autoComplete="name"
-                    autoFocus
-                    className={`w-full border rounded-md px-4 py-2 mt-2 ${
-                    nameError ? "border-red-500" : "border-gray-300"
-                    }`}
-                    onChange={handleInputChange}
-                />
-                {nameError && (
-                    <p className="text-xs text-red-500 mt-1">Name is required</p>
-                )}
+              </h5>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <Input
+                        type="text"
+                        name="name"
+                        label="Full Name"
+                        autoComplete="name"
+                        autoFocus
+                        className="w-full"
+                        onChange={handleInputChange}
+                    />
                 </div>
-                <div className="mb-4">
-                <label className="block text-sm text-gray-700">
+                <div>
+                  {/* <label className="block text-sm text-gray-700">
                     Enter your email
-                </label>
-                <Input
+                  </label> */}
+                  <Input
+                    name="email"
+                    isRequired
+                    type="email"
+                    label="Email"
+                    className="w-full"
+                    onChange={handleInputChange}
+                  />
+  
+                  {/* <Input
                     type="email"
                     name="email"
                     autoComplete="email"
+                    autoFocus
                     className={`w-full border rounded-md px-4 py-2 mt-2 ${
-                    emailError ? "border-red-500" : "border-gray-300"
+                      emailError ? "border-red-500" : "border-gray-300"
                     }`}
                     onChange={handleInputChange}
-                />
-                {emailError && (
+                  /> */}
+                  {/* {emailError && (
                     <p className="text-xs text-red-500 mt-1">Email is required</p>
-                )}
+                  )} */}
                 </div>
-                <div className="mb-4">
-                <label className="block text-sm text-gray-700">Password</label>
-                <div className="relative">
+                <div>
+                  {/* <label className="block text-sm text-gray-700">Password</label> */}
+                  <div className="relative">
                     <Input
-                    type={toggle ? "text" : "password"}
-                    name="password"
-                    autoComplete="new-password"
-                    className={`w-full border rounded-md px-4 py-2 mt-2 ${
-                        passwordError ? "border-red-500" : "border-gray-300"
-                    }`}
-                    onChange={handleInputChange}
+                      name="password"
+                      isRequired
+                      type={toggle ? "text" : "password"}
+                      label="Password"
+                      className="w-full"
+                      onChange={handleInputChange}
                     />
+                    {/* <Input
+                      type={toggle ? "text" : "password"}
+                      name="password"
+                      autoComplete="current-password"
+                      className={`w-full border rounded-md px-4 py-2 mt-2 ${
+                        passwordError ? "border-red-500" : "border-gray-300"
+                      }`}
+                      onChange={handleInputChange}
+                    /> */}
                     <Button
-                    type="button"
-                    variant="light"
-                    onClick={() => setToggle(!toggle)}
-                    className="absolute top-1/2 right-3 transform -translate-y-1/2 z-10"
+                      type="button"
+                      variant="light"
+                      onClick={() => setToggle(!toggle)}
+                      className="absolute top-1/2 right-3 transform -translate-y-1/2"
                     >
-                    {toggle ? <EyeOff /> : <Eye />}
+                      {toggle ? <EyeOff /> : <Eye />}
                     </Button>
-                </div>
-                {passwordError && (
+                  </div>
+                  {passwordError && (
                     <p className="text-xs text-red-500 mt-1">
-                    Password is required
+                      Password is required
                     </p>
-                )}
+                  )}
                 </div>
                 <Button
-                type="submit"
-                variant="ghost"
-                className="mb-4"
-                style={{
-                    width: "100%",
-                    backgroundColor: "#7f56da",
-                    color: "white",
-                }}
+                  type="submit"
+                  color="secondary"
+                  variant="solid"
+                  className="w-full"
                 >
-                SIGN UP
+                  SIGN UP
                 </Button>
                 <div className="flex items-center">
-                <span className="text-sm">Already have an account?</span>
-                <Link
-                    to="/student/login"
-                    className="text-sm text-purple-600 ml-2"
-                >
-                    Log in
-                </Link>
+                    <span className="text-sm">Already have an account?</span>
+                    <Link
+                        to="/student/login"
+                        className="text-sm text-purple-600 ml-2"
+                    >
+                        Log in
+                    </Link>
                 </div>
                 {error && 
-                    <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
-                        <p className="text-sm">{error}</p>
-                    </div>
+                  <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
+                      <p className="text-sm">{error}</p>
+                  </div>
                 }
-            </form>
+              </form>
             </div>
-        </div>
-        <div
+          </div>
+          {/* <div
             className="hidden md:block w-1/2 bg-cover bg-center"
-            style={{ backgroundImage: `url(${bgpic})` }}
-        />
+            style={{
+              backgroundImage: `url(${
+                userType === "Student" ? authBg : taLoginBg
+              })`,
+            }}
+          /> */}
         </div>
-    );
+      );
 };
 
 export default StudentSignUpPage;
