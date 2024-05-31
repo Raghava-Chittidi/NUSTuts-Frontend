@@ -4,10 +4,16 @@ import { Button, Checkbox, CircularProgress, Input } from '@nextui-org/react';
 import { Eye, EyeOff } from '@geist-ui/react-icons';
 import bgpic from "../../assets/student.jpg";
 import { useStudentSignup } from '../../hooks/useStudentSignup';
+import useSWR from 'swr';
+import axios from 'axios';
+import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
+import { ActionMeta, MultiValue } from 'react-select';
+import { getCurrentAY } from "../../util/util";
 
 const StudentSignUpPage = () => {
     const navigate = useNavigate();
-    const { signup, error, isLoading} = useStudentSignup();
+    const { signup, signUpError, isSignUpLoading} = useStudentSignup();
 
 
     const [toggle, setToggle] = useState(false);
@@ -16,6 +22,31 @@ const StudentSignUpPage = () => {
     const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [modules, setModules] = useState<{ value: string; label: string }[]>([]);
+    const [selectedModules, setSelectedModules] = useState<string[]>([]);
+    // // Reference: We are using nusmods API
+    // const { error, data, isLoading } = useSWR(
+    //     `https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`,
+    //     (url: string) => axios.get(url).then((res) => res.data)
+    // );
+    useEffect(() => {
+        const fetchModules = async () => {
+            const moduleListResponse = await axios.get(`https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`);
+            const moduleList = moduleListResponse.data.map((nusModule: any) => nusModule.moduleCode);
+            setModules(moduleList.map((moduleCode: string) => ({ value: moduleCode, label: moduleCode })));
+        };
+        fetchModules();
+    }, []);
+
+    const handleSelectedChange = (newValue: MultiValue<{ value: string; label: string }>, actionMeta: ActionMeta<{ value: string; label: string }>) => {
+        setSelectedModules(newValue.map(option => option.value));
+    };
+
+    // const loadOptions = async (searchValue: string) => {
+    //     const moduleListResponse = await axios.get(`https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`);
+    //     const moduleList = moduleListResponse.data;
+    //     return filterOptions(moduleList, searchValue);
+    // };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,7 +63,7 @@ const StudentSignUpPage = () => {
             return;
         }
     
-        await signup(name, email, password);
+        await signup(name, email, password, selectedModules);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,6 +264,22 @@ const StudentSignUpPage = () => {
                     </p>
                   )}
                 </div>
+                {/* <AsyncSelect
+                    isMulti
+                    cacheOptions
+                    defaultOptions
+                    loadOptions={loadOptions}
+                    onChange={handleSelectedChange}
+                /> */}
+                  <Select
+                    defaultValue={[]}
+                    isMulti
+                    name="modules"
+                    options={modules}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={handleSelectedChange}
+                />
                 <Button
                   type="submit"
                   color="secondary"
@@ -250,9 +297,9 @@ const StudentSignUpPage = () => {
                         Log in
                     </Link>
                 </div>
-                {error && 
+                {signUpError && 
                   <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
-                      <p className="text-sm">{error}</p>
+                      <p className="text-sm">{signUpError}</p>
                   </div>
                 }
               </form>
