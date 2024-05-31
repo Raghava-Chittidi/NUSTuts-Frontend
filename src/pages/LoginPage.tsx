@@ -5,11 +5,9 @@ import { Eye, EyeOff } from '@geist-ui/react-icons';
 import { useLogin } from '../hooks/useLogin';
 
 const LoginPage = ({ userType }: { userType: string }) => {
-    const navigate = useNavigate();
     const { login, error, isLoading } = useLogin(userType);
 
     const [toggle, setToggle] = useState(false);
-    const [message, setMessage] = useState("");
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -54,9 +52,6 @@ const LoginPage = ({ userType }: { userType: string }) => {
             </h5>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                {/* <label className="block text-sm text-gray-700">
-                  Enter your email
-                </label> */}
                 <Input
                   name="email"
                   isRequired
@@ -65,23 +60,8 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   className="w-full"
                   onChange={handleInputChange}
                 />
-
-                {/* <Input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  className={`w-full border rounded-md px-4 py-2 mt-2 ${
-                    emailError ? "border-red-500" : "border-gray-300"
-                  }`}
-                  onChange={handleInputChange}
-                /> */}
-                {/* {emailError && (
-                  <p className="text-xs text-red-500 mt-1">Email is required</p>
-                )} */}
               </div>
               <div>
-                {/* <label className="block text-sm text-gray-700">Password</label> */}
                 <div className="relative">
                   <Input
                     name="password"
@@ -91,15 +71,6 @@ const LoginPage = ({ userType }: { userType: string }) => {
                     className="w-full"
                     onChange={handleInputChange}
                   />
-                  {/* <Input
-                    type={toggle ? "text" : "password"}
-                    name="password"
-                    autoComplete="current-password"
-                    className={`w-full border rounded-md px-4 py-2 mt-2 ${
-                      passwordError ? "border-red-500" : "border-gray-300"
-                    }`}
-                    onChange={handleInputChange}
-                  /> */}
                   <Button
                     type="button"
                     variant="light"
@@ -148,14 +119,6 @@ const LoginPage = ({ userType }: { userType: string }) => {
             </form>
           </div>
         </div>
-        {/* <div
-          className="hidden md:block w-1/2 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${
-              userType === "Student" ? authBg : taLoginBg
-            })`,
-          }}
-        /> */}
       </div>
     );
 };
