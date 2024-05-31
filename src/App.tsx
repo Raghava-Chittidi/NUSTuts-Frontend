@@ -41,20 +41,20 @@ const router = createBrowserRouter([
     element: <Homepage />,
   },
   {
-    path: "/chooseUserType",
-    element: <ChooseUserType />
+    path: "/login",
+    element: <ChooseUserType />,
   },
   {
     path: "/student/login",
-    element: <LoginPage userType="Student" />
+    element: <LoginPage userType="Student" />,
   },
   {
     path: "/ta/login",
-    element: <LoginPage userType="Teaching Assistant" />
+    element: <LoginPage userType="Teaching Assistant" />,
   },
   {
-    path: "/student/signUp",
-    element: <StudentSignUpPage />
+    path: "/student/signup",
+    element: <StudentSignUpPage />,
   },
   // Render ModulesPage with dummy modules array, to be replaced with real data in future
   {

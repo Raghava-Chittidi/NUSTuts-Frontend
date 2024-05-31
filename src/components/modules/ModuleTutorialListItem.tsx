@@ -2,6 +2,7 @@ import { Card } from "@nextui-org/react";
 import { BsPersonAdd } from "react-icons/bs";
 import { strToColour } from "../../util/util";
 import { Tutorial } from "../../types";
+import axios from "axios";
 
 const ModuleTutorialListItem = ({
   tutorial,
@@ -10,6 +11,22 @@ const ModuleTutorialListItem = ({
   tutorial: Tutorial;
   moduleCode: string;
 }) => {
+  const requestToJoinTutorialHandler = async () => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.API_URL}/request`,
+        {
+          studentId: 1,
+          tutorialId: 1,
+        },
+        { headers: { Authorization: "Bearer token" } }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Card className="py-4 h-fit flex flex-row justify-between items-center p-5 w-[90%] sm:w-4/5 lg:w-2/3 xl:w-[45%] text-xs sm:text-base">
       <div
@@ -32,7 +49,7 @@ const ModuleTutorialListItem = ({
         className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600"
         title="Request to join tutorial"
       >
-        <BsPersonAdd size={22} />
+        <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
       </div>
     </Card>
   );
