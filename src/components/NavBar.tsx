@@ -7,14 +7,22 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
+  Button,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { FaGraduationCap } from "react-icons/fa6";
+import { useLogout } from "../hooks/useLogout";
 
 export default function NavBar() {
+  const { logout } = useLogout();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const menuItems = ["Modules", "Current Tutorials"];
+
+  const handleLogOutClick = () => {
+    // Log out logic
+    logout();
+  };
 
   // Only should see modules and current tutorials after student is logged in
   return (
@@ -48,6 +56,11 @@ export default function NavBar() {
           <Link color="foreground" href="#">
             Current Tutorials
           </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Button onClick={handleLogOutClick} color="primary" variant="solid">
+            Log Out
+          </Button>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
