@@ -16,9 +16,11 @@ const StudentSignUpPage = () => {
   const user = useAuthContext().state.user;
   const navigate = useNavigate();
 
-  if (user) {
-    navigate("/modules");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/modules");
+    }
+  }, [user]);
   
   const { signup, signUpError, isSignUpLoading } = useStudentSignup();
 

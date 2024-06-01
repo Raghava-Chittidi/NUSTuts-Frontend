@@ -9,14 +9,16 @@ const LoginPage = ({ userType }: { userType: string }) => {
   const user = useAuthContext().state.user;
   const navigate = useNavigate();
 
-  if (user) {
-    if (userType === "Student") {
-      navigate("/modules");
-    } else {
-      navigate("/requests");
+  useEffect(() => {
+    if (user) {
+      if (userType === "Student") {
+        navigate("/modules");
+      } else {
+        navigate("/requests");
+      }
     }
-  }
-  
+  }, [user, userType]);
+
   const { login, error, isLoading } = useLogin(userType);
 
   const [toggle, setToggle] = useState(false);
