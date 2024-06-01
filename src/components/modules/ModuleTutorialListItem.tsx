@@ -14,7 +14,7 @@ const ModuleTutorialListItem = ({
   const requestToJoinTutorialHandler = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.API_URL}/request`,
+        "/requests",
         {
           studentId: 1,
           tutorialId: 1,

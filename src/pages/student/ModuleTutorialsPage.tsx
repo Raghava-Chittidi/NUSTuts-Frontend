@@ -1,10 +1,10 @@
-import { getCurrentAY, getCurrentSem } from "../util/util";
+import { getCurrentAY, getCurrentSem } from "../../util/util";
 import { useParams } from "react-router-dom";
 import { Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import axios from "axios";
-import ModuleTutorialListItem from "../components/modules/ModuleTutorialListItem";
-import { Tutorial } from "../types";
+import ModuleTutorialListItem from "../../components/modules/ModuleTutorialListItem";
+import { Tutorial } from "../../types";
 
 const ModuleTutorialsPage = () => {
   const { moduleCode } = useParams();
@@ -19,7 +19,7 @@ const ModuleTutorialsPage = () => {
   }
 
   return (
-    <div className="w-full text-center space-y-5 my-5">
+    <div className="w-full text-center space-y-5 py-5">
       <h1 className="font-bold text-xl">
         Showing all tutorials for {moduleCode}:
       </h1>

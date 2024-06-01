@@ -119,11 +119,11 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   {toggle ? <EyeOff /> : <Eye />}
                 </Button>
               </div>
-              {passwordError && (
+              {/* {passwordError && (
                 <p className="text-xs text-red-500 mt-1">
                   Password is required
                 </p>
-              )}
+              )} */}
             </div>
             <div className="flex items-center justify-between">
               <Checkbox value="remember">Remember me</Checkbox>
