@@ -1,7 +1,14 @@
 import { createContext, useEffect, useReducer } from "react";
+import { Tutorial, User } from "../types";
+
+export interface AuthenticatedUser extends User {
+  modules?: string[];
+  tutorials?: Tutorial[];
+  tutorial?: Tutorial;
+}
 
 interface AuthState {
-  user: any;
+  user: AuthenticatedUser;
 }
 
 interface AuthAction {
@@ -14,27 +21,32 @@ interface AuthContextInterface {
   dispatch: (action: AuthAction) => void;
 }
 
-export const AuthContext = createContext<AuthContextInterface>({} as AuthContextInterface);
+export const AuthContext = createContext<AuthContextInterface>(
+  {} as AuthContextInterface
+);
 
 export const authReducer = (state: AuthState, action: AuthAction) => {
-    switch (action.type) {
-        case "LOGIN":
-            return {
-                user: action.payload
-            };
-        case "LOGOUT":
-            return {
-                user: null
-            };
-        default:
-            return state;
-    }
-    
-} 
+  switch (action.type) {
+    case "LOGIN":
+      return {
+        user: action.payload,
+      };
+    case "LOGOUT":
+      return {
+        user: null,
+      };
+    default:
+      return state;
+  }
+};
 
-export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [state, dispatch] = useReducer(authReducer, {
-    user: null
+    user: null,
   });
 
   useEffect(() => {
@@ -49,7 +61,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   console.log("AuthContext state: ", state);
 
   return (
-    <AuthContext.Provider value={{state, dispatch}}>
+    <AuthContext.Provider value={{ state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );

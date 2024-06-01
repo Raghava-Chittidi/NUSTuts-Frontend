@@ -1,4 +1,12 @@
 export type Tutorial = {
+  id: number;
+  tutorialCode: string;
+  module: Module;
+  teachingAssistant: TeachingAssistant;
+  students: Student[];
+};
+
+export type FetchedTutorial = {
   lessonType: string;
   classNo: string;
   venue: string;
@@ -15,8 +23,28 @@ export type Request = {
   };
 };
 
-export type Student = {
+export type Role = {
+  userType: string;
+  privilege: number;
+};
+
+export type Module = {
+  code: string;
+  name: string;
+};
+
+export interface User {
+  id: number;
   name: string;
   email: string;
+  role: Role;
+}
+
+export interface Student extends User {
+  modules: string[];
   tutorials: Tutorial[];
-};
+}
+
+export interface TeachingAssistant extends User {
+  tutorial: Tutorial;
+}

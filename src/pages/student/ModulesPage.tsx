@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ModuleListItem from "../../components/modules/ModuleListItem";
-// import { Module } from "../../types";
+import { Module } from "../../types";
 import axios from "axios";
 import { Spinner } from "@nextui-org/react";
 import { getCurrentAY } from "../../util/util";
@@ -8,7 +8,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ModulesPage = () => {
   const { state } = useAuthContext();
-  const [mods, setMods] = useState<any[]>([]);
+  const [mods, setMods] = useState<Module[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
