@@ -2,10 +2,11 @@ import Layout from "./components/Layout";
 import ChooseUserType from "./pages/ChooseUserType";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import ModuleTutorialsPage from "./pages/ModuleTutorialsPage";
-import ModulesPage from "./pages/ModulesPage";
+import ModuleTutorialsPage from "./pages/student/ModuleTutorialsPage";
+import ModulesPage from "./pages/student/ModulesPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentSignUpPage from "./pages/student/StudentSignUpPage";
+import { RequestPage } from "./pages/ta/RequestPage";
 
 // Dummy modules data
 const modules = [
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
   {
     path: "/modules/:moduleCode/tutorials",
     element: <ModuleTutorialsPage />,
+  },
+  {
+    path: "/requests",
+    element: <RequestPage />,
   },
 ]);
 
