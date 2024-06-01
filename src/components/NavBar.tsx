@@ -14,6 +14,7 @@ import { FaGraduationCap } from "react-icons/fa6";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { isUserStudent } from "../util/user";
+import Logout from "./Logout";
 
 export default function NavBar() {
   const { user } = useAuthContext().state;
@@ -71,9 +72,7 @@ export default function NavBar() {
             </Link>
           </NavbarItem>)}
         <NavbarItem>
-          <Button onClick={handleLogOutClick} color="primary" variant="solid">
-            Log Out
-          </Button>
+          <Logout />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

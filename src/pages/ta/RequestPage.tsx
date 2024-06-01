@@ -1,6 +1,7 @@
 import { useState } from "react";
 import RequestListItem from "../../components/request/RequestListItem";
 import { Request } from "../../types";
+import PrivateRoute from "../../components/PrivateRoute";
 
 const DUMMY_REQUESTS = [
   {
@@ -36,20 +37,22 @@ export const RequestPage = () => {
   };
 
   return (
-    <div className="w-full text-center space-y-5 py-5">
-      <h1 className="font-bold text-xl">
-        All pending requests for Tutorial 1A:
-      </h1>
-      <div className="flex flex-col w-full items-center space-y-5 mt-5">
-        {requests.map((request: Request, index: number) => (
-          <RequestListItem
-            key={index}
-            student={request.student}
-            id={request.id}
-            removeRequestFromListHandler={removeRequestFromListHandler}
-          />
-        ))}
+    <PrivateRoute userType="teachingAssistant">
+      <div className="w-full text-center space-y-5 py-5">
+        <h1 className="font-bold text-xl">
+          All pending requests for Tutorial 1A:
+        </h1>
+        <div className="flex flex-col w-full items-center space-y-5 mt-5">
+          {requests.map((request: Request, index: number) => (
+            <RequestListItem
+              key={index}
+              student={request.student}
+              id={request.id}
+              removeRequestFromListHandler={removeRequestFromListHandler}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   );
 };
