@@ -86,10 +86,28 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   </p>
                 )}
               </div>
-              <div className="flex items-center justify-between">
-                <Checkbox value="remember">Remember me</Checkbox>
-                <Link to="#" className="text-sm text-purple-600">
-                  Forgot password?
+            <div className="flex items-center justify-between">
+              <Checkbox value="remember">Remember me</Checkbox>
+              <Link to="#" className="text-sm text-purple-600">
+                Forgot password?
+              </Link>
+            </div>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="solid"
+              className="w-full"
+            >
+              LOGIN
+            </Button>
+            {userType === "Student" && (
+              <div className="flex items-center">
+                <span className="text-sm">Don't have an account?</span>
+                <Link
+                  to="/student/signup"
+                  className="text-sm text-purple-600 ml-2"
+                >
+                  Sign up
                 </Link>
               </div>
               <Button
