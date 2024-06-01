@@ -3,12 +3,9 @@ import { CiViewList } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import { strToColour } from "../../util/util";
 import { useNavigate } from "react-router-dom";
+import { Module } from "../../types";
 
-export default function ModuleListItem({
-  module,
-}: {
-  module: { code: string; name: string };
-}) {
+export default function ModuleListItem({ module }: { module: Module }) {
   const navigate = useNavigate();
   return (
     <Card className="py-4 h-fit flex flex-row items-center p-5 space-x-4 w-[90%] sm:w-4/5 md:w-2/3 xl:w-1/2">

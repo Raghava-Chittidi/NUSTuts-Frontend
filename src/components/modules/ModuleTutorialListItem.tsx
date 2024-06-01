@@ -1,14 +1,14 @@
 import { Card } from "@nextui-org/react";
 import { BsPersonAdd } from "react-icons/bs";
 import { strToColour } from "../../util/util";
-import { Tutorial } from "../../types";
+import { FetchedTutorial } from "../../types";
 import axios from "axios";
 
 const ModuleTutorialListItem = ({
   tutorial,
   moduleCode,
 }: {
-  tutorial: Tutorial;
+  tutorial: FetchedTutorial;
   moduleCode: string;
 }) => {
   const requestToJoinTutorialHandler = async () => {

@@ -4,7 +4,7 @@ import { Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import axios from "axios";
 import ModuleTutorialListItem from "../../components/modules/ModuleTutorialListItem";
-import { Tutorial } from "../../types";
+import { FetchedTutorial } from "../../types";
 
 const ModuleTutorialsPage = () => {
   const { moduleCode } = useParams();
@@ -25,8 +25,10 @@ const ModuleTutorialsPage = () => {
       </h1>
       <div className="flex flex-col w-full items-center space-y-5 mt-5">
         {data?.semesterData[getCurrentSem() - 1]?.timetable
-          .filter((tutorial: Tutorial) => tutorial.lessonType === "Tutorial")
-          .map((tutorial: Tutorial, index: number) => (
+          .filter(
+            (tutorial: FetchedTutorial) => tutorial.lessonType === "Tutorial"
+          )
+          .map((tutorial: FetchedTutorial, index: number) => (
             <ModuleTutorialListItem
               key={index}
               tutorial={tutorial}
