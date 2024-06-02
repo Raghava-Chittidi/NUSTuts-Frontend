@@ -19,6 +19,10 @@ const ModuleTutorialsPage = () => {
     return <Spinner />;
   }
 
+  const curSem =
+    data?.semesterData.find((sem: any) => sem.semester === getCurrentSem()) ||
+    [];
+
   return (
     <PrivateRoute userType="student">
       <div className="w-full text-center space-y-5 py-5">
@@ -26,7 +30,7 @@ const ModuleTutorialsPage = () => {
           Showing all tutorials for {moduleCode}:
         </h1>
         <div className="flex flex-col w-full items-center space-y-5 mt-5">
-          {data?.semesterData[getCurrentSem() - 1]?.timetable
+          {curSem.timetable
             .filter(
               (tutorial: FetchedTutorial) => tutorial.lessonType === "Tutorial"
             )

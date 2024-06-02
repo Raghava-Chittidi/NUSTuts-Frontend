@@ -15,7 +15,6 @@ const ModulesPage = () => {
   useEffect(() => {
     const getMods = async () => {
       setIsLoading(true);
-      console.log(modules);
       const promises = [];
       for (const module of modules!) {
         promises.push(
@@ -52,8 +51,8 @@ const ModulesPage = () => {
       <div className="w-full text-center space-y-5 pt-5">
         <h1 className="font-bold text-xl">Current Modules:</h1>
         <div className="flex flex-col w-full items-center space-y-5">
-          {mods.map((module) => {
-            return <ModuleListItem module={module} />;
+          {mods.map((module, index) => {
+            return <ModuleListItem module={module} key={index} />;
           })}
         </div>
       </div>
