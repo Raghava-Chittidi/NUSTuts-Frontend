@@ -42,7 +42,7 @@ const ModulesPage = () => {
     }
   }, [state.user]);
 
-  if (isLoading || mods.length === 0) {
+  if (state.user && (isLoading || mods.length === 0)) {
     return <Spinner />;
   }
 
