@@ -1,3 +1,4 @@
+import PrivateRoute from "../../components/PrivateRoute";
 import { useEffect, useState } from "react";
 import ModuleListItem from "../../components/modules/ModuleListItem";
 import { Module } from "../../types";
@@ -47,14 +48,16 @@ const ModulesPage = () => {
   }
 
   return (
-    <div className="w-full text-center space-y-5 pt-5">
-      <h1 className="font-bold text-xl">Current Modules:</h1>
-      <div className="flex flex-col w-full items-center space-y-5">
-        {mods.map((mod, index) => {
-          return <ModuleListItem module={mod} key={index} />;
-        })}
+    <PrivateRoute userType="student">
+      <div className="w-full text-center space-y-5 pt-5">
+        <h1 className="font-bold text-xl">Current Modules:</h1>
+        <div className="flex flex-col w-full items-center space-y-5">
+          {mods.map((module) => {
+            return <ModuleListItem module={module} />;
+          })}
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   );
 };
 

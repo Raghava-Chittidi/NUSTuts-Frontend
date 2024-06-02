@@ -10,9 +10,18 @@ import AsyncSelect from "react-select/async";
 import Select, { createFilter } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { getCurrentAY } from "../../util/util";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const StudentSignUpPage = () => {
+  const user = useAuthContext().state.user;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/modules");
+    }
+  }, [user]);
+  
   const { signup, signUpError, isSignUpLoading } = useStudentSignup();
 
   const [toggle, setToggle] = useState(false);

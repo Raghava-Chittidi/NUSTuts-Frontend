@@ -7,6 +7,8 @@ import ModulesPage from "./pages/student/ModulesPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentSignUpPage from "./pages/student/StudentSignUpPage";
 import { RequestPage } from "./pages/ta/RequestPage";
+import { useAuthContext } from "./hooks/useAuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 /**
  * A browser router containing routes.
@@ -49,10 +51,14 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
+  const user = useAuthContext().state.user;
+  console.log("user: ", user);
+  return user ? (
     <Layout>
       <RouterProvider router={router} />
     </Layout>
+  ): (
+    <RouterProvider router={router} />
   );
 }
 

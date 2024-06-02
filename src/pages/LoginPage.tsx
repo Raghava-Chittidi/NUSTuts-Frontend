@@ -3,8 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
 import { useLogin } from "../hooks/useLogin";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const LoginPage = ({ userType }: { userType: string }) => {
+  const user = useAuthContext().state.user;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      if (userType === "Student") {
+        navigate("/modules");
+      } else {
+        navigate("/requests");
+      }
+    }
+  }, [user, userType]);
+
   const { login, error, isLoading } = useLogin(userType);
 
   const [toggle, setToggle] = useState(false);
