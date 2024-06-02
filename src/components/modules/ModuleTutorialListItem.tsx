@@ -3,6 +3,8 @@ import { BsPersonAdd } from "react-icons/bs";
 import { strToColour } from "../../util/util";
 import { FetchedTutorial } from "../../types";
 import axios from "axios";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useState } from "react";
 
 const ModuleTutorialListItem = ({
   tutorial,
@@ -11,13 +13,17 @@ const ModuleTutorialListItem = ({
   tutorial: FetchedTutorial;
   moduleCode: string;
 }) => {
+  const { state } = useAuthContext();
+  const [show, setShow] = useState<boolean>(true);
   const requestToJoinTutorialHandler = async () => {
     try {
+      setShow(false);
       const res = await axios.post(
-        "/requests",
+        "/api/requests",
         {
-          studentId: 1,
-          tutorialId: 1,
+          studentId: state.user.id,
+          moduleCode,
+          classNo: tutorial.classNo,
         },
         { headers: { Authorization: "Bearer token" } }
       );
@@ -49,7 +55,9 @@ const ModuleTutorialListItem = ({
         className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600"
         title="Request to join tutorial"
       >
-        <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
+        {show && (
+          <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
+        )}
       </div>
     </Card>
   );

@@ -6,17 +6,19 @@ import { Avatar } from "@nextui-org/react";
 import axios from "axios";
 
 const RequestListItem = ({
-  student,
+  name,
+  email,
   id,
   removeRequestFromListHandler,
 }: {
-  student: { name: string; email: string };
+  name: string;
+  email: string;
   id: number;
   removeRequestFromListHandler: (id: number) => void;
 }) => {
   const acceptRequestHandler = async () => {
     try {
-      const res = await axios.patch(`/requests/${id}/reject`, {
+      const res = await axios.patch(`/api/requests/${id}/accept`, {
         headers: { Authorization: "Bearer token" },
       });
       console.log(res.data);
@@ -28,7 +30,7 @@ const RequestListItem = ({
 
   const rejectRequestHandler = async () => {
     try {
-      const res = await axios.patch(`/requests/${id}/accept`, {
+      const res = await axios.patch(`/api/requests/${id}/reject`, {
         headers: { Authorization: "Bearer token" },
       });
       console.log(res.data);
@@ -42,13 +44,13 @@ const RequestListItem = ({
     <Card className="py-4 h-fit flex flex-row justify-between items-center p-5 w-[90%] sm:w-4/5 lg:w-2/3 xl:w-[45%] text-xs lg:text-base">
       <Avatar
         className="text-xl text-white"
-        style={{ backgroundColor: strToColour(student.name) }}
-        name={`${student.name[0].toUpperCase()}`}
+        style={{ backgroundColor: strToColour(name) }}
+        name={`${name[0].toUpperCase()}`}
       />
       <div className="flex flex-col items-center">
         <div className="text-left">
-          <p>Name: {student.name}</p>
-          <p>Email: {student.email}</p>
+          <p>Name: {name}</p>
+          <p>Email: {email}</p>
         </div>
       </div>
       <p className="hidden sm:block">has requested to join</p>
