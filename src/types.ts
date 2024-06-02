@@ -1,5 +1,5 @@
 export type Tutorial = {
-  id: number;
+  ID: number;
   tutorialCode: string;
   module: Module;
   teachingAssistant: TeachingAssistant;
@@ -17,10 +17,8 @@ export type FetchedTutorial = {
 
 export type Request = {
   id: number;
-  student: {
-    name: string;
-    email: string;
-  };
+  name: string;
+  email: string;
 };
 
 export type Role = {

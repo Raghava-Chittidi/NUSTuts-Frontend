@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RequestListItem from "../../components/request/RequestListItem";
 import { Request } from "../../types";
 import PrivateRoute from "../../components/PrivateRoute";
+import axios from "axios";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { Spinner } from "@nextui-org/react";
 
 const DUMMY_REQUESTS = [
   {
@@ -28,7 +31,27 @@ const DUMMY_REQUESTS = [
 ];
 
 export const RequestPage = () => {
-  const [requests, setRequests] = useState<Request[]>(DUMMY_REQUESTS);
+  const { state } = useAuthContext();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [requests, setRequests] = useState<Request[]>([]);
+
+  console.log(requests);
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`);
+      setRequests(res.data.data);
+      setIsLoading(false);
+    };
+
+    if (state.user) {
+      sendRequest();
+    }
+  }, [state.user, state.user?.tutorial]);
+
+  if (isLoading || !requests) {
+    return <Spinner />;
+  }
 
   const removeRequestFromListHandler = (id: number) => {
     setRequests((prevState) =>
@@ -46,7 +69,8 @@ export const RequestPage = () => {
           {requests.map((request: Request, index: number) => (
             <RequestListItem
               key={index}
-              student={request.student}
+              name={request.name}
+              email={request.email}
               id={request.id}
               removeRequestFromListHandler={removeRequestFromListHandler}
             />
