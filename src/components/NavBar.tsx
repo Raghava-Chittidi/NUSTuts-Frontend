@@ -55,19 +55,19 @@ export default function NavBar() {
         {isUserStudent(user) && (
         <>
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/modules">
               Modules
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/tutorials">
               Current Tutorials
             </Link>
           </NavbarItem>
         </>)}
         {!isUserStudent(user) && (
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/requests">
               Request
             </Link>
           </NavbarItem>)}
