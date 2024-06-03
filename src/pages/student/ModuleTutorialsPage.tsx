@@ -6,16 +6,40 @@ import axios from "axios";
 import ModuleTutorialListItem from "../../components/modules/ModuleTutorialListItem";
 import { FetchedTutorial } from "../../types";
 import PrivateRoute from "../../components/PrivateRoute";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useEffect, useState } from "react";
 
 const ModuleTutorialsPage = () => {
+  const { state } = useAuthContext();
   const { moduleCode } = useParams();
+  const [classNo, setClassNo] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   // Reference: We are using nusmods API
-  const { error, data, isLoading } = useSWR(
+  const {
+    error,
+    data,
+    isLoading: loading,
+  } = useSWR(
     `https://api.nusmods.com/v2/${getCurrentAY()}/modules/${moduleCode}.json`,
     (url: string) => axios.get(url).then((res) => res.data)
   );
 
-  if (isLoading || !data) {
+  useEffect(() => {
+    const sendRequest = async () => {
+      const res = await axios.get(
+        `/api/requests/${state?.user.id}/${moduleCode}`
+      );
+      setClassNo(res.data.data);
+      setIsLoading(false);
+    };
+
+    if (state.user) {
+      sendRequest();
+    }
+  }, [state.user, state.user?.tutorial]);
+
+  if (loading || !data || isLoading) {
     return <Spinner />;
   }
 
@@ -39,6 +63,7 @@ const ModuleTutorialsPage = () => {
                 key={index}
                 tutorial={tutorial}
                 moduleCode={moduleCode!}
+                show={!classNo.includes(tutorial.classNo)}
               />
             ))}
         </div>

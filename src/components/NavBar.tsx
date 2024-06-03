@@ -42,35 +42,34 @@ export default function NavBar() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <span className="font-bold text-inherit text-2xl flex items-center">
-            <FaGraduationCap
-              style={{ marginRight: 5, color: "rgb(23 37 84)" }}
-            />
-            <span className="text-blue-950">NUS</span>
-            <span className="text-amber-600">TUTS</span>
-          </span>
+          <Link href="/">
+            <span className="font-bold text-inherit text-2xl flex items-center">
+              <FaGraduationCap
+                style={{ marginRight: 5, color: "rgb(23 37 84)" }}
+              />
+              <span className="text-blue-950">NUS</span>
+              <span className="text-amber-600">TUTS</span>
+            </span>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {isUserStudent(user) && (
-        <>
-          <NavbarItem>
-            <Link color="foreground" href="/modules">
-              Modules
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="/tutorials">
-              Current Tutorials
-            </Link>
-          </NavbarItem>
-        </>)}
+          <>
+            <NavbarItem>
+              <Link color="foreground" href="/modules">
+                Modules
+              </Link>
+            </NavbarItem>
+          </>
+        )}
         {!isUserStudent(user) && (
           <NavbarItem>
             <Link color="foreground" href="/requests">
-              Request
+              Requests
             </Link>
-          </NavbarItem>)}
+          </NavbarItem>
+        )}
         <NavbarItem>
           <Logout />
         </NavbarItem>
