@@ -9,15 +9,17 @@ import { useState } from "react";
 const ModuleTutorialListItem = ({
   tutorial,
   moduleCode,
+  show,
 }: {
   tutorial: FetchedTutorial;
   moduleCode: string;
+  show: boolean;
 }) => {
   const { state } = useAuthContext();
-  const [show, setShow] = useState<boolean>(true);
+  const [display, setDisplay] = useState<boolean>(show);
   const requestToJoinTutorialHandler = async () => {
     try {
-      setShow(false);
+      setDisplay(false);
       const res = await axios.post(
         "/api/requests",
         {
@@ -51,12 +53,14 @@ const ModuleTutorialListItem = ({
           Time: {tutorial.startTime} - {tutorial.endTime}
         </p>
       </div>
-      <div
-        className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600"
-        title="Request to join tutorial"
-      >
-        {show && (
-          <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
+      <div className="w-8 h-8">
+        {display && (
+          <div
+            className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600"
+            title="Request to join tutorial"
+          >
+            <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
+          </div>
         )}
       </div>
     </Card>
