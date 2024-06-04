@@ -1,9 +1,15 @@
 import {Avatar} from "@nextui-org/react";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { useState } from "react";
+import { useLogout } from "../../hooks/useLogout";
 
 const AvatarDisplay = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { logout } = useLogout();
+  
+    const handleLogOutClick = () => {
+      // Log out logic
+      logout();
+    };
 
     // Display an avatar that when clicked, will show a dropdown menu
     // with options to log out or view profile
@@ -32,7 +38,7 @@ const AvatarDisplay = () => {
             />
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
-            <DropdownItem key="logout">Log Out</DropdownItem>
+            <DropdownItem onClick={handleLogOutClick} key="logout">Log Out</DropdownItem>
         </DropdownMenu>
         </Dropdown>
     );
