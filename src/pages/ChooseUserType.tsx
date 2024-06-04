@@ -1,6 +1,4 @@
-import { Card, CardBody, Spinner } from "@nextui-org/react";
 import {
-  UserCircleIcon,
   AcademicCapIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
