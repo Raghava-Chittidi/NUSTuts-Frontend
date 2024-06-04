@@ -38,8 +38,8 @@ const ModuleTutorialsPage = () => {
       sendRequest();
     }
   }, [state.user, state.user?.tutorial]);
-
-  if (loading || !data || isLoading) {
+  
+  if (state.user && (loading || !data || isLoading)) {
     return <Spinner />;
   }
 
