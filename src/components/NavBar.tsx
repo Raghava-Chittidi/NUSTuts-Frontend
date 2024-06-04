@@ -7,14 +7,12 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Button,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { FaGraduationCap } from "react-icons/fa6";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { isUserStudent } from "../util/user";
-import Logout from "./Logout";
 import AvatarDisplay from "./avatar/AvatarDisplay";
 
 export default function NavBar() {
@@ -71,9 +69,6 @@ export default function NavBar() {
             </Link>
           </NavbarItem>
         )}
-        <NavbarItem>
-          <Logout />
-        </NavbarItem>
         <NavbarItem>
           <AvatarDisplay />
         </NavbarItem>
