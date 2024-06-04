@@ -15,6 +15,7 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { isUserStudent } from "../util/user";
 import Logout from "./Logout";
+import AvatarDisplay from "./avatar/AvatarDisplay";
 
 export default function NavBar() {
   const { user } = useAuthContext().state;
@@ -72,6 +73,9 @@ export default function NavBar() {
         )}
         <NavbarItem>
           <Logout />
+        </NavbarItem>
+        <NavbarItem>
+          <AvatarDisplay />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
