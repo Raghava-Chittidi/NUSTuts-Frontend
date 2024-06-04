@@ -14,7 +14,7 @@ export const useLogin = (userType: string) => {
     setError(null);
 
     const url =
-      userType === "Student" ? "/api/auth/student/login" : "/api/auth/ta/login";
+      userType === "Student" ? "/api/auth/students/login" : "/api/auth/teaching-assistants/login";
 
     try {
       const response = await axios.post(url, {

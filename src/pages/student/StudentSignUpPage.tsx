@@ -4,7 +4,6 @@ import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
 import { useStudentSignup } from "../../hooks/useStudentSignup";
 import axios from "axios";
-import Select from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { getCurrentAY } from "../../util/util";
 import { useAuthContext } from "../../hooks/useAuthContext";
