@@ -17,16 +17,10 @@ import AvatarDisplay from "./avatar/AvatarDisplay";
 
 export default function NavBar() {
   const { user } = useAuthContext().state;
-  const { logout } = useLogout();
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const menuItems = ["Modules", "Current Tutorials"];
-
-  const handleLogOutClick = () => {
-    // Log out logic
-    logout();
-  };
 
   // Only should see modules and current tutorials after student is logged in
   return (

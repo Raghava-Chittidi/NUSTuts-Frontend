@@ -1,9 +1,10 @@
 import {Avatar} from "@nextui-org/react";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
-import { useState } from "react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection } from "@nextui-org/react";
 import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const AvatarDisplay = () => {
+    const { user } = useAuthContext().state;
     const { logout } = useLogout();
   
     const handleLogOutClick = () => {
@@ -11,34 +12,26 @@ const AvatarDisplay = () => {
       logout();
     };
 
-    // Display an avatar that when clicked, will show a dropdown menu
-    // with options to log out or view profile
-    // return (
-    //     <div>
-    //         <Avatar
-    //             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-    //             showFallback
-    //             src='https://images.unsplash.com/broken'
-    //         />
-    //         {isDropdownOpen && (
-    //             <div className='absolute top-12 right-0 bg-white shadow-md p-2'>
-    //                 <button onClick={() => alert('View Profile')}>View Profile</button>
-    //                 <button onClick={() => alert('Log Out')}>Log Out</button>
-    //             </div>
-    //         )}
-    //     </div>
-    // )
-
     return (
         <Dropdown>
         <DropdownTrigger>
             <Avatar
+            className="cursor-pointer"
                 showFallback
                 src='https://images.unsplash.com/broken'
             />
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
-            <DropdownItem onClick={handleLogOutClick} key="logout">Log Out</DropdownItem>
+            <DropdownSection showDivider={true}>
+                <DropdownItem key="profile" className="h-14 gap-2 ">
+                    <p className="font-extrabold text-lg">{user.name}</p>
+                    <p className="font-bold text-base">{user.role.userType === "student" ? "Student" : "Teaching Assistant"}</p>
+                    <p className="font-semibold text-sm">{user.email}</p>
+                </DropdownItem>
+            </DropdownSection>
+            <DropdownSection>
+                <DropdownItem onClick={handleLogOutClick} key="logout" className="text-danger">Log Out</DropdownItem>
+            </DropdownSection>
         </DropdownMenu>
         </Dropdown>
     );
