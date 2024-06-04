@@ -49,7 +49,7 @@ export const RequestPage = () => {
     }
   }, [state.user, state.user?.tutorial]);
 
-  if (isLoading || !requests) {
+  if (state.user && isLoading) {
     return <Spinner />;
   }
 
