@@ -8,11 +8,12 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const RequestPage = () => {
   const { isLoggedIn, isLoggingIn, state } = useAuthContext();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [requests, setRequests] = useState<Request[]>([]);
 
   useEffect(() => {
     const sendRequest = async () => {
+      setIsLoading(true);
       const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`, {
         headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });

@@ -51,12 +51,11 @@ const router = createBrowserRouter([
 
 function App() {
   const user = useAuthContext().state.user;
-  console.log("user: ", user);
   return user ? (
     <Layout>
       <RouterProvider router={router} />
     </Layout>
-  ): (
+  ) : (
     <RouterProvider router={router} />
   );
 }

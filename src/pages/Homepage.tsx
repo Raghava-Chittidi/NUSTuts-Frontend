@@ -25,7 +25,7 @@ const Homepage = () => {
     }
   }, [isLoggedIn, isLoggingIn]);
 
-  if (isLoading) {
+  if (isLoggingIn || isLoading) {
     return <LoadingSpinner />;
   }
 
