@@ -8,7 +8,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentSignUpPage from "./pages/student/StudentSignUpPage";
 import { RequestPage } from "./pages/ta/RequestPage";
 import { useAuthContext } from "./hooks/useAuthContext";
-import PrivateRoute from "./components/PrivateRoute";
 
 /**
  * A browser router containing routes.

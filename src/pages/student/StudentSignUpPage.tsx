@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, CircularProgress, Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
-import bgpic from "../../assets/student.jpg";
 import { useStudentSignup } from "../../hooks/useStudentSignup";
-import useSWR from "swr";
 import axios from "axios";
-import AsyncSelect from "react-select/async";
-import Select, { createFilter } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { getCurrentAY } from "../../util/util";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import WindowedSelect from "react-windowed-select";
 
 const StudentSignUpPage = () => {
   const user = useAuthContext().state.user;
@@ -57,11 +54,17 @@ const StudentSignUpPage = () => {
     fetchModules();
   }, []);
 
+  // newValue and actionMeta types are supposed to be MultiValue<{ value: string; label: string }> and
+  // ActionMeta<{ value: string; label: string }> respectively, but the parameters
+  // are changed to unknown to avoid TypeScript error caused by react-windowed-select
+  // It is safe to typecast them to MultiValue<{ value: string; label: string }> and
+  // and ActionMeta<{ value: string; label: string }> respectively
   const handleSelectedChange = (
-    newValue: MultiValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: unknown,
+    actionMeta: ActionMeta<unknown>
   ) => {
-    setSelectedModules(newValue.map((option) => option.value));
+    const newValueCasted = newValue as MultiValue<{ value: string; label: string }>;
+    setSelectedModules(newValueCasted.map((option) => option.value as string));
   };
 
   // const loadOptions = async (searchValue: string) => {
@@ -160,7 +163,7 @@ const StudentSignUpPage = () => {
                     loadOptions={loadOptions}
                     onChange={handleSelectedChange}
                 /> */}
-            <Select
+            <WindowedSelect
               defaultValue={[]}
               isMulti
               name="modules"
@@ -169,8 +172,7 @@ const StudentSignUpPage = () => {
               classNamePrefix="select"
               onChange={handleSelectedChange}
               placeholder="Select Modules"
-              required
-            />
+              required windowThreshold={100}            />
             <Button
               type="submit"
               color="secondary"
