@@ -1,6 +1,5 @@
 import { getCurrentAY, getCurrentSem } from "../../util/util";
 import { useParams } from "react-router-dom";
-import { Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import axios from "axios";
 import ModuleTutorialListItem from "../../components/modules/ModuleTutorialListItem";
@@ -8,12 +7,13 @@ import { FetchedTutorial } from "../../types";
 import PrivateRoute from "../../components/PrivateRoute";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ModuleTutorialsPage = () => {
-  const { state } = useAuthContext();
+  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
   const { moduleCode } = useParams();
   const [classNo, setClassNo] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Reference: We are using nusmods API
   const {
@@ -27,6 +27,7 @@ const ModuleTutorialsPage = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
+      setIsLoading(true);
       const res = await axios.get(
         `/api/requests/${state?.user.id}/${moduleCode}`
       );
@@ -34,13 +35,13 @@ const ModuleTutorialsPage = () => {
       setIsLoading(false);
     };
 
-    if (state.user) {
+    if (isLoggedIn) {
       sendRequest();
     }
-  }, [state.user, state.user?.tutorial]);
-  
-  if (state.user && (loading || !data || isLoading)) {
-    return <Spinner />;
+  }, [isLoggedIn]);
+
+  if (isLoggingIn || loading || isLoading) {
+    return <LoadingSpinner />;
   }
 
   const curSem =

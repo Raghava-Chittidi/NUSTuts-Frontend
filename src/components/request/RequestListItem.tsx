@@ -4,6 +4,7 @@ import { IoCheckmark } from "react-icons/io5";
 import { strToColour } from "../../util/util";
 import { Avatar } from "@nextui-org/react";
 import axios from "axios";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const RequestListItem = ({
   name,
@@ -16,10 +17,11 @@ const RequestListItem = ({
   id: number;
   removeRequestFromListHandler: (id: number) => void;
 }) => {
+  const { state } = useAuthContext();
   const acceptRequestHandler = async () => {
     try {
-      const res = await axios.patch(`/api/requests/${id}/accept`, {
-        headers: { Authorization: "Bearer token" },
+      const res = await axios.patch(`/api/requests/${id}/accept`, null, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });
       console.log(res.data);
       removeRequestFromListHandler(id);
@@ -30,8 +32,8 @@ const RequestListItem = ({
 
   const rejectRequestHandler = async () => {
     try {
-      const res = await axios.patch(`/api/requests/${id}/reject`, {
-        headers: { Authorization: "Bearer token" },
+      const res = await axios.patch(`/api/requests/${id}/reject`, null, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });
       console.log(res.data);
       removeRequestFromListHandler(id);

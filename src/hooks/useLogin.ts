@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const useLogin = (userType: string) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { dispatch } = useAuthContext();
+  const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
 
   const login = async (email: string, password: string) => {
@@ -22,8 +22,8 @@ export const useLogin = (userType: string) => {
         Password: password,
       });
 
-      localStorage.setItem("user", JSON.stringify(response.data.data));
       dispatch({ type: "LOGIN", payload: response.data.data });
+      setIsLoggedIn(true);
       if (userType == "Student") {
         navigate("/modules");
       } else {
