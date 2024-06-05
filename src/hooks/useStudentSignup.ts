@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const useStudentSignup = () => {
   const [signUpError, setSignUpError] = useState<string | null>(null);
   const [isSignUpLoading, setIsSignUpLoading] = useState<boolean | null>(null);
-  const { dispatch } = useAuthContext();
+  const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
 
   const signup = async (
@@ -25,8 +25,8 @@ export const useStudentSignup = () => {
         Password: password,
         Modules: modules,
       });
-      localStorage.setItem("user", JSON.stringify(response.data.data));
       dispatch({ type: "LOGIN", payload: response.data.data });
+      setIsLoggedIn(true);
       navigate("/modules");
     } catch (error: unknown) {
       console.log("error: ", error);

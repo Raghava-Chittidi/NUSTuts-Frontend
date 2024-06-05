@@ -4,53 +4,29 @@ import { Request } from "../../types";
 import PrivateRoute from "../../components/PrivateRoute";
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { Spinner } from "@nextui-org/react";
-
-const DUMMY_REQUESTS = [
-  {
-    id: 1,
-    student: {
-      name: "Tom",
-      email: "tom@gmail.com",
-    },
-  },
-  {
-    id: 2,
-    student: {
-      name: "John",
-      email: "john@gmail.com",
-    },
-  },
-  {
-    id: 3,
-    student: {
-      name: "jack",
-      email: "jack@gmail.com",
-    },
-  },
-];
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const RequestPage = () => {
-  const { state } = useAuthContext();
+  const { isLoggedIn, isLoggingIn, state } = useAuthContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [requests, setRequests] = useState<Request[]>([]);
 
-  console.log(requests);
-
   useEffect(() => {
     const sendRequest = async () => {
-      const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`);
+      const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+      });
       setRequests(res.data.data);
       setIsLoading(false);
     };
 
-    if (state.user) {
+    if (isLoggedIn) {
       sendRequest();
     }
-  }, [state.user, state.user?.tutorial]);
+  }, [isLoggedIn]);
 
-  if (isLoading || !requests) {
-    return <Spinner />;
+  if (isLoggingIn || isLoading) {
+    return <LoadingSpinner />;
   }
 
   const removeRequestFromListHandler = (id: number) => {

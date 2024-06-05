@@ -1,23 +1,33 @@
 import { Image } from "@nextui-org/react";
 import { Banner } from "../components/Banner";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isUserStudent } from "../util/user";
 import { useNavigate } from "react-router";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Homepage = () => {
-  const user = useAuthContext().state.user;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { isLoggedIn, isLoggingIn, state } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      if (isUserStudent(user)) {
+    if (isLoggedIn) {
+      if (isUserStudent(state.user)) {
         navigate("/modules");
       } else {
         navigate("/requests");
       }
+    } else {
+      if (!isLoggingIn) {
+        setIsLoading(false);
+      }
     }
-  }, [user]);
+  }, [isLoggedIn, isLoggingIn]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     // Reference https://www.freepik.com/free-vector/flat-university-concept-background_4672574.htm#from_view=detail_alsolike

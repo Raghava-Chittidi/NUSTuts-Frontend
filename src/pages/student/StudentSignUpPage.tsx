@@ -21,7 +21,7 @@ const StudentSignUpPage = () => {
       navigate("/modules");
     }
   }, [user]);
-  
+
   const { signup, signUpError, isSignUpLoading } = useStudentSignup();
 
   const [toggle, setToggle] = useState(false);

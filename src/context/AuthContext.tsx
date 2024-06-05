@@ -1,10 +1,15 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { Tutorial, User } from "../types";
+import axios from "axios";
 
 export interface AuthenticatedUser extends User {
   modules?: string[];
   tutorials?: Tutorial[];
   tutorial?: Tutorial;
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
 interface AuthState {
@@ -17,6 +22,10 @@ interface AuthAction {
 }
 
 interface AuthContextInterface {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoggingIn: boolean;
+  setIsLoggingIn: React.Dispatch<React.SetStateAction<boolean>>;
   state: AuthState;
   dispatch: (action: AuthAction) => void;
 }
@@ -45,23 +54,57 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const TOKEN_EXPIRY_TIME = 15 * 60 * 1000;
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(true);
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
 
-  useEffect(() => {
-    const userString = localStorage.getItem("user");
-    console.log("userString: ", userString);
-    const user = userString ? JSON.parse(userString) : null;
-    if (user) {
-      dispatch({ type: "LOGIN", payload: user });
+  const sendRefreshRequest = async () => {
+    try {
+      setIsLoggingIn(true);
+      const res = await axios.get("/api/auth/refresh", {
+        withCredentials: true,
+      });
+      if (res.data) {
+        dispatch({ type: "LOGIN", payload: res.data.data });
+        setIsLoggedIn(true);
+      }
+      setIsLoggingIn(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoggedIn(false);
+      setIsLoggingIn(false);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      sendRefreshRequest();
+    } else {
+      const timer = setTimeout(() => {
+        setIsLoggedIn(false);
+        setIsLoggingIn(true);
+      }, TOKEN_EXPIRY_TIME);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoggedIn]);
 
   console.log("AuthContext state: ", state);
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider
+      value={{
+        state,
+        dispatch,
+        isLoggedIn,
+        setIsLoggedIn,
+        isLoggingIn,
+        setIsLoggingIn,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

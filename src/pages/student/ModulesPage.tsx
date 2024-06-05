@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import ModuleListItem from "../../components/modules/ModuleListItem";
 import { Module } from "../../types";
 import axios from "axios";
-import { Spinner } from "@nextui-org/react";
 import { getCurrentAY } from "../../util/util";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ModulesPage = () => {
-  const { state } = useAuthContext();
+  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
   const [mods, setMods] = useState<Module[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getMods = async () => {
       setIsLoading(true);
+      const modules = state.user.modules;
       const promises = [];
       for (const module of modules!) {
         promises.push(
@@ -36,14 +37,13 @@ const ModulesPage = () => {
       setIsLoading(false);
     };
 
-    const modules = state.user?.modules;
-    if (modules && modules.length > 0) {
+    if (isLoggedIn) {
       getMods();
     }
-  }, [state.user]);
+  }, [isLoggedIn]);
 
-  if (state.user && (isLoading || mods.length === 0)) {
-    return <Spinner />;
+  if (isLoggingIn || isLoading) {
+    return <LoadingSpinner />;
   }
 
   return (
