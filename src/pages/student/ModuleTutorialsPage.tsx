@@ -29,7 +29,10 @@ const ModuleTutorialsPage = () => {
     const sendRequest = async () => {
       setIsLoading(true);
       const res = await axios.get(
-        `/api/requests/${state?.user.id}/${moduleCode}`
+        `/api/requests/${state?.user.id}/${moduleCode}`,
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
       );
       setClassNo(res.data.data);
       setIsLoading(false);

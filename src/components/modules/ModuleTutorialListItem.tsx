@@ -27,7 +27,9 @@ const ModuleTutorialListItem = ({
           moduleCode,
           classNo: tutorial.classNo,
         },
-        { headers: { Authorization: "Bearer token" } }
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
       );
       console.log(res.data);
     } catch (error) {

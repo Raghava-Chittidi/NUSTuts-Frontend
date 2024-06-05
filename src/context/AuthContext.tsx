@@ -67,7 +67,7 @@ export const AuthContextProvider = ({
       const res = await axios.get("/api/auth/refresh", {
         withCredentials: true,
       });
-      if (res.data) {
+      if (res.data?.data) {
         dispatch({ type: "LOGIN", payload: res.data.data });
         setIsLoggedIn(true);
       }
