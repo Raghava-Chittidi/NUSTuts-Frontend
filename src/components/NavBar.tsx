@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { FaGraduationCap } from "react-icons/fa6";
-import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { isUserStudent } from "../util/user";
 import AvatarDisplay from "./avatar/AvatarDisplay";

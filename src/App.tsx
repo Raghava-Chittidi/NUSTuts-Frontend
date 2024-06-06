@@ -8,6 +8,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentSignUpPage from "./pages/student/StudentSignUpPage";
 import { RequestPage } from "./pages/ta/RequestPage";
 import { useAuthContext } from "./hooks/useAuthContext";
+import TutorialPage from "./pages/tutorial/TutorialPage";
+import FilesPage from "./pages/tutorial/FilesPage";
+import WeekFilesPage from "./pages/tutorial/WeekFilesPage";
 
 /**
  * A browser router containing routes.
@@ -46,6 +49,20 @@ const router = createBrowserRouter([
   {
     path: "/requests",
     element: <RequestPage />,
+  },
+  {
+    path: "/tutorial",
+    element: <TutorialPage />,
+    children: [
+      {
+        path: "/tutorial/files",
+        element: <FilesPage />,
+      },
+      {
+        path: "/tutorial/files/weeks/:id",
+        element: <WeekFilesPage />,
+      },
+    ],
   },
 ]);
 
