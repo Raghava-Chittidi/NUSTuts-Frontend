@@ -11,7 +11,6 @@ const PrivateRoute = ({
   userType?: string;
 }) => {
   const user = useAuthContext().state.user;
-
   const userTypeMatches = userType && isCorrectUser(user, userType);
   return userTypeMatches ? children : <Navigate to="/" />;
 };

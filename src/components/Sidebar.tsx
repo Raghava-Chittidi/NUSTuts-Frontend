@@ -4,6 +4,9 @@ import { TbFiles } from "react-icons/tb";
 import { MdDateRange } from "react-icons/md";
 import { MdChecklist } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
+import { useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export function Sidebar() {
   const MENU = [
@@ -25,7 +28,18 @@ export function Sidebar() {
     },
   ];
 
+  const { isLoggingIn, isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggingIn && !isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggingIn]);
+
+  if (isLoggingIn || !isLoggedIn) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-2 bg-white min-w-24 sm:min-w-60 rounded-lg space-y-1 min-h-[calc(100vh-65px)] border-r-1">
