@@ -26,7 +26,7 @@ const WeekFilesPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(
-        `/api/files/${state.user.role.userType}/${state.user.tutorial?.ID}/${params.week}`,
+        `/api/files/${state.user.role.userType}/${params.tutorialId}/${params.week}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }

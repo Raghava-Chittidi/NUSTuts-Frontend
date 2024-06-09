@@ -1,7 +1,7 @@
 export type Tutorial = {
   ID: number;
   tutorialCode: string;
-  module: Module;
+  module: string;
   teachingAssistant: TeachingAssistant;
   students: Student[];
 };

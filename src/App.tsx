@@ -53,15 +53,15 @@ const router = createBrowserRouter([
     element: <RequestPage />,
   },
   {
-    path: "/tutorial",
+    path: "/tutorial/:tutorialId",
     element: <TutorialPage />,
     children: [
       {
-        path: "/tutorial/files",
+        path: "/tutorial/:tutorialId/files",
         element: <FilesPage />,
       },
       {
-        path: "/tutorial/files/weeks/:week",
+        path: "/tutorial/:tutorialId/files/weeks/:week",
         element: <WeekFilesPage />,
       },
     ],
