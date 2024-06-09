@@ -11,6 +11,8 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import TutorialPage from "./pages/tutorial/TutorialPage";
 import FilesPage from "./pages/tutorial/FilesPage";
 import WeekFilesPage from "./pages/tutorial/WeekFilesPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /**
  * A browser router containing routes.
@@ -59,7 +61,7 @@ const router = createBrowserRouter([
         element: <FilesPage />,
       },
       {
-        path: "/tutorial/files/weeks/:id",
+        path: "/tutorial/files/weeks/:week",
         element: <WeekFilesPage />,
       },
     ],
@@ -71,9 +73,13 @@ function App() {
   return user ? (
     <Layout>
       <RouterProvider router={router} />
+      <ToastContainer />
     </Layout>
   ) : (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
   );
 }
 

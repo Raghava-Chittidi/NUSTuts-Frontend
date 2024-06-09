@@ -12,10 +12,12 @@ export default function Modal({
   title,
   body,
   component,
+  handler,
 }: {
   title: string;
   body: string;
   component: React.ReactNode;
+  handler: (...args: any) => void;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -34,7 +36,14 @@ export default function Modal({
                 <Button variant="light" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button variant="solid" color="danger" onPress={onClose}>
+                <Button
+                  variant="solid"
+                  color="danger"
+                  onPress={() => {
+                    handler();
+                    onClose();
+                  }}
+                >
                   Delete
                 </Button>
               </ModalFooter>

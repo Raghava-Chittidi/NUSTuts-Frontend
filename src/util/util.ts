@@ -18,3 +18,25 @@ export const getCurrentAY = () => {
   const sem = getCurrentSem();
   return sem == 1 ? `${year}-${year + 1}` : `${year - 1}-${year}`;
 };
+
+export const formatDate = (oldDate: string) => {
+  let strArray = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const date = new Date(oldDate);
+  const d = date.getDate();
+  const m = strArray[date.getMonth()];
+  const yr = date.getFullYear();
+  return `${m} ${d} ${yr}`;
+};

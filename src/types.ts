@@ -46,3 +46,15 @@ export interface Student extends User {
 export interface TeachingAssistant extends User {
   tutorial: Tutorial;
 }
+
+export type TutorialFile = {
+  ID: number;
+  filepath: string;
+  name: string;
+  tutorialId: number;
+  visible: boolean;
+  week: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+};
