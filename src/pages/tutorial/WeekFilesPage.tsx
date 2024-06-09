@@ -97,6 +97,56 @@ const WeekFilesPage = () => {
     }
   };
 
+  const privateFileHandler = async (filepath: string, index: number) => {
+    try {
+      const path = filepath.split("NUSTuts/")[1];
+      await axios.patch(
+        `/api/files/private`,
+        {
+          filepath: path,
+        },
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
+
+      setFiles((prevState) => {
+        const newState = [...prevState];
+        prevState[index].visible = false;
+        return newState;
+      });
+      toast.success("File successfully privated!");
+    } catch (error) {
+      toast.error("File cannot be privated!");
+      console.log(error);
+    }
+  };
+
+  const unprivateFileHandler = async (filepath: string, index: number) => {
+    try {
+      const path = filepath.split("NUSTuts/")[1];
+      await axios.patch(
+        `/api/files/unprivate`,
+        {
+          filepath: path,
+        },
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
+
+      setFiles((prevState) => {
+        const newState = [...prevState];
+        prevState[index].visible = true;
+        return newState;
+      });
+      toast.success("File successfully unprivated!");
+    } catch (error) {
+      toast.error("File cannot be unprivated!");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="w-full md:pl-10 p-2 md:p-5 space-y-5">
       <div className="flex justify-between items-center font-bold text-blue-950">
@@ -151,11 +201,7 @@ const WeekFilesPage = () => {
                             title="Unprivate file"
                             className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
                             onClick={() =>
-                              setFiles((prevState) => {
-                                const newState = [...prevState];
-                                prevState[index].visible = true;
-                                return newState;
-                              })
+                              unprivateFileHandler(file.filepath, index)
                             }
                           />
                         ) : (
@@ -163,11 +209,7 @@ const WeekFilesPage = () => {
                             title="Private file"
                             className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
                             onClick={() =>
-                              setFiles((prevState) => {
-                                const newState = [...prevState];
-                                prevState[index].visible = false;
-                                return newState;
-                              })
+                              privateFileHandler(file.filepath, index)
                             }
                           />
                         )}
