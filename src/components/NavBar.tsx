@@ -56,11 +56,18 @@ export default function NavBar() {
           </>
         )}
         {!isUserStudent(user) && (
-          <NavbarItem>
-            <Link color="foreground" href="/requests">
-              Requests
-            </Link>
-          </NavbarItem>
+          <>
+            <NavbarItem>
+              <Link color="foreground" href={`/tutorial/${user.tutorial?.ID}`}>
+                Tutorial
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Link color="foreground" href="/requests">
+                Requests
+              </Link>
+            </NavbarItem>
+          </>
         )}
         <NavbarItem>
           <AvatarDisplay />

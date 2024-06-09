@@ -3,10 +3,30 @@ import { CiViewList } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import { strToColour } from "../../util/util";
 import { useNavigate } from "react-router-dom";
-import { Module } from "../../types";
+import { Module, Tutorial } from "../../types";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "../LoadingSpinner";
 
 export default function ModuleListItem({ module }: { module: Module }) {
   const navigate = useNavigate();
+  const { state, isLoggingIn } = useAuthContext();
+  const [tutorial, setTutorial] = useState<Tutorial>();
+
+  useEffect(() => {
+    if (!isLoggingIn) {
+      setTutorial(
+        state.user.tutorials?.find(
+          (tutorial) => tutorial.module === module.code
+        )
+      );
+    }
+  }, [isLoggingIn]);
+
+  if (isLoggingIn) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <Card className="py-4 h-fit flex flex-row items-center p-5 space-x-4 w-[90%] sm:w-4/5 md:w-2/3 xl:w-1/2">
       <div
@@ -33,7 +53,12 @@ export default function ModuleListItem({ module }: { module: Module }) {
             className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600"
             title="View current tutorial"
           >
-            <FaArrowRight size={24} />
+            {tutorial && (
+              <FaArrowRight
+                size={24}
+                onClick={() => navigate(`/tutorial/${tutorial.ID}`)}
+              />
+            )}
           </div>
         </div>
       </div>

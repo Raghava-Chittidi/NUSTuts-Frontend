@@ -19,7 +19,7 @@ export const useStudentSignup = () => {
     setSignUpError(null);
 
     try {
-      const response = await axios.post("/api/auth/students/signup", {
+      const response = await axios.post("/api/auth/student/signup", {
         Name: name,
         Email: email,
         Password: password,
