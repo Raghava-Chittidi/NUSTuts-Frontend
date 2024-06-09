@@ -71,6 +71,10 @@ const WeekFilesPage = () => {
   }
 
   const deleteFileHandler = async (filepath: string) => {
+    if (state.user.role.userType === "student") {
+      return;
+    }
+
     try {
       setIsLoading(true);
       const path = filepath.split("NUSTuts/")[1];
@@ -98,6 +102,10 @@ const WeekFilesPage = () => {
   };
 
   const privateFileHandler = async (filepath: string, index: number) => {
+    if (state.user.role.userType === "student") {
+      return;
+    }
+
     try {
       const path = filepath.split("NUSTuts/")[1];
       await axios.patch(
@@ -123,6 +131,10 @@ const WeekFilesPage = () => {
   };
 
   const unprivateFileHandler = async (filepath: string, index: number) => {
+    if (state.user.role.userType === "student") {
+      return;
+    }
+
     try {
       const path = filepath.split("NUSTuts/")[1];
       await axios.patch(

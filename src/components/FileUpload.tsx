@@ -22,6 +22,10 @@ export const FileUpload = ({
   const { state } = useAuthContext();
 
   const uploadFile = async (event: React.FormEvent<HTMLInputElement>) => {
+    if (state.user.role.userType === "student") {
+      return;
+    }
+
     setLoading(true);
     const target = event.target as HTMLInputElement;
     const files = target.files;
