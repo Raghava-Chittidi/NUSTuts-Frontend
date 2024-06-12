@@ -3,7 +3,7 @@ import { Sidebar } from "../../components/Sidebar";
 
 const TutorialPage = () => {
   return (
-    <div className="flex w-full">
+    <div className="flex w-full overflow-hidden max-h-[calc(100vh-65px)]">
       <Sidebar />
       <Outlet />
     </div>

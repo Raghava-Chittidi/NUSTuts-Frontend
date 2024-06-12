@@ -9,10 +9,11 @@ import StudentSignUpPage from "./pages/student/StudentSignUpPage";
 import { RequestPage } from "./pages/ta/RequestPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 import TutorialPage from "./pages/tutorial/TutorialPage";
-import FilesPage from "./pages/tutorial/FilesPage";
-import WeekFilesPage from "./pages/tutorial/WeekFilesPage";
-import { ToastContainer, toast } from "react-toastify";
+import FilesPage from "./pages/files/FilesPage";
+import WeekFilesPage from "./pages/files/WeekFilesPage";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DiscussionPage from "./pages/discussion/DiscussionPage";
 
 /**
  * A browser router containing routes.
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/tutorial/:tutorialId/files/weeks/:week",
         element: <WeekFilesPage />,
+      },
+      {
+        path: "/tutorial/:tutorialId/discussion",
+        element: <DiscussionPage />,
       },
     ],
   },
