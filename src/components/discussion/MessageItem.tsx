@@ -1,12 +1,13 @@
 import { Avatar } from "@nextui-org/react";
 import { strToColour } from "../../util/util";
+import { Message } from "../../types";
 
-const Message = ({
+const MessageItem = ({
   message,
   alt,
   changed,
 }: {
-  message: { sender: string; message: string };
+  message: Message;
   alt: boolean;
   changed: boolean;
 }) => {
@@ -22,7 +23,7 @@ const Message = ({
             !changed && "mr-14"
           }`}
         >
-          {message.message}
+          {message.content}
         </div>
       )}
       {changed && (
@@ -40,11 +41,11 @@ const Message = ({
             !changed && "ml-14"
           }`}
         >
-          {message.message}
+          {message.content}
         </div>
       )}
     </div>
   );
 };
 
-export default Message;
+export default MessageItem;

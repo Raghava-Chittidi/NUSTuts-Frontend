@@ -1,6 +1,8 @@
 import { Button, Textarea } from "@nextui-org/react";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const SendMessage = ({
   setMessages,
@@ -8,9 +10,10 @@ const SendMessage = ({
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 }) => {
   const { state } = useAuthContext();
+  const params = useParams();
   const [value, setValue] = useState<string>("");
 
-  const sendHandler = () => {
+  const sendHandler = async () => {
     if (value.length === 0) {
       return;
     }
@@ -21,6 +24,23 @@ const SendMessage = ({
     };
     setMessages((prevState) => [...prevState, newMessage]);
     setValue("");
+
+    try {
+      await axios.post(
+        "/api/messages/",
+        {
+          tutorialId: +params.tutorialId!,
+          senderId: state.user.id,
+          userType: state.user.role.userType,
+          content: newMessage.message,
+        },
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

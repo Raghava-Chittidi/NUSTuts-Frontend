@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import Message from "./Message";
+import MessageItem from "./MessageItem";
+import { Message } from "../../types";
 
-const AllMessages = ({ messages }: { messages: any[] }) => {
+const AllMessages = ({ messages }: { messages: Message[] }) => {
   let alt = true;
   let changedSender = false;
   let previousSender: string | null = null;
@@ -24,7 +25,7 @@ const AllMessages = ({ messages }: { messages: any[] }) => {
 
         return (
           <div key={index} ref={divRef}>
-            <Message message={message} alt={alt} changed={changedSender} />
+            <MessageItem message={message} alt={alt} changed={changedSender} />
           </div>
         );
       })}

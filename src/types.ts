@@ -58,3 +58,10 @@ export type TutorialFile = {
   UpdatedAt: string;
   DeletedAt: string | null;
 };
+
+export type Message = {
+  content: string;
+  sender: string;
+  tutorialId: number;
+  userType: string;
+};
