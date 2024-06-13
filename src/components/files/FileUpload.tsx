@@ -51,10 +51,9 @@ export const FileUpload = ({
     }
 
     try {
-      await axios.post(
-        "/api/files/upload",
+      const res = await axios.post(
+        `/api/files/upload/${state.user.tutorial?.ID}`,
         {
-          tutorialId: state.user.tutorial?.ID,
           name: file.name,
           week,
           filepath,
@@ -63,6 +62,7 @@ export const FileUpload = ({
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
       );
+      console.log(res.data);
 
       const date = new Date().toString();
       const tutorialFile: TutorialFile = {

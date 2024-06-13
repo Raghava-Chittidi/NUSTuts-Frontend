@@ -23,7 +23,7 @@ export function Sidebar() {
   }
 
   return (
-    <div className="p-2 bg-white min-w-24 sm:min-w-64 rounded-lg space-y-1 min-h-[calc(100vh-65px)] border-r-1">
+    <div className="p-2 pt-4 bg-white min-w-24 sm:min-w-64 rounded-lg space-y-1 min-h-[calc(100vh-65px)] border-r-1">
       <SidebarButton
         name="Discussion"
         icon={<MdOutlineForum className="mr-2" size={23} />}

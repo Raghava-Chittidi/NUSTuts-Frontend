@@ -13,8 +13,8 @@ import FilesPage from "./pages/files/FilesPage";
 import WeekFilesPage from "./pages/files/WeekFilesPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Calendar } from "./components/consultations/Calendar";
 import DiscussionPage from "./pages/discussion/DiscussionPage";
+import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 
 /**
  * A browser router containing routes.
@@ -72,8 +72,8 @@ const router = createBrowserRouter([
       },
       {
         path: "consultations/book",
-        element: <Calendar />,
-      }
+        element: <BookConsultationPage />,
+      },
     ],
   },
 ]);

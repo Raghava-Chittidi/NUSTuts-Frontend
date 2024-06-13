@@ -5,6 +5,7 @@ import { FetchedTutorial } from "../../types";
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ModuleTutorialListItem = ({
   tutorial,
@@ -32,8 +33,10 @@ const ModuleTutorialListItem = ({
         }
       );
       console.log(res.data);
+      toast.success("Request sent successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Request could not be sent!");
     }
   };
 

@@ -16,26 +16,30 @@ const ModuleTutorialsPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Reference: We are using nusmods API
-  const {
-    error,
-    data,
-    isLoading: loading,
-  } = useSWR(
+  const { data, isLoading: loading } = useSWR(
     `https://api.nusmods.com/v2/${getCurrentAY()}/modules/${moduleCode}.json`,
     (url: string) => axios.get(url).then((res) => res.data)
   );
 
   useEffect(() => {
     const sendRequest = async () => {
-      setIsLoading(true);
-      const res = await axios.get(
-        `/api/requests/${state?.user.id}/${moduleCode}`,
-        {
-          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-        }
-      );
-      setClassNo(res.data.data);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await axios.get(
+          `/api/requests/${state?.user.id}/${moduleCode}`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.user.tokens.accessToken}`,
+            },
+          }
+        );
+        console.log(res.data);
+        setClassNo(res.data.data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
     };
 
     if (isLoggedIn) {

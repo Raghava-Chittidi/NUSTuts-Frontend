@@ -78,8 +78,8 @@ const WeekFilesPage = () => {
     try {
       setIsLoading(true);
       const path = filepath.split("NUSTuts/")[1];
-      await axios.patch(
-        `/api/files/delete`,
+      const res = await axios.patch(
+        `/api/files/delete/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -87,6 +87,7 @@ const WeekFilesPage = () => {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
       );
+      console.log(res.data);
 
       await supabase.storage.from("NUSTuts").remove([filepath]);
       setFiles((prevState) =>
@@ -108,8 +109,8 @@ const WeekFilesPage = () => {
 
     try {
       const path = filepath.split("NUSTuts/")[1];
-      await axios.patch(
-        `/api/files/private`,
+      const res = await axios.patch(
+        `/api/files/private/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -117,6 +118,7 @@ const WeekFilesPage = () => {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
       );
+      console.log(res.data);
 
       setFiles((prevState) => {
         const newState = [...prevState];
@@ -137,8 +139,8 @@ const WeekFilesPage = () => {
 
     try {
       const path = filepath.split("NUSTuts/")[1];
-      await axios.patch(
-        `/api/files/unprivate`,
+      const res = await axios.patch(
+        `/api/files/unprivate/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -146,6 +148,7 @@ const WeekFilesPage = () => {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
       );
+      console.log(res.data);
 
       setFiles((prevState) => {
         const newState = [...prevState];
