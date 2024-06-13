@@ -1,6 +1,6 @@
 "use client";
 import { useNavigate } from "react-router-dom";
-import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+import { TypewriterEffectSmooth } from "./nextui/typewriter-effect";
 export function Banner() {
   const navigate = useNavigate();
   const words = [
@@ -31,10 +31,16 @@ export function Banner() {
         joining now!
       </p>
       <div className="flex flex-row items-center space-x-4 mt-10">
-        <button onClick={() => navigate("/ta/login")}className="w-32 sm:w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-xs sm:text-sm">
+        <button
+          onClick={() => navigate("/ta/login")}
+          className="w-32 sm:w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-xs sm:text-sm"
+        >
           Login as TA
         </button>
-        <button onClick={() => navigate("student/login")} className="w-32 sm:w-40 h-10 rounded-xl bg-white text-black border border-black text-xs sm:text-sm">
+        <button
+          onClick={() => navigate("student/login")}
+          className="w-32 sm:w-40 h-10 rounded-xl bg-white text-black border border-black text-xs sm:text-sm"
+        >
           Login as Student
         </button>
       </div>

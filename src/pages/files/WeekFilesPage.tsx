@@ -6,7 +6,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "../../components/Modal";
-import FileUpload, { supabase } from "../../components/FileUpload";
+import FileUpload, { supabase } from "../../components/files/FileUpload";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import axios from "axios";

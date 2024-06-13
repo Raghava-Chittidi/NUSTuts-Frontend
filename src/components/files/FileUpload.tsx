@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { createClient } from "@supabase/supabase-js";
-import { TutorialFile } from "../types";
+import { TutorialFile } from "../../types";
 
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
