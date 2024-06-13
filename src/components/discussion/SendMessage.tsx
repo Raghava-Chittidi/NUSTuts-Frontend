@@ -20,19 +20,20 @@ const SendMessage = ({
 
     const newMessage = {
       sender: state.user.name,
-      message: value,
+      content: value,
+      tutorialId: params.tutorialId,
+      userType: state.user.role.userType,
     };
     setMessages((prevState) => [...prevState, newMessage]);
     setValue("");
 
     try {
       await axios.post(
-        "/api/messages/",
+        `/api/messages/${params.tutorialId}`,
         {
-          tutorialId: +params.tutorialId!,
           senderId: state.user.id,
-          userType: state.user.role.userType,
-          content: newMessage.message,
+          userType: newMessage.userType,
+          content: newMessage.content,
         },
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },

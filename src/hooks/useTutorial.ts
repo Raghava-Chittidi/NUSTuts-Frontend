@@ -9,7 +9,7 @@ export const useTutorial = () => {
   const navigate = useNavigate();
 
   const validateTutorialId = () => {
-    if (!isLoggingIn && !isLoggedIn) {
+    if ((!isLoggingIn && !isLoggedIn) || +tutorialId! <= 0) {
       navigate("/");
       return;
     }
