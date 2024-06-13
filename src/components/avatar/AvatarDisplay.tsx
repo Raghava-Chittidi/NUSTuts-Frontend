@@ -1,10 +1,9 @@
-import { Avatar } from "@nextui-org/react";
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  DropdownSection,
+  Avatar,
 } from "@nextui-org/react";
 import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -20,37 +19,28 @@ const AvatarDisplay = () => {
   };
 
   return (
-    <Dropdown>
+    <Dropdown placement="bottom-end">
       <DropdownTrigger>
         <Avatar
+          isBordered
+          as="button"
+          className="transition-transform text-xl text-white"
           name={user.name.charAt(0).toUpperCase()}
           style={{ backgroundColor: strToColour(user.name) }}
-          color="primary"
-          className="cursor-pointer text-xl"
-          showFallback
         />
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
-        <DropdownSection showDivider={true}>
-          <DropdownItem textValue="profile" key="profile" className="h-16">
-            <p className="font-extrabold text-lg">{user.name}</p>
-            <p className="font-bold text-xs">
-              {user.role.userType === "student"
-                ? "Student"
-                : "Teaching Assistant"}
-            </p>
-            <p className="font-semibold text-xs">{user.email}</p>
-          </DropdownItem>
-        </DropdownSection>
-        <DropdownSection>
-          <DropdownItem
-            onClick={handleLogOutClick}
-            key="logout"
-            className="text-danger"
-          >
-            Log Out
-          </DropdownItem>
-        </DropdownSection>
+      <DropdownMenu aria-label="Profile Actions" variant="flat">
+        <DropdownItem key="profile" className="h-14 gap-2">
+          <p className="font-semibold">
+            {user.role.userType === "student"
+              ? "Student"
+              : "Teaching Assistant"}
+          </p>
+          <p className="font-semibold">{user.email}</p>
+        </DropdownItem>
+        <DropdownItem key="logout" color="danger" onClick={handleLogOutClick}>
+          Log Out
+        </DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

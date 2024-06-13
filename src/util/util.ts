@@ -1,3 +1,18 @@
+export const monthsArr = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export const strToColour = (str: string) => {
   let hash = 0;
   const arr = str.split("");
@@ -20,23 +35,9 @@ export const getCurrentAY = () => {
 };
 
 export const formatDate = (oldDate: string) => {
-  let strArray = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
   const date = new Date(oldDate);
   const d = date.getDate();
-  const m = strArray[date.getMonth()];
+  const m = monthsArr[date.getMonth()];
   const yr = date.getFullYear();
   return `${m} ${d} ${yr}`;
 };
