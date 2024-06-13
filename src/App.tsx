@@ -13,6 +13,7 @@ import FilesPage from "./pages/files/FilesPage";
 import WeekFilesPage from "./pages/files/WeekFilesPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Calendar } from "./components/consultations/Calendar";
 import DiscussionPage from "./pages/discussion/DiscussionPage";
 
 /**
@@ -58,17 +59,21 @@ const router = createBrowserRouter([
     element: <TutorialPage />,
     children: [
       {
-        path: "/tutorial/:tutorialId/files",
+        path: "discussion",
+        element: <DiscussionPage />,
+      },
+      {
+        path: "files",
         element: <FilesPage />,
       },
       {
-        path: "/tutorial/:tutorialId/files/weeks/:week",
+        path: "files/weeks/:week",
         element: <WeekFilesPage />,
       },
       {
-        path: "/tutorial/:tutorialId/discussion",
-        element: <DiscussionPage />,
-      },
+        path: "consultations/book",
+        element: <Calendar />,
+      }
     ],
   },
 ]);
