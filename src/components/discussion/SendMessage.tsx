@@ -48,7 +48,6 @@ const SendMessage = ({
       <div className="w-full flex items-center space-x-2 max-h-32">
         <Textarea
           placeholder="Type your message here..."
-          // style={{ backgroundColor: "rgb(148 163 184)" }}
           maxRows={5}
           className="rounded-lg max-h-32 px-2"
           size="lg"

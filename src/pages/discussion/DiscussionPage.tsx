@@ -16,12 +16,15 @@ const DiscussionPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-      } catch (error) {}
-      const res = await axios.get(`/api/messages/${params.tutorialId}`, {
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
-      setMessages(res.data.data.messages);
-      setIsLoading(false);
+        const res = await axios.get(`/api/messages/${params.tutorialId}`, {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        });
+        setMessages(res.data.data.messages);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     };
 
     if (isLoggedIn) {
