@@ -65,3 +65,15 @@ export type Message = {
   tutorialId: number;
   userType: string;
 };
+
+export type Consultation = {
+  ID: number;
+	tutorialId: number;
+	studentId: number;
+	date: string;
+	startTime: string;
+	endTime: string;
+	booked: boolean
+}
+
+export type TutorialContextType = { tutorialId: number };
