@@ -76,4 +76,9 @@ export type Consultation = {
 	booked: boolean
 }
 
+export type BookedConsultationsView = {
+  date: string;
+  consultations: Consultation[];
+}
+
 export type TutorialContextType = { tutorialId: number };

@@ -41,3 +41,22 @@ export const formatDate = (oldDate: string) => {
   const yr = date.getFullYear();
   return `${m} ${d} ${yr}`;
 };
+
+export const getCurrentDateTime = () => {
+  const now = new Date();
+
+  const padZero = (num: number): string => num.toString().padStart(2, '0');
+
+  const day = padZero(now.getDate());
+  const month = padZero(now.getMonth() + 1); // Months are zero-based
+  const year = now.getFullYear();
+
+  const hours = padZero(now.getHours());
+  const minutes = padZero(now.getMinutes());
+
+  const formattedDate = `${day}-${month}-${year}`;
+  const formattedTime = `${hours}:${minutes}`;
+
+  console.log(formattedDate, formattedTime);
+  return { formattedDate, formattedTime };
+};
