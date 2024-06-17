@@ -10,12 +10,13 @@ const ViewConsultationPage = () => {
   const { state } = useAuthContext();
   const { tutorialId } = useOutletContext<TutorialContextType>();
   const [bookedConsultations, setBookedConsultations] = useState<BookedConsultationsView[]>([]);
+  const isStudent = isUserStudent(state.user);
 
   useEffect(() => {
     const fetchBookedConsultations = async () => {
       try {
         const { formattedDate, formattedTime } = getCurrentDateTime();
-        const response = isUserStudent(state.user) 
+        const response = isStudent 
           ? 
             await axios.get(`/api/consultations/student/${tutorialId}/${state.user.id}`, {
               params: {
@@ -42,6 +43,22 @@ const ViewConsultationPage = () => {
     fetchBookedConsultations();
   }, []);
 
+  const handleCancelBooking = async (consultationId: number) => {
+    try {
+      await axios.put(`/api/consultations/${tutorialId}/cancel/${consultationId}`, {}, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+      });
+      setBookedConsultations((prev) =>
+        prev.map((group) => ({
+          ...group,
+          consultations: group.consultations.filter((consultation) => consultation.ID !== consultationId),
+        }))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-14 bg-gray-100 h-screen w-full overflow-y-auto">
       <h1 className="text-3xl font-bold mb-6">Consultations</h1>
@@ -54,9 +71,16 @@ const ViewConsultationPage = () => {
                 <div>
                   <p><span className="font-semibold">Time:</span> {consultation.startTime} - {consultation.endTime}</p>
                 </div>
-                <div>
-                    <span className="text-green-500 font-semibold">Booked</span>
-                </div>
+                {isStudent && (
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => handleCancelBooking(consultation.ID)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Unbook
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
