@@ -1,5 +1,7 @@
 const { nextui } = require("@nextui-org/react");
 const defaultTheme = require("tailwindcss/defaultTheme");
+const daisyui = require("daisyui");
+
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -19,7 +21,7 @@ module.exports = {
     extend: {},
   },
   darkMode: "class",
-  plugins: [nextui(), addVariablesForColors],
+  plugins: [nextui(), daisyui, addVariablesForColors],
 };
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
