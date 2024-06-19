@@ -1,11 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import { useTutorial } from "../../hooks/useTutorial";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useEffect } from "react";
+import { TutorialContextType } from "../../types";
 
 const TutorialPage = () => {
+  const { tutorialId } = useParams();
   const { isLoggingIn } = useAuthContext();
   const { isLoading, validateTutorialId } = useTutorial();
 
@@ -22,7 +24,7 @@ const TutorialPage = () => {
   return (
     <div className="flex w-full overflow-hidden max-h-[calc(100vh-65px)]">
       <Sidebar />
-      <Outlet />
+      <Outlet context={{ tutorialId: Number(tutorialId) } satisfies TutorialContextType} />
     </div>
   );
 };

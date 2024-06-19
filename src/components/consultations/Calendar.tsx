@@ -1,12 +1,16 @@
-import { Calendar as NextUiCalender } from "@nextui-org/react";
+import { Button, ModalBody, ModalContent, ModalFooter, ModalHeader, Calendar as NextUiCalender, Modal as NextUIModal, useDisclosure, DateValue } from "@nextui-org/react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { CalendarDate } from "@internationalized/date";
 import LoadingSpinner from "../LoadingSpinner";
 import { useState } from "react";
-import { monthsArr } from "../../util/util";
+import Consultations from "./Consultations";
+import { getCurrentDateTime, getCurrentDateValue } from "../../util/util";
 
-export const Calendar = () => {
+export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   const { isLoggingIn } = useAuthContext();
+  const [isDateSelected, setIsDateSelected] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   // const date = new Date();
   // const [selected, setSelected] = useState(
   //   new CalendarDate(date.getFullYear(), date.getMonth(), date.getDate())
@@ -31,10 +35,13 @@ export const Calendar = () => {
     return <LoadingSpinner />;
   }
 
+  console.log(getCurrentDateValue());
   return (
-    <div className="mx-auto mt-10">
+    <>
+    <div className="mx-auto mt-10 flex items-center space-x-0">
       <NextUiCalender
         weekdayStyle="long"
+        minValue={getCurrentDateValue()}
         classNames={{
           title: "text-xl text-black py-4 text-white",
           prevButton: "text-white text-xl",
@@ -59,8 +66,38 @@ export const Calendar = () => {
             "data-[selected=true]:data-[hover=true]:text-white",
           ],
         }}
-        onChange={(e) => console.log(e)}
+        onChange={(e) => { 
+          console.log(e);
+          // Coult be 1 instead of 01
+          const day = e.day;
+          // Coult be 1 instead of 01
+          const month = e.month;
+          const year = e.year;
+          setIsDateSelected(true);
+          // Parse date to dd-mm-yyyy format, e.g. 01-01-2022, even if day or month is single digit
+          setSelectedDate(`${day.toString().padStart(2, "0")}-${month.toString().padStart(2, "0")}-${year}`);
+
+          onOpen();
+        }}
       />
     </div>
+    <NextUIModal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">{`Consultations for ${selectedDate}`}</ModalHeader>
+              <ModalBody>
+                <Consultations tutorialId={tutorialId} date={selectedDate} />
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="light" onPress={onClose}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </NextUIModal>     
+    </>
   );
 };
