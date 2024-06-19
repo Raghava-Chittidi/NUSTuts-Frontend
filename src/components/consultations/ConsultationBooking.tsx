@@ -2,13 +2,10 @@ import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Consultation } from "../../types";
 import { useState } from "react";
-import { isCurrentDateTimePastGivenDateTime } from "../../util/util";
 
-const ConsultationBooking = ({ consultationData }: { consultationData: Consultation }) => {
+const ConsultationBooking = ({ consultationData, isClickable }: { consultationData: Consultation, isClickable: boolean }) => {
   const { state } = useAuthContext();
   const [consultation, setConsultation] = useState<Consultation>(consultationData);
-  const isClickable = (!isCurrentDateTimePastGivenDateTime(consultationData.date, consultationData.startTime) && 
-    (!consultation.booked || state.user.id === consultation.studentId));
   
   const bookConsultation = async () => {
     try {

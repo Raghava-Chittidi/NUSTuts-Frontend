@@ -3,10 +3,16 @@ import { Consultation } from "../../types";
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import ConsultationBooking from "./ConsultationBooking";
+import { isCurrentDateTimePastGivenDateTime } from "../../util/util";
+
+type ConsultationBookingClickable = {
+  consultationData: Consultation;
+  isClickable: boolean;
+}
 
 const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string }) => {
   const { state } = useAuthContext();
-  const [consultations, setConsultations] = useState<Consultation[]>([]);
+  const [consultations, setConsultations] = useState<ConsultationBookingClickable[]>([]);
 
   useEffect(() => {
     const fetchConsultations = async () => {
@@ -22,7 +28,12 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
 
         console.log(res.data.data.consultations);
         const consultations = await res.data.data.consultations;
-        setConsultations(consultations);
+        const consultationBookings = consultations.map((consultation: Consultation) => {
+          const isClickable = (!isCurrentDateTimePastGivenDateTime(consultation.date, consultation.startTime) && 
+            (!consultation.booked || state.user.id === consultation.studentId));
+          return { consultationData: consultation, isClickable: isClickable };
+        });
+        setConsultations(consultationBookings);
       } catch (error) {
         console.log(error);
       }
@@ -30,11 +41,15 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
     fetchConsultations();
   }, [tutorialId]);
 
-  return (
+  return consultations.filter(consultation => consultation.isClickable).length > 0 ? (
     <div>
       {consultations.map((consultation) => (
-        <ConsultationBooking key={consultation.ID} consultationData={consultation} />
+        <ConsultationBooking key={consultation.consultationData.ID} consultationData={consultation.consultationData} isClickable={consultation.isClickable} />
       ))}
+    </div>
+  ): (
+    <div>
+      <p>No consultations available, book consultations for another day</p>
     </div>
   );
 }
