@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DiscussionPage from "./pages/discussion/DiscussionPage";
 import BookConsultationPage from "./pages/consultations/BookConsultationPage";
+import AttendancePage from "./pages/attendance/AttendancePage";
 
 /**
  * A browser router containing routes.
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "consultations/book",
         element: <BookConsultationPage />,
+      },
+      {
+        path: "attendance",
+        element: <AttendancePage />,
       },
     ],
   },
