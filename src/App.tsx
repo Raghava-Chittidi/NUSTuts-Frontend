@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import DiscussionPage from "./pages/discussion/DiscussionPage";
 import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 import ViewConsultationPage from "./pages/consultations/ViewConsultationPage";
+import AttendancePage from "./pages/attendance/AttendancePage";
 
 /**
  * A browser router containing routes.
@@ -78,7 +79,11 @@ const router = createBrowserRouter([
       {
         path: "consultations/view",
         element: <ViewConsultationPage />,
-      }
+      },
+      {
+        path: "attendance",
+        element: <AttendancePage />,
+      },
     ],
   },
 ]);
