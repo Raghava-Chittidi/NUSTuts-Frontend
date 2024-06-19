@@ -32,16 +32,19 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
   }
 
   return (
-    // Display the timeslot, booking status, and booking button
-    <div>
-      <p>{consultation.startTime} - {consultation.endTime}</p>
-      <p>{consultation.booked ? "Booked" : "Available"}</p>
+    <div className="p-4 mb-2 rounded-md shadow-sm border border-gray-200">
+      <div className="flex justify-between items-center">
+        <p className="font-medium">{consultation.startTime} - {consultation.endTime}</p>
+        <p className={`font-medium ${consultation.booked ? 'text-red-500' : 'text-green-500'}`}>
+          {consultation.booked ? 'Booked' : 'Available'}
+        </p>
+      </div>
       <button
         onClick={consultation.booked ? cancelConsultation : bookConsultation}
         disabled={!isClickable}
-        className={`p-2 rounded-md ${isClickable ? "bg-blue-500 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"}`}
+        className={`mt-2 w-full p-2 rounded-md ${isClickable ? consultation.booked ? 'bg-red-500 text-white' : 'bg-blue-500 text-white' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
       >
-        {consultation.booked ? "Cancel" : "Book"}
+        {consultation.booked ? 'Cancel' : 'Book'}
       </button>
     </div>
   );
