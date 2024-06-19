@@ -77,3 +77,24 @@ export const getCurrentDateValue = () => {
   return new CalendarDateTime(year, month, day, hour, minute, second, millisecond);
 };
 
+// Converts the booked date and time into a Date object
+// date is in the format 'DD-MM-YYYY'
+// time is in the format 'HH:MM'
+export const parseCustomDateString = (date: string, time: string) => {
+  // Split the date component into day, month, and year
+  const [day, month, year] = date.split('-');
+
+  // Rearrange to format 'YYYY-MM-DDTHH:MM:SS'
+  const formattedDateString = `${year}-${month}-${day}T${time}:00`;
+
+  // Create and return the Date object
+  return new Date(formattedDateString);
+};
+
+export const isCurrentDateTimePastGivenDateTime = (date: string, time: string) => {
+  const { formattedDate, formattedTime } = getCurrentDateTime();
+  const currentDate = parseCustomDateString(formattedDate, formattedTime);
+  const givenDate = parseCustomDateString(date, time);
+  return currentDate > givenDate;
+}
+
