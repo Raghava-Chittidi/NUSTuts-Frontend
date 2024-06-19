@@ -52,7 +52,7 @@ const ViewConsultationPage = () => {
         prev.map((group) => ({
           ...group,
           consultations: group.consultations.filter((consultation) => consultation.ID !== consultationId),
-        }))
+        })).filter((group) => group.consultations.length > 0)
       );
     } catch (error) {
       console.log(error);
