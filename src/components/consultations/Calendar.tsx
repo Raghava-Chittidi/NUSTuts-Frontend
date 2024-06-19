@@ -1,10 +1,9 @@
-import { Button, ModalBody, ModalContent, ModalFooter, ModalHeader, Calendar as NextUiCalender, Modal as NextUIModal, useDisclosure } from "@nextui-org/react";
+import { Button, ModalBody, ModalContent, ModalFooter, ModalHeader, Calendar as NextUiCalender, Modal as NextUIModal, useDisclosure, DateValue } from "@nextui-org/react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../LoadingSpinner";
 import { useState } from "react";
-import Modal from "../Modal";
-import { useOutletContext } from "react-router-dom";
 import Consultations from "./Consultations";
+import { getCurrentDateTime, getCurrentDateValue } from "../../util/util";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   const { isLoggingIn } = useAuthContext();
@@ -36,11 +35,13 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
     return <LoadingSpinner />;
   }
 
+  console.log(getCurrentDateValue());
   return (
     <>
     <div className="mx-auto mt-10 flex items-center space-x-0">
       <NextUiCalender
         weekdayStyle="long"
+        minValue={getCurrentDateValue()}
         classNames={{
           title: "text-xl text-black py-4 text-white",
           prevButton: "text-white text-xl",
