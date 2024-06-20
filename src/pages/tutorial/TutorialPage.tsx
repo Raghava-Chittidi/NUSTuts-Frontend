@@ -1,19 +1,51 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import { useTutorial } from "../../hooks/useTutorial";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useEffect } from "react";
+import axios from "axios";
+import { useWebsocketContext } from "../../hooks/useWebsocketContext";
 
 const TutorialPage = () => {
-  const { isLoggingIn } = useAuthContext();
+  const { isLoggingIn, isLoggedIn, state } = useAuthContext();
+  const { tutorialId } = useParams();
   const { isLoading, validateTutorialId } = useTutorial();
+  const { setConn, conn } = useWebsocketContext();
+  let once = false;
+
+  const joinDiscussionHandler = async () => {
+    try {
+      await axios.post(
+        `/api/ws/${tutorialId}/create`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
+
+      if (!conn) {
+        const ws = new WebSocket(
+          `ws://localhost:8000/api/public/ws/${tutorialId}/join?userId=${state.user.id}&username=${state.user.name}&userType=${state.user.role.userType}`
+        );
+        if (ws.OPEN) {
+          setConn(ws);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    if (!isLoggingIn) {
+    if (!isLoggingIn && isLoggedIn) {
       validateTutorialId();
+      if (!once) {
+        joinDiscussionHandler();
+        once = true;
+      }
     }
-  }, [isLoggingIn]);
+  }, [isLoggingIn, isLoggedIn]);
 
   if (isLoggingIn || isLoading) {
     return <LoadingSpinner />;

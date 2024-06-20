@@ -61,7 +61,9 @@ export type TutorialFile = {
 
 export type Message = {
   content: string;
+  senderId: number;
   sender: string;
   tutorialId: number;
   userType: string;
+  type: "other" | "self";
 };

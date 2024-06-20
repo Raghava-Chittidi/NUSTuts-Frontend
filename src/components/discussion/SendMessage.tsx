@@ -2,29 +2,36 @@ import { Button, Textarea } from "@nextui-org/react";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useWebsocketContext } from "../../hooks/useWebsocketContext";
 
-const SendMessage = ({
-  setMessages,
-}: {
-  setMessages: React.Dispatch<React.SetStateAction<any[]>>;
-}) => {
+const SendMessage = () => {
   const { state } = useAuthContext();
-  const params = useParams();
+  const { conn } = useWebsocketContext();
   const [value, setValue] = useState<string>("");
+  const params = useParams();
+  const navigate = useNavigate();
 
   const sendHandler = async () => {
     if (value.length === 0) {
       return;
     }
 
+    if (conn === null) {
+      navigate("/");
+      return;
+    }
+
     const newMessage = {
       sender: state.user.name,
+      senderId: state.user.id,
       content: value,
       tutorialId: params.tutorialId,
       userType: state.user.role.userType,
+      type: "self",
     };
-    setMessages((prevState) => [...prevState, newMessage]);
+
+    conn.send(value);
     setValue("");
 
     try {
