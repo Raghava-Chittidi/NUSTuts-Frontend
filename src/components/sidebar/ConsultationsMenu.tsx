@@ -2,18 +2,16 @@ import { Accordion, AccordionItem } from "@nextui-org/react";
 import { MdDateRange } from "react-icons/md";
 import { TbCalendarClock, TbCalendarMonth } from "react-icons/tb";
 import SidebarButton from "./SidebarButton";
-import { useNavigate } from "react-router-dom";
 
 const ConsultationsMenu = () => {
   const itemClasses = {
     base: "py-0 w-full",
     title: "font-semibold text-small pl-1 sm:block hidden",
     trigger:
-      "px-2 py-0 data-[hover=true]:bg-default-100 rounded-lg h-12 flex items-center",
+      "px-6 sm:px-2 py-0 hover:bg-gray-200 duration-300 rounded-lg h-12 gap-0 sm:gap-3",
     indicator: "text-small",
-    content: "font-semibold text-small pl-1 sm:block hidden space-y-1",
+    content: "font-semibold text-small pl-1 sm:block space-y-1",
   };
-  const navigate = useNavigate();
 
   const defaultContent = (
     <>
@@ -35,7 +33,7 @@ const ConsultationsMenu = () => {
       <AccordionItem
         startContent={<MdDateRange size={23} />}
         title="Consultations"
-        className="p-0"
+        className="p-0 flex flex-col sm:block"
       >
         {defaultContent}
       </AccordionItem>

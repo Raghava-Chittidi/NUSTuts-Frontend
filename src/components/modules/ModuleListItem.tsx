@@ -1,4 +1,4 @@
-import { Card } from "@nextui-org/react";
+import { Card, Tooltip } from "@nextui-org/react";
 import { CiViewList } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import { strToColour } from "../../util/util";
@@ -40,26 +40,24 @@ export default function ModuleListItem({ module }: { module: Module }) {
           {module.name}
         </p>
         <div className="flex space-x-3 items-center">
-          <div
-            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600"
-            title="View all tutorials"
-          >
-            <CiViewList
-              size={24}
-              onClick={() => navigate(`/modules/${module.code}/tutorials`)}
-            />
-          </div>
-          <div
-            className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600"
-            title="View current tutorial"
-          >
-            {tutorial && (
-              <FaArrowRight
+          <Tooltip showArrow={true} content="View all tutorials">
+            <div className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600">
+              <CiViewList
                 size={24}
-                onClick={() => navigate(`/tutorial/${tutorial.ID}`)}
+                onClick={() => navigate(`/modules/${module.code}/tutorials`)}
               />
-            )}
-          </div>
+            </div>
+          </Tooltip>
+          <Tooltip showArrow={true} content="View current tutorial">
+            <div className="cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 rounded-full p-1 text-amber-600">
+              {tutorial && (
+                <FaArrowRight
+                  size={24}
+                  onClick={() => navigate(`/tutorial/${tutorial.ID}`)}
+                />
+              )}
+            </div>
+          </Tooltip>
         </div>
       </div>
     </Card>

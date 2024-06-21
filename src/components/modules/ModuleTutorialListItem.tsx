@@ -1,4 +1,4 @@
-import { Card } from "@nextui-org/react";
+import { Card, Tooltip } from "@nextui-org/react";
 import { BsPersonAdd } from "react-icons/bs";
 import { strToColour } from "../../util/util";
 import { FetchedTutorial } from "../../types";
@@ -60,12 +60,11 @@ const ModuleTutorialListItem = ({
       </div>
       <div className="w-8 h-8">
         {display && (
-          <div
-            className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600"
-            title="Request to join tutorial"
-          >
-            <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
-          </div>
+          <Tooltip showArrow={true} content="Request to join tutorial">
+            <div className="rounded-full p-1 cursor-pointer hover:bg-amber-600 hover:bg-opacity-15 duration-400 text-amber-600">
+              <BsPersonAdd size={22} onClick={requestToJoinTutorialHandler} />
+            </div>
+          </Tooltip>
         )}
       </div>
     </Card>

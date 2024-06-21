@@ -21,6 +21,9 @@ module.exports = {
     extend: {},
   },
   darkMode: "class",
+  daisyui: {
+    base: false, // applies background color and foreground color for root element by default
+  },
   plugins: [nextui(), daisyui, addVariablesForColors],
 };
 

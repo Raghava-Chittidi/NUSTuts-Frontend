@@ -55,7 +55,11 @@ const TutorialPage = () => {
   return (
     <div className="flex w-full overflow-hidden max-h-[calc(100vh-65px)]">
       <Sidebar />
-      <Outlet context={{ tutorialId: Number(tutorialId) } satisfies TutorialContextType} />
+      <Outlet
+        context={
+          { tutorialId: Number(tutorialId) } satisfies TutorialContextType
+        }
+      />
     </div>
   );
 };

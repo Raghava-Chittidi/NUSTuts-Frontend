@@ -163,7 +163,7 @@ const WeekFilesPage = () => {
   };
 
   return (
-    <div className="w-full md:pl-10 p-2 md:p-5 space-y-5">
+    <div className="w-full md:pl-10 p-2 md:p-5 space-y-5 overflow-y-scroll">
       <div className="flex justify-between items-center font-bold text-blue-950">
         <span className="pl-2">Filename</span>
         <div className="flex items-center space-x-8 md:space-x-10">

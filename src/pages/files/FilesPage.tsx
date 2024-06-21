@@ -8,7 +8,7 @@ const FilesPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full pl-10 p-5 space-y-5">
+    <div className="w-full pl-10 p-5 space-y-5 overflow-y-scroll">
       {weeks.map((week, index) => (
         <div key={index}>
           <div className="flex items-center space-x-4 pl-2 my-2">
