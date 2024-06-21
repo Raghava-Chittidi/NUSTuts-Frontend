@@ -67,3 +67,20 @@ export type Message = {
   userType: string;
   type: "other" | "self";
 };
+
+export type Consultation = {
+  ID: number;
+	tutorialId: number;
+	studentId: number;
+	date: string;
+	startTime: string;
+	endTime: string;
+	booked: boolean
+}
+
+export type BookedConsultationsView = {
+  date: string;
+  consultations: Consultation[];
+}
+
+export type TutorialContextType = { tutorialId: number };

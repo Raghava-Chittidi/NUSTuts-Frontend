@@ -3,6 +3,7 @@ import { Sidebar } from "../../components/sidebar/Sidebar";
 import { useTutorial } from "../../hooks/useTutorial";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { TutorialContextType } from "../../types";
 import { useEffect } from "react";
 import axios from "axios";
 import { useWebsocketContext } from "../../hooks/useWebsocketContext";
@@ -54,7 +55,7 @@ const TutorialPage = () => {
   return (
     <div className="flex w-full overflow-hidden max-h-[calc(100vh-65px)]">
       <Sidebar />
-      <Outlet />
+      <Outlet context={{ tutorialId: Number(tutorialId) } satisfies TutorialContextType} />
     </div>
   );
 };
