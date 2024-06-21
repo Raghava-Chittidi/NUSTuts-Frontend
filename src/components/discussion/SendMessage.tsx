@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useWebsocketContext } from "../../hooks/useWebsocketContext";
+import { IoMdSend } from "react-icons/io";
 
 const SendMessage = () => {
   const { state } = useAuthContext();
@@ -13,7 +14,7 @@ const SendMessage = () => {
   const navigate = useNavigate();
 
   const sendHandler = async () => {
-    if (value.length === 0) {
+    if (value.trim().length === 0) {
       return;
     }
 
@@ -25,7 +26,7 @@ const SendMessage = () => {
     const newMessage = {
       sender: state.user.name,
       senderId: state.user.id,
-      content: value,
+      content: value.trim(),
       tutorialId: params.tutorialId,
       userType: state.user.role.userType,
       type: "self",
@@ -52,20 +53,25 @@ const SendMessage = () => {
   };
 
   return (
-    <div className="flex w-[81%] absolute bottom-3">
+    <div className="flex w-[80%] absolute bottom-3 px-3">
       <div className="w-full flex items-center space-x-2 max-h-32">
         <Textarea
           placeholder="Type your message here..."
-          maxRows={5}
+          maxRows={3}
           className="rounded-lg max-h-32 px-2"
-          size="lg"
           color="primary"
+          size="lg"
           value={value}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setValue(event.currentTarget.value)
           }
         />
-        <Button className="" color="primary" onClick={sendHandler}>
+        <Button
+          startContent={<IoMdSend size={28} />}
+          size="md"
+          color="primary"
+          onClick={sendHandler}
+        >
           Send
         </Button>
       </div>

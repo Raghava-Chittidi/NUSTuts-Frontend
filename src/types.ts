@@ -63,7 +63,7 @@ export type Message = {
   content: string;
   senderId: number;
   sender: string;
-  tutorialId: number;
+  roomId: number;
   userType: string;
   type: "other" | "self";
 };
