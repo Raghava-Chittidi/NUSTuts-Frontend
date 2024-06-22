@@ -39,6 +39,8 @@ export interface User {
 }
 
 export interface Student extends User {
+  // ID for Gorm
+  ID: number;
   modules: string[];
   tutorials: Tutorial[];
 }
@@ -69,9 +71,10 @@ export type Message = {
 };
 
 export type Consultation = {
-  ID: number;
-	tutorialId: number;
-	studentId: number;
+  id: number;
+	tutorial: Tutorial;
+	student?: Student;
+  teachingAssistant: TeachingAssistant;
 	date: string;
 	startTime: string;
 	endTime: string;

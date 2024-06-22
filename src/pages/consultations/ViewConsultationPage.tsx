@@ -37,7 +37,7 @@ const ViewConsultationPage = () => {
       setBookedConsultations((prev) =>
         prev.map((group) => ({
           ...group,
-          consultations: group.consultations.filter((consultation) => consultation.ID !== consultationId),
+          consultations: group.consultations.filter((consultation) => consultation.id !== consultationId),
         })).filter((group) => group.consultations.length > 0)
       );
     } catch (error) {
@@ -53,14 +53,14 @@ const ViewConsultationPage = () => {
           <h2 className="text-2xl font-semibold mb-4">{consultationGroup.date}</h2>
           <div className="bg-white p-4 rounded-lg shadow">
             {consultationGroup.consultations.map((consultation) => (
-              <div key={consultation.ID} className="flex justify-between items-center border-b border-gray-200 py-2">
+              <div key={consultation.id} className="flex justify-between items-center border-b border-gray-200 py-2">
                 <div>
                   <p><span className="font-semibold">Time:</span> {consultation.startTime} - {consultation.endTime}</p>
                 </div>
                 {isStudent && (
                   <div className="flex items-center space-x-4">
                     <button
-                      onClick={() => handleCancelBooking(consultation.ID)}
+                      onClick={() => handleCancelBooking(consultation.id)}
                       className="text-red-500 hover:underline"
                     >
                       Unbook

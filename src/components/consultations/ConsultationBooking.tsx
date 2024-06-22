@@ -9,7 +9,7 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
   
   const handleBookConsultation = async () => {
     try {
-      const res = await bookConsultation(consultationData.tutorialId, consultationData.ID,
+      const res = await bookConsultation(consultationData.tutorial.ID, consultationData.id,
         state.user);
       if (res) {
         setConsultation(res);
@@ -21,7 +21,7 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
 
   const handleCancelConsultation = async () => {
     try {
-      const res = await cancelConsultation(consultationData.tutorialId, consultationData.ID, 
+      const res = await cancelConsultation(consultationData.tutorial.ID, consultationData.id, 
         state.user);
       if (res) {
         setConsultation(res);

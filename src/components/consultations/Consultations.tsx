@@ -19,9 +19,11 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
     const fetchConsultations = async () => {
       try {
         const consultations = await getConsultationsForDate(tutorialId, date, state.user);
-        const consultationBookings = consultations.map((consultation: Consultation) => {
+        const consultationBookings: ConsultationBookingClickable[] = consultations.map((consultation: Consultation) => {
+          const bookedByCurrentUser = consultation.booked && 
+            !!(consultation.student && state.user.id === consultation.student.ID);
           const isClickable = (!isCurrentDateTimePastGivenDateTime(consultation.date, consultation.startTime) && 
-            (!consultation.booked || state.user.id === consultation.studentId));
+            (!consultation.booked || bookedByCurrentUser));
           return { consultationData: consultation, isClickable: isClickable };
         });
         setConsultations(consultationBookings);
@@ -35,7 +37,7 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
   return consultations.filter(consultation => consultation.isClickable).length > 0 ? (
     <div>
       {consultations.map((consultation) => (
-        <ConsultationBooking key={consultation.consultationData.ID} consultationData={consultation.consultationData} isClickable={consultation.isClickable} />
+        <ConsultationBooking key={consultation.consultationData.id} consultationData={consultation.consultationData} isClickable={consultation.isClickable} />
       ))}
     </div>
   ): (
