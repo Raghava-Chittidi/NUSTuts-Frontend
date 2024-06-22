@@ -5,6 +5,7 @@ import ConsultationBooking from "./ConsultationBooking";
 import { isCurrentDateTimePastGivenDateTime } from "../../util/util";
 import { get } from "http";
 import { getConsultationsForDate } from "../../services/consultations";
+import LoadingSpinner from "../LoadingSpinner";
 
 type ConsultationBookingClickable = {
   consultationData: Consultation;
@@ -14,6 +15,7 @@ type ConsultationBookingClickable = {
 const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string }) => {
   const { state } = useAuthContext();
   const [consultations, setConsultations] = useState<ConsultationBookingClickable[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchConsultations = async () => {
@@ -27,6 +29,7 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
           return { consultationData: consultation, isClickable: isClickable };
         });
         setConsultations(consultationBookings);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -34,17 +37,20 @@ const Consultations = ({ tutorialId, date }: { tutorialId: number, date: string 
     fetchConsultations();
   }, [tutorialId]);
 
-  return consultations.filter(consultation => consultation.isClickable).length > 0 ? (
-    <div>
-      {consultations.map((consultation) => (
-        <ConsultationBooking key={consultation.consultationData.id} consultationData={consultation.consultationData} isClickable={consultation.isClickable} />
-      ))}
-    </div>
-  ): (
-    <div>
-      <p>No consultations available, book consultations for another day</p>
-    </div>
-  );
+  return isLoading ? 
+    <LoadingSpinner /> 
+    :
+      consultations.filter(consultation => consultation.isClickable).length > 0 ? (
+        <div>
+          {consultations.map((consultation) => (
+            <ConsultationBooking key={consultation.consultationData.id} consultationData={consultation.consultationData} isClickable={consultation.isClickable} />
+          ))}
+        </div>
+    ): (
+      <div>
+        <p>No consultations available, book consultations for another day</p>
+      </div>
+    );
 }
 
 export default Consultations;
