@@ -10,6 +10,7 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
   const bookConsultation = async () => {
     try {
       const res = await axios.put(`/api/consultations/${consultationData.tutorialId}/book/${consultationData.ID}`, {}, {
+        params: { userId: state.user.id },
         headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });
       setConsultation(res.data.data);
@@ -22,6 +23,7 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
   const cancelConsultation = async () => {
     try {
       const res = await axios.put(`/api/consultations/${consultationData.tutorialId}/cancel/${consultationData.ID}`, {}, {
+        params: { userId: state.user.id },
         headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });
       setConsultation(res.data.data);

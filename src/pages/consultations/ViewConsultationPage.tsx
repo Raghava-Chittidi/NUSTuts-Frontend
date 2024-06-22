@@ -46,6 +46,7 @@ const ViewConsultationPage = () => {
   const handleCancelBooking = async (consultationId: number) => {
     try {
       await axios.put(`/api/consultations/${tutorialId}/cancel/${consultationId}`, {}, {
+        params: { userId: state.user.id },
         headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
       });
       setBookedConsultations((prev) =>
