@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useOutletContext } from "react-router-dom";
 import { BookedConsultationsView, TutorialContextType } from "../../types";
-import axios from "axios";
 import { getCurrentDateTime } from "../../util/util";
 import { isUserStudent } from "../../util/user";
+import { cancelConsultation, getAllBookedConsultationsForStudent, getAllBookedConsultationsForTeachingAssistant } from "../../services/consultations";
 
 const ViewConsultationPage = () => {
   const { state } = useAuthContext();
@@ -18,23 +18,11 @@ const ViewConsultationPage = () => {
         const { formattedDate, formattedTime } = getCurrentDateTime();
         const response = isStudent 
           ? 
-            await axios.get(`/api/consultations/student/${tutorialId}/${state.user.id}`, {
-              params: {
-                date: formattedDate,
-                time: formattedTime,
-              },
-              headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-            })
+            await getAllBookedConsultationsForStudent(tutorialId, formattedDate, formattedTime, state.user)
           :
-            await axios.get(`/api/consultations/teachingAssistant/${tutorialId}`, {
-              params: {
-                date: formattedDate,
-                time: formattedTime,
-              },
-              headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-            });
-        console.log(response.data.data.bookedConsultations);
-        setBookedConsultations(response.data.data.bookedConsultations);
+            await getAllBookedConsultationsForTeachingAssistant(tutorialId, formattedDate, 
+              formattedTime, state.user);
+        setBookedConsultations(response);
       } catch (error) {
         console.log(error);
       }
@@ -45,10 +33,7 @@ const ViewConsultationPage = () => {
 
   const handleCancelBooking = async (consultationId: number) => {
     try {
-      await axios.put(`/api/consultations/${tutorialId}/cancel/${consultationId}`, {}, {
-        params: { userId: state.user.id },
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
+      await cancelConsultation(tutorialId, consultationId, state.user);
       setBookedConsultations((prev) =>
         prev.map((group) => ({
           ...group,
