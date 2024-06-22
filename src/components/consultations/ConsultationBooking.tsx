@@ -1,31 +1,31 @@
-import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Consultation } from "../../types";
 import { useState } from "react";
+import { bookConsultation, cancelConsultation } from "../../services/consultations";
 
 const ConsultationBooking = ({ consultationData, isClickable }: { consultationData: Consultation, isClickable: boolean }) => {
   const { state } = useAuthContext();
   const [consultation, setConsultation] = useState<Consultation>(consultationData);
   
-  const bookConsultation = async () => {
+  const handleBookConsultation = async () => {
     try {
-      const res = await axios.put(`/api/consultations/${consultationData.tutorialId}/book/${consultationData.ID}`, {}, {
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
-      setConsultation(res.data.data);
-      console.log(res.data.data);
+      const res = await bookConsultation(consultationData.tutorial.ID, consultationData.id,
+        state.user);
+      if (res) {
+        setConsultation(res);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  const cancelConsultation = async () => {
+  const handleCancelConsultation = async () => {
     try {
-      const res = await axios.put(`/api/consultations/${consultationData.tutorialId}/cancel/${consultationData.ID}`, {}, {
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
-      setConsultation(res.data.data);
-      console.log(res.data.data);
+      const res = await cancelConsultation(consultationData.tutorial.ID, consultationData.id, 
+        state.user);
+      if (res) {
+        setConsultation(res);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +40,7 @@ const ConsultationBooking = ({ consultationData, isClickable }: { consultationDa
         </p>
       </div>
       <button
-        onClick={consultation.booked ? cancelConsultation : bookConsultation}
+        onClick={consultation.booked ? handleCancelConsultation : handleBookConsultation}
         disabled={!isClickable}
         className={`mt-2 w-full p-2 rounded-md ${isClickable ? consultation.booked ? 'bg-red-500 text-white' : 'bg-blue-500 text-white' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
       >
