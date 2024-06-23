@@ -8,10 +8,7 @@ export default defineConfig({
     port: 5173,
     host: "0.0.0.0",
     proxy: {
-      "/api": {
-        target: "https://nustuts-backend.onrender.com",
-        changeOrigin: true,
-      },
+      "/api": "https://nustuts-backend.onrender.com",
     },
   },
   // This is to resolve the issue with react-windowed-select causing
