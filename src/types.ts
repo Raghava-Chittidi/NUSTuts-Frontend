@@ -93,5 +93,13 @@ export type AttendanceString = {
   expiresAt: string;
 }
 
+export type Attendance = {
+  id: number;
+  student: Student;
+  tutorialId: number;
+  date: string;
+  present: boolean;
+}
+
 export type TutorialContextType = { tutorialId: number };
 
