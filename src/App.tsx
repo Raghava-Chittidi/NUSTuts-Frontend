@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         element: <ViewConsultationPage />,
       },
       {
-        path: "attendance",
+        path: "attendance/today",
         element: <AttendancePage />,
       },
       {

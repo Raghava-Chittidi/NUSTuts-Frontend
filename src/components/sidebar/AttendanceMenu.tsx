@@ -17,7 +17,7 @@ const AttendanceMenu = () => {
       <SidebarButton
         name="Today's Attendance"
         icon={<MdChecklist className="mr-2" size={23} />}
-        route="attendance"
+        route="attendance/today"
       />
       <SidebarButton
         name="View Attendances"
