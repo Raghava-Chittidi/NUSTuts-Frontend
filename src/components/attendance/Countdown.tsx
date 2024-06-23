@@ -3,7 +3,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import Timer from "./Timer";
 import { getRemainingSeconds } from "../../util/util";
 
-const Countdown = ({ expiredTime }: { expiredTime: string }) => {
+const Countdown = ({ expiredTime, handleTimerUp }: { expiredTime: string, handleTimerUp: () => void}) => {
   // Calculate the initial remaining seconds
   const initialRemainingSeconds = getRemainingSeconds(expiredTime);
 
@@ -15,6 +15,7 @@ const Countdown = ({ expiredTime }: { expiredTime: string }) => {
       if (newRemainingSeconds <= 0) {
         clearInterval(interval);
         setSeconds(0);
+        handleTimerUp();
         console.log("Time's up!");
       } else {
         setSeconds(newRemainingSeconds);

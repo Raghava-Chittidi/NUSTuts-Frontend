@@ -9,6 +9,7 @@ import AttendanceDisplay from "../../components/attendance/AttendanceDisplay";
 
 const AttendancePage = () => {
   const { state } = useAuthContext();
+  const [isTimerUp, setIsTimerUp] = useState<boolean>(false);
   const [attendanceString, setAttendanceString] = useState<AttendanceString>();
   const [attendanceList, setAttendanceList] = useState<Attendance[]>([]);
 
@@ -59,38 +60,41 @@ const AttendancePage = () => {
       const attendanceString = res.data.data.attendanceString;
       console.log("attendance code generated", attendanceString);
       setAttendanceString(res.data.data.attendanceString);
+      setIsTimerUp(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchAttendanceStringOrAttendance = async () => {
+    try {
+      const attendanceString = await getExistingAttendanceString();
+      if (attendanceString) {
+        setAttendanceString(attendanceString);
+        setIsTimerUp(true);
+      } else {
+        try {
+          const attendanceList = await getTodayAttendanceList();
+          setAttendanceList(attendanceList);
+          setIsTimerUp(false);
+        } catch (error) {
+          console.log(error);
+        }
+      } 
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const fetchAttendanceStringOrAttendance = async () => {
-      try {
-        const attendanceString = await getExistingAttendanceString();
-        if (attendanceString) {
-          setAttendanceString(attendanceString);
-        } else {
-          try {
-            const attendanceList = await getTodayAttendanceList();
-            setAttendanceList(attendanceList);
-          } catch (error) {
-            console.log(error);
-          }
-        } 
-      } catch (error) {
-        console.log(error);
-      }
-
-    };
     fetchAttendanceStringOrAttendance();
-  }, []);
+  }, [isTimerUp]);
   
   return (
     <div className="flex w-full items-center justify-center">
-      {attendanceString ? (
+      {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
-          <Countdown expiredTime={attendanceString.expiresAt} />
+          <Countdown expiredTime={attendanceString.expiresAt} handleTimerUp={() => setIsTimerUp(false)} />
           <div className="text-[6rem]">{attendanceString.code}</div>
         </div>
       ) : (
