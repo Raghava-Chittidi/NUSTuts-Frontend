@@ -17,6 +17,7 @@ import DiscussionPage from "./pages/discussion/DiscussionPage";
 import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 import ViewConsultationPage from "./pages/consultations/ViewConsultationPage";
 import AttendancePage from "./pages/attendance/AttendancePage";
+import ViewAttendancePage from "./pages/attendance/ViewAttendancePage";
 
 /**
  * A browser router containing routes.
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
         path: "attendance",
         element: <AttendancePage />,
       },
+      {
+        path: "attendance/view",
+        element: <ViewAttendancePage />,
+      }
     ],
   },
 ]);

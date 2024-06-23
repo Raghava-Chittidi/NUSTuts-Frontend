@@ -101,5 +101,10 @@ export type Attendance = {
   present: boolean;
 }
 
+export type AttendanceListsView = {
+  date: string;
+  attendance: Attendance[];
+}
+
 export type TutorialContextType = { tutorialId: number };
 
