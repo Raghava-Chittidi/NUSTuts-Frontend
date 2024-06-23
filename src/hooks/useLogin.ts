@@ -15,8 +15,8 @@ export const useLogin = (userType: string) => {
 
     const url =
       userType === "Student"
-        ? "/api/auth/student/login"
-        : "/api/auth/teachingAssistant/login";
+        ? `${import.meta.env.VITE_BASE_URL}/api/auth/student/login`
+        : `${import.meta.env.VITE_BASE_URL}/api/auth/teachingAssistant/login`;
 
     try {
       const response = await axios.post(url, {

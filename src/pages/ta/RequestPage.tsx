@@ -14,9 +14,14 @@ export const RequestPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       setIsLoading(true);
-      const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`, {
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/api/requests/${
+          state.user.tutorial?.ID
+        }`,
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
       setRequests(res.data.data);
       setIsLoading(false);
     };

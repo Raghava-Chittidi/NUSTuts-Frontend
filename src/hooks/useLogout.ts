@@ -7,9 +7,12 @@ export const useLogout = () => {
   const logout = async () => {
     // dispatch logout action
     try {
-      const res = await axios.get("/api/auth/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/api/auth/logout`,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(res.data);
       dispatch({ type: "LOGOUT" });
       setIsLoggedIn(false);

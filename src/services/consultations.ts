@@ -2,8 +2,11 @@ import axios from "axios";
 import { BookedConsultationsView, Consultation } from "../types";
 import { AuthenticatedUser } from "../context/AuthContext";
 
-export const getConsultationsForDate = async (tutorialId: number, date: string, 
-  user: AuthenticatedUser): Promise<Consultation[]> => {
+export const getConsultationsForDate = async (
+  tutorialId: number,
+  date: string,
+  user: AuthenticatedUser
+): Promise<Consultation[]> => {
   try {
     const res = await axios.get(`/api/consultations/${tutorialId}`, {
       params: { date: date },
@@ -16,53 +19,76 @@ export const getConsultationsForDate = async (tutorialId: number, date: string,
   }
 };
 
-export const getAllBookedConsultationsForStudent = async (tutorialId: number,
+export const getAllBookedConsultationsForStudent = async (
+  tutorialId: number,
   date: string,
   time: string,
-  user: AuthenticatedUser): Promise<BookedConsultationsView[]> => {
-    try {
-      const studentBookedConsultations = await getAllBookedConsultations(true, tutorialId, date, time, user);
-      return studentBookedConsultations;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-};
-
-export const getAllBookedConsultationsForTeachingAssistant = async (tutorialId: number,
-  date: string,
-  time: string,
-  user: AuthenticatedUser): Promise<BookedConsultationsView[]> => {
-    try {
-      const teachingAssistantBookedConsultations = await getAllBookedConsultations(false, tutorialId, 
-        date, time, user);
-      return teachingAssistantBookedConsultations;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-};
-
-const getAllBookedConsultations = async (isStudent: boolean, tutorialId: number,
-  date: string,
-  time: string, 
-  user: AuthenticatedUser): Promise<BookedConsultationsView[]> => {
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
   try {
-    const res = isStudent 
-      ? await axios.get(`/api/consultations/student/${tutorialId}/${user.id}`, {
-          params: {
-            date: date,
-            time: time,
-          },
-          headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
-        })
-      : await axios.get(`/api/consultations/teachingAssistant/${tutorialId}`, {
-          params: {
-            date: date,
-            time: time,
-          },
-          headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
-        });
+    const studentBookedConsultations = await getAllBookedConsultations(
+      true,
+      tutorialId,
+      date,
+      time,
+      user
+    );
+    return studentBookedConsultations;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getAllBookedConsultationsForTeachingAssistant = async (
+  tutorialId: number,
+  date: string,
+  time: string,
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
+  try {
+    const teachingAssistantBookedConsultations =
+      await getAllBookedConsultations(false, tutorialId, date, time, user);
+    return teachingAssistantBookedConsultations;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const getAllBookedConsultations = async (
+  isStudent: boolean,
+  tutorialId: number,
+  date: string,
+  time: string,
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
+  try {
+    const res = isStudent
+      ? await axios.get(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/consultations/student/${tutorialId}/${user.id}`,
+          {
+            params: {
+              date: date,
+              time: time,
+            },
+            headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+          }
+        )
+      : await axios.get(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/consultations/teachingAssistant/${tutorialId}`,
+          {
+            params: {
+              date: date,
+              time: time,
+            },
+            headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+          }
+        );
     return res.data.data.bookedConsultations;
   } catch (error) {
     console.log(error);
@@ -70,13 +96,22 @@ const getAllBookedConsultations = async (isStudent: boolean, tutorialId: number,
   }
 };
 
-export const bookConsultation = async (tutorialId: number, consultationId: number, 
-  user: AuthenticatedUser): Promise<Consultation | null> => {
+export const bookConsultation = async (
+  tutorialId: number,
+  consultationId: number,
+  user: AuthenticatedUser
+): Promise<Consultation | null> => {
   try {
-    const res = await axios.put(`/api/consultations/${tutorialId}/book/${consultationId}`, {}, {
-      params: { userId: user.id },
-      headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
-    });
+    const res = await axios.put(
+      `${
+        import.meta.env.VITE_BASE_URL
+      }/api/consultations/${tutorialId}/book/${consultationId}`,
+      {},
+      {
+        params: { userId: user.id },
+        headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+      }
+    );
     return res.data.data;
   } catch (error) {
     console.log(error);
@@ -84,13 +119,22 @@ export const bookConsultation = async (tutorialId: number, consultationId: numbe
   }
 };
 
-export const cancelConsultation = async (tutorialId: number, consultationId: number, 
-  user: AuthenticatedUser): Promise<Consultation | null> => {
+export const cancelConsultation = async (
+  tutorialId: number,
+  consultationId: number,
+  user: AuthenticatedUser
+): Promise<Consultation | null> => {
   try {
-    const res = await axios.put(`/api/consultations/${tutorialId}/cancel/${consultationId}`, {}, {
-      params: { userId: user.id },
-      headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
-    });
+    const res = await axios.put(
+      `${
+        import.meta.env.VITE_BASE_URL
+      }/api/consultations/${tutorialId}/cancel/${consultationId}`,
+      {},
+      {
+        params: { userId: user.id },
+        headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+      }
+    );
     return res.data.data;
   } catch (error) {
     console.log(error);

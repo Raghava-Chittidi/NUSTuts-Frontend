@@ -7,9 +7,6 @@ export default defineConfig({
   server: {
     port: 5173,
     host: "0.0.0.0",
-    proxy: {
-      "/api": "https://nustuts-backend.onrender.com",
-    },
   },
   // This is to resolve the issue with react-windowed-select causing
   // "Failed to resolve entry for package react-windowed-select."

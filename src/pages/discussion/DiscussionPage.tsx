@@ -40,9 +40,14 @@ const DiscussionPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const res = await axios.get(`/api/messages/${params.tutorialId}`, {
-          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/api/messages/${params.tutorialId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.user.tokens.accessToken}`,
+            },
+          }
+        );
 
         const allMessages = res.data.data.messages.map((message: any) => {
           return {

@@ -18,7 +18,7 @@ const TutorialPage = () => {
   const joinDiscussionHandler = async () => {
     try {
       await axios.post(
-        `/api/ws/${tutorialId}/create`,
+        `${import.meta.env.VITE_BASE_URL}/api/ws/${tutorialId}/create`,
         {},
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
@@ -27,7 +27,7 @@ const TutorialPage = () => {
 
       if (!conn) {
         const ws = new WebSocket(
-          `ws://localhost:8000/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
+          `ws://nustuts-backend.onrender.com/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
         );
         if (ws.OPEN) {
           setConn(ws);
