@@ -6,12 +6,14 @@ import Countdown from "../../components/attendance/Countdown";
 import { Attendance, AttendanceString } from "../../types";
 import { getRemainingSeconds } from "../../util/util";
 import AttendanceDisplay from "../../components/attendance/AttendanceDisplay";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const AttendancePage = () => {
   const { state } = useAuthContext();
   const [isTimerUp, setIsTimerUp] = useState<boolean>(false);
   const [attendanceString, setAttendanceString] = useState<AttendanceString>();
   const [attendanceList, setAttendanceList] = useState<Attendance[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getTodayAttendanceList = async () => {
     try {
@@ -88,9 +90,10 @@ const AttendancePage = () => {
 
   useEffect(() => {
     fetchAttendanceStringOrAttendance();
+    setIsLoading(false);
   }, [isTimerUp]);
   
-  return (
+  return isLoading ? <LoadingSpinner /> : (
     <div className="flex w-full items-center justify-center">
       {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
