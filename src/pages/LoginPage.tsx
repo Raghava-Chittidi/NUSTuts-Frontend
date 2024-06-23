@@ -19,12 +19,12 @@ const LoginPage = ({ userType }: { userType: string }) => {
     }
   }, [user, userType]);
 
-  const { login, error, isLoading } = useLogin(userType);
+  const { login, error } = useLogin(userType);
 
   const [toggle, setToggle] = useState(false);
 
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  // const [emailError, setEmailError] = useState(false);
+  // const [passwordError, setPasswordError] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,8 +34,8 @@ const LoginPage = ({ userType }: { userType: string }) => {
     const password = formData.get("password") as string;
 
     if (!email || !password) {
-      if (!email) setEmailError(true);
-      if (!password) setPasswordError(true);
+      // if (!email) setEmailError(true);
+      // if (!password) setPasswordError(true);
       return;
     }
 
@@ -46,10 +46,10 @@ const LoginPage = ({ userType }: { userType: string }) => {
     const { name } = event.target;
 
     if (name === "email") {
-      setEmailError(false);
+      // setEmailError(false);
     }
     if (name === "password") {
-      setPasswordError(false);
+      // setPasswordError(false);
     }
   };
 
@@ -73,6 +73,9 @@ const LoginPage = ({ userType }: { userType: string }) => {
                 className="w-full"
                 onChange={handleInputChange}
               />
+              {/* {emailError && (
+                <p className="text-xs text-red-500 mt-1">Email is required</p>
+              )} */}
             </div>
             <div>
               <div className="relative">
@@ -93,11 +96,11 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   {toggle ? <EyeOff /> : <Eye />}
                 </Button>
               </div>
-              {passwordError && (
+              {/* {passwordError && (
                 <p className="text-xs text-red-500 mt-1">
                   Password is required
                 </p>
-              )}
+              )} */}
             </div>
             <div className="flex items-center justify-between">
               <Checkbox value="remember">Remember me</Checkbox>

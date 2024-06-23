@@ -16,7 +16,7 @@ import { getCurrentDateValue } from "../../util/util";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   const { isLoggingIn } = useAuthContext();
-  const [isDateSelected, setIsDateSelected] = useState(false);
+  // const [isDateSelected, setIsDateSelected] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -62,7 +62,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
             // Coult be 1 instead of 01
             const month = e.month;
             const year = e.year;
-            setIsDateSelected(true);
+            // setIsDateSelected(true);
             // Parse date to dd-mm-yyyy format, e.g. 01-01-2022, even if day or month is single digit
             setSelectedDate(
               `${day.toString().padStart(2, "0")}-${month

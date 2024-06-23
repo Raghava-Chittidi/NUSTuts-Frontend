@@ -19,13 +19,12 @@ const StudentSignUpPage = () => {
     }
   }, [user]);
 
-  const { signup, signUpError, isSignUpLoading } = useStudentSignup();
+  const { signup, signUpError } = useStudentSignup();
 
   const [toggle, setToggle] = useState(false);
-  const [message, setMessage] = useState("");
 
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  // const [nameError, setNameError] = useState(false);
+  // const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [modules, setModules] = useState<{ value: string; label: string }[]>(
     []
@@ -63,7 +62,11 @@ const StudentSignUpPage = () => {
     newValue: unknown,
     actionMeta: ActionMeta<unknown>
   ) => {
-    const newValueCasted = newValue as MultiValue<{ value: string; label: string }>;
+    console.log(actionMeta);
+    const newValueCasted = newValue as MultiValue<{
+      value: string;
+      label: string;
+    }>;
     setSelectedModules(newValueCasted.map((option) => option.value as string));
   };
 
@@ -82,8 +85,8 @@ const StudentSignUpPage = () => {
     const password = formData.get("password") as string;
 
     if (!name || !email || !password) {
-      if (!name) setNameError(true);
-      if (!email) setEmailError(true);
+      // if (!name) setNameError(true);
+      // if (!email) setEmailError(true);
       if (!password) setPasswordError(true);
       return;
     }
@@ -93,8 +96,8 @@ const StudentSignUpPage = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = event.target;
-    if (name === "name") setNameError(false);
-    if (name === "email") setEmailError(false);
+    // if (name === "name") setNameError(false);
+    // if (name === "email") setEmailError(false);
     if (name === "password") setPasswordError(false);
   };
 
@@ -172,7 +175,9 @@ const StudentSignUpPage = () => {
               classNamePrefix="select"
               onChange={handleSelectedChange}
               placeholder="Select Modules"
-              required windowThreshold={100}            />
+              required
+              windowThreshold={100}
+            />
             <Button
               type="submit"
               color="secondary"
