@@ -29,7 +29,8 @@ const Countdown = ({ expiredTime, handleTimerUp }: { expiredTime: string, handle
     <CountdownCircleTimer
       size={450}
       isPlaying
-      duration={initialRemainingSeconds}
+      duration={300}
+      initialRemainingTime={seconds}
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[120, 90, 60, 30]}
       children={() => <Timer remainingTime={seconds} />}
