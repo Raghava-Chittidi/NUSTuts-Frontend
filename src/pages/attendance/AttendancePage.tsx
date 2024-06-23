@@ -3,10 +3,11 @@ import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useState } from "react";
 import Countdown from "../../components/attendance/Countdown";
+import { AttendanceString } from "../../types";
 
 const AttendancePage = () => {
   const { state } = useAuthContext();
-  const [code, setCode] = useState<string>();
+  const [attendanceString, setAttendanceString] = useState<AttendanceString>();
 
   const generateHandler = async () => {
     try {
@@ -16,7 +17,8 @@ const AttendancePage = () => {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
       );
-      setCode(res.data.data.attendanceCode);
+      console.log("attendance code", res.data.data.attendanceString);
+      setAttendanceString(res.data.data.attendanceString);
     } catch (error) {
       console.log(error);
     }
@@ -24,10 +26,10 @@ const AttendancePage = () => {
 
   return (
     <div className="flex w-full items-center justify-center">
-      {code ? (
+      {attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
           <Countdown />
-          <div className="text-[6rem]">{code}</div>
+          <div className="text-[6rem]">{attendanceString.code}</div>
         </div>
       ) : (
         <Button
