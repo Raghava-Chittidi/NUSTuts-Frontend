@@ -22,7 +22,7 @@ const ModuleTutorialListItem = ({
     try {
       setDisplay(false);
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/requests`,
+        `/api/requests`,
         {
           studentId: state.user.id,
           moduleCode,

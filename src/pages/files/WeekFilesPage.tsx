@@ -26,9 +26,7 @@ const WeekFilesPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/files/${
-          state.user.role.userType
-        }/${params.tutorialId}/${params.week}`,
+        `/api/files/${state.user.role.userType}/${params.tutorialId}/${params.week}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
@@ -81,9 +79,7 @@ const WeekFilesPage = () => {
       setIsLoading(true);
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/files/delete/${
-          state.user.tutorial?.ID
-        }`,
+        `/api/files/delete/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -114,9 +110,7 @@ const WeekFilesPage = () => {
     try {
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/files/private/${
-          state.user.tutorial?.ID
-        }`,
+        `/api/files/private/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -146,9 +140,7 @@ const WeekFilesPage = () => {
     try {
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/files/unprivate/${
-          state.user.tutorial?.ID
-        }`,
+        `/api/files/unprivate/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },

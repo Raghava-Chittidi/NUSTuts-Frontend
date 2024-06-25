@@ -26,9 +26,7 @@ const ModuleTutorialsPage = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/api/requests/${
-            state?.user.id
-          }/${moduleCode}`,
+          `/api/requests/${state?.user.id}/${moduleCode}`,
           {
             headers: {
               Authorization: `Bearer ${state.user.tokens.accessToken}`,

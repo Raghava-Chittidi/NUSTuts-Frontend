@@ -20,13 +20,9 @@ const RequestListItem = ({
   const { state } = useAuthContext();
   const acceptRequestHandler = async () => {
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/requests/${id}/accept`,
-        null,
-        {
-          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-        }
-      );
+      const res = await axios.patch(`/api/requests/${id}/accept`, null, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+      });
       console.log(res.data);
       removeRequestFromListHandler(id);
     } catch (error) {
@@ -36,13 +32,9 @@ const RequestListItem = ({
 
   const rejectRequestHandler = async () => {
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_BASE_URL}/api/requests/${id}/reject`,
-        null,
-        {
-          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-        }
-      );
+      const res = await axios.patch(`/api/requests/${id}/reject`, null, {
+        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+      });
       console.log(res.data);
       removeRequestFromListHandler(id);
     } catch (error) {

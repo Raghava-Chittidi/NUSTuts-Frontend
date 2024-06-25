@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Navigate } from "react-router-dom";
-import { isCorrectUser } from "../util/user";
+import { isCorrectUser, isUserStudent } from "../util/user";
 
 const PrivateRoute = ({
   children,
@@ -12,7 +12,13 @@ const PrivateRoute = ({
 }) => {
   const user = useAuthContext().state.user;
   const userTypeMatches = userType && isCorrectUser(user, userType);
-  return userTypeMatches ? children : <Navigate to="/" />;
+  return userTypeMatches ? (
+    children
+  ) : isUserStudent(user) ? (
+    <Navigate to="/modules" />
+  ) : (
+    <Navigate to="/requests" />
+  );
 };
 
 export default PrivateRoute;

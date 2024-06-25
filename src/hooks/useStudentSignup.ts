@@ -19,15 +19,12 @@ export const useStudentSignup = () => {
     setSignUpError(null);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/student/signup`,
-        {
-          Name: name,
-          Email: email,
-          Password: password,
-          Modules: modules,
-        }
-      );
+      const response = await axios.post(`/api/auth/student/signup`, {
+        Name: name,
+        Email: email,
+        Password: password,
+        Modules: modules,
+      });
       dispatch({ type: "LOGIN", payload: response.data.data });
       setIsLoggedIn(true);
       navigate("/modules");

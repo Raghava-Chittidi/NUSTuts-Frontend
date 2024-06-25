@@ -52,9 +52,7 @@ export const FileUpload = ({
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/files/upload/${
-          state.user.tutorial?.ID
-        }`,
+        `/api/files/upload/${state.user.tutorial?.ID}`,
         {
           name: file.name,
           week,

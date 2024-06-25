@@ -64,12 +64,10 @@ export const AuthContextProvider = ({
   const sendRefreshRequest = async () => {
     try {
       setIsLoggingIn(true);
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/refresh`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`/api/auth/refresh`, {
+        withCredentials: true,
+      });
+      console.log(res.data);
       if (res.data?.data) {
         dispatch({ type: "LOGIN", payload: res.data.data });
         setIsLoggedIn(true);

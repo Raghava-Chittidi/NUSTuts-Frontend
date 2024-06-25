@@ -17,85 +17,101 @@ import DiscussionPage from "./pages/discussion/DiscussionPage";
 import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 import ViewConsultationPage from "./pages/consultations/ViewConsultationPage";
 import AttendancePage from "./pages/attendance/AttendancePage";
+import { ReactNode, useEffect, useState } from "react";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 /**
  * A browser router containing routes.
  * Add new routes here as needed.
  */
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Homepage />,
-  },
-  {
-    path: "/login",
-    element: <ChooseUserType />,
-  },
-  {
-    path: "/student/login",
-    element: <LoginPage userType="Student" />,
-  },
-  {
-    path: "/ta/login",
-    element: <LoginPage userType="Teaching Assistant" />,
-  },
-  {
-    path: "/student/signup",
-    element: <StudentSignUpPage />,
-  },
-  // Render ModulesPage with dummy modules array, to be replaced with real data in future
-  {
-    path: "/modules",
-    element: <ModulesPage />,
-  },
-  {
-    path: "/modules/:moduleCode/tutorials",
-    element: <ModuleTutorialsPage />,
-  },
-  {
-    path: "/requests",
-    element: <RequestPage />,
-  },
-  {
-    path: "/tutorial/:tutorialId",
-    element: <TutorialPage />,
-    children: [
-      {
-        path: "discussion",
-        element: <DiscussionPage />,
-      },
-      {
-        path: "files",
-        element: <FilesPage />,
-      },
-      {
-        path: "files/weeks/:week",
-        element: <WeekFilesPage />,
-      },
-      {
-        path: "consultations/book",
-        element: <BookConsultationPage />,
-      },
-      {
-        path: "consultations/view",
-        element: <ViewConsultationPage />,
-      },
-      {
-        path: "attendance",
-        element: <AttendancePage />,
-      },
-    ],
-  },
-]);
 
 function App() {
-  const user = useAuthContext().state.user;
-  return user ? (
-    <Layout>
-      <RouterProvider router={router} />
-      <ToastContainer />
-    </Layout>
-  ) : (
+  const [homepage, setHomepage] = useState<ReactNode>(<LoadingSpinner />);
+  const { isLoggedIn, isLoggingIn } = useAuthContext();
+  console.log(isLoggedIn, isLoggingIn);
+
+  useEffect(() => {
+    if (isLoggingIn) {
+      setHomepage(<LoadingSpinner />);
+    }
+
+    if (!isLoggingIn && isLoggedIn) {
+      setHomepage(<Layout />);
+    }
+
+    if (!isLoggingIn && !isLoggedIn) {
+      setHomepage(<Homepage />);
+    }
+  }, [isLoggedIn, isLoggingIn]);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: homepage,
+      children: [
+        {
+          path: "/modules",
+          element: <ModulesPage />,
+        },
+        {
+          path: "/modules/:moduleCode/tutorials",
+          element: <ModuleTutorialsPage />,
+        },
+        {
+          path: "/requests",
+          element: <RequestPage />,
+        },
+        {
+          path: "/tutorial/:tutorialId",
+          element: <TutorialPage />,
+          children: [
+            {
+              path: "discussion",
+              element: <DiscussionPage />,
+            },
+            {
+              path: "files",
+              element: <FilesPage />,
+            },
+            {
+              path: "files/weeks/:week",
+              element: <WeekFilesPage />,
+            },
+            {
+              path: "consultations/book",
+              element: <BookConsultationPage />,
+            },
+            {
+              path: "consultations/view",
+              element: <ViewConsultationPage />,
+            },
+            {
+              path: "attendance",
+              element: <AttendancePage />,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <ChooseUserType />,
+    },
+    {
+      path: "/student/login",
+      element: <LoginPage userType="Student" />,
+    },
+    {
+      path: "/ta/login",
+      element: <LoginPage userType="Teaching Assistant" />,
+    },
+    {
+      path: "/student/signup",
+      element: <StudentSignUpPage />,
+    },
+  ]);
+
+  return (
     <>
       <RouterProvider router={router} />
       <ToastContainer />

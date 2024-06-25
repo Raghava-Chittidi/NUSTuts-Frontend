@@ -1,10 +1,12 @@
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar";
-const Layout = ({ children }: { children?: ReactNode }) => {
+const Layout = () => {
   return (
     <div className="w-full">
       <NavBar />
-      <div className="bg-[#FAFAFA] min-h-[calc(100vh-65px)]">{children}</div>
+      <div className="bg-[#FAFAFA] min-h-[calc(100vh-65px)]">
+        <Outlet />
+      </div>
     </div>
   );
 };

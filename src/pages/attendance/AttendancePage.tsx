@@ -11,9 +11,7 @@ const AttendancePage = () => {
   const generateHandler = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/attendance/${
-          state.user.tutorial?.ID
-        }`,
+        `/api/attendance/${state.user.tutorial?.ID}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }

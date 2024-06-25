@@ -37,7 +37,7 @@ const SendMessage = () => {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/messages/${params.tutorialId}`,
+        `/api/messages/${params.tutorialId}`,
         {
           senderId: state.user.id,
           userType: newMessage.userType,
