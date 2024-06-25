@@ -15,6 +15,7 @@ const DiscussionPage = () => {
   const { conn } = useWebsocketContext();
   const params = useParams();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     if (conn === null) {
@@ -40,11 +41,14 @@ const DiscussionPage = () => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const res = await axios.get(`/api/messages/${params.tutorialId}`, {
-          headers: {
-            Authorization: `Bearer ${state.user.tokens.accessToken}`,
-          },
-        });
+        const res = await axios.get(
+          `${BASE_URL}/api/messages/${params.tutorialId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.user.tokens.accessToken}`,
+            },
+          }
+        );
 
         const allMessages = res.data.data.messages.map((message: any) => {
           return {

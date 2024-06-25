@@ -2,13 +2,15 @@ import axios from "axios";
 import { BookedConsultationsView, Consultation } from "../types";
 import { AuthenticatedUser } from "../context/AuthContext";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export const getConsultationsForDate = async (
   tutorialId: number,
   date: string,
   user: AuthenticatedUser
 ): Promise<Consultation[]> => {
   try {
-    const res = await axios.get(`/api/consultations/${tutorialId}`, {
+    const res = await axios.get(`${BASE_URL}/api/consultations/${tutorialId}`, {
       params: { date: date },
       headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
     });
@@ -66,9 +68,7 @@ const getAllBookedConsultations = async (
   try {
     const res = isStudent
       ? await axios.get(
-          `${
-            import.meta.env.VITE_BASE_URL
-          }/api/consultations/student/${tutorialId}/${user.id}`,
+          `${BASE_URL}/api/consultations/student/${tutorialId}/${user.id}`,
           {
             params: {
               date: date,
@@ -78,9 +78,7 @@ const getAllBookedConsultations = async (
           }
         )
       : await axios.get(
-          `${
-            import.meta.env.VITE_BASE_URL
-          }/api/consultations/teachingAssistant/${tutorialId}`,
+          `${BASE_URL}/api/consultations/teachingAssistant/${tutorialId}`,
           {
             params: {
               date: date,
@@ -103,9 +101,7 @@ export const bookConsultation = async (
 ): Promise<Consultation | null> => {
   try {
     const res = await axios.put(
-      `${
-        import.meta.env.VITE_BASE_URL
-      }/api/consultations/${tutorialId}/book/${consultationId}`,
+      `${BASE_URL}/api/consultations/${tutorialId}/book/${consultationId}`,
       {},
       {
         params: { userId: user.id },
@@ -126,9 +122,7 @@ export const cancelConsultation = async (
 ): Promise<Consultation | null> => {
   try {
     const res = await axios.put(
-      `${
-        import.meta.env.VITE_BASE_URL
-      }/api/consultations/${tutorialId}/cancel/${consultationId}`,
+      `${BASE_URL}/api/consultations/${tutorialId}/cancel/${consultationId}`,
       {},
       {
         params: { userId: user.id },

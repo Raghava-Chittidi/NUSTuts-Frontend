@@ -57,6 +57,7 @@ export const AuthContextProvider = ({
   const TOKEN_EXPIRY_TIME = 15 * 60 * 1000;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(true);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
@@ -64,7 +65,7 @@ export const AuthContextProvider = ({
   const sendRefreshRequest = async () => {
     try {
       setIsLoggingIn(true);
-      const res = await axios.get(`/api/auth/refresh`, {
+      const res = await axios.get(`${BASE_URL}/api/auth/refresh`, {
         withCredentials: true,
       });
       console.log(res.data);

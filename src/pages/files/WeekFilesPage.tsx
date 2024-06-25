@@ -22,11 +22,12 @@ const WeekFilesPage = () => {
   const [files, setFiles] = useState<TutorialFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [uploadFileLoading, setUploadFileLoading] = useState<boolean>(false);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(
-        `/api/files/${state.user.role.userType}/${params.tutorialId}/${params.week}`,
+        `${BASE_URL}/api/files/${state.user.role.userType}/${params.tutorialId}/${params.week}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
@@ -79,7 +80,7 @@ const WeekFilesPage = () => {
       setIsLoading(true);
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `/api/files/delete/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/files/delete/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -110,7 +111,7 @@ const WeekFilesPage = () => {
     try {
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `/api/files/private/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/files/private/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },
@@ -140,7 +141,7 @@ const WeekFilesPage = () => {
     try {
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
-        `/api/files/unprivate/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/files/unprivate/${state.user.tutorial?.ID}`,
         {
           filepath: path,
         },

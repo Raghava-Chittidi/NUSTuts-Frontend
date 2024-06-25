@@ -7,11 +7,12 @@ import Countdown from "../../components/attendance/Countdown";
 const AttendancePage = () => {
   const { state } = useAuthContext();
   const [code, setCode] = useState<string>();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const generateHandler = async () => {
     try {
       const res = await axios.get(
-        `/api/attendance/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }

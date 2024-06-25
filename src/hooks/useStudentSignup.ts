@@ -8,6 +8,7 @@ export const useStudentSignup = () => {
   const [isSignUpLoading, setIsSignUpLoading] = useState<boolean | null>(null);
   const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const signup = async (
     name: string,
@@ -19,7 +20,7 @@ export const useStudentSignup = () => {
     setSignUpError(null);
 
     try {
-      const response = await axios.post(`/api/auth/student/signup`, {
+      const response = await axios.post(`${BASE_URL}/api/auth/student/signup`, {
         Name: name,
         Email: email,
         Password: password,

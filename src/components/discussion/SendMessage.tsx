@@ -12,6 +12,7 @@ const SendMessage = () => {
   const [value, setValue] = useState<string>("");
   const params = useParams();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const sendHandler = async () => {
     if (value.trim().length === 0) {
@@ -37,7 +38,7 @@ const SendMessage = () => {
 
     try {
       await axios.post(
-        `/api/messages/${params.tutorialId}`,
+        `${BASE_URL}/api/messages/${params.tutorialId}`,
         {
           senderId: state.user.id,
           userType: newMessage.userType,

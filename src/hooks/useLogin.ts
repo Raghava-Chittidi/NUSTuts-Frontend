@@ -8,6 +8,7 @@ export const useLogin = (userType: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
@@ -15,14 +16,18 @@ export const useLogin = (userType: string) => {
 
     const url =
       userType === "Student"
-        ? `/api/auth/student/login`
-        : `/api/auth/teachingAssistant/login`;
+        ? `${BASE_URL}/api/auth/student/login`
+        : `${BASE_URL}/api/auth/teachingAssistant/login`;
 
     try {
-      const response = await axios.post(url, {
-        Email: email,
-        Password: password,
-      });
+      const response = await axios.post(
+        url,
+        {
+          Email: email,
+          Password: password,
+        },
+        { withCredentials: true }
+      );
 
       dispatch({ type: "LOGIN", payload: response.data.data });
       setIsLoggedIn(true);

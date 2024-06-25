@@ -14,6 +14,7 @@ const ModuleTutorialsPage = () => {
   const { moduleCode } = useParams();
   const [classNo, setClassNo] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   // Reference: We are using nusmods API
   const { data, isLoading: loading } = useSWR(
@@ -26,7 +27,7 @@ const ModuleTutorialsPage = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          `/api/requests/${state?.user.id}/${moduleCode}`,
+          `${BASE_URL}/api/requests/${state?.user.id}/${moduleCode}`,
           {
             headers: {
               Authorization: `Bearer ${state.user.tokens.accessToken}`,

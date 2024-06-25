@@ -13,12 +13,13 @@ const TutorialPage = () => {
   const { tutorialId } = useParams();
   const { isLoading, validateTutorialId } = useTutorial();
   const { setConn, conn } = useWebsocketContext();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   let once = false;
 
   const joinDiscussionHandler = async () => {
     try {
       await axios.post(
-        `/api/ws/${tutorialId}/create`,
+        `${BASE_URL}/api/ws/${tutorialId}/create`,
         {},
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
