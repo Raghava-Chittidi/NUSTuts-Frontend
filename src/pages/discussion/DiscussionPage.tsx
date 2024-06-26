@@ -19,7 +19,7 @@ const DiscussionPage = () => {
 
   useEffect(() => {
     if (conn === null) {
-      navigate("/");
+      navigate(`/tutorial/${params.tutorialId}/discussion`);
       return;
     }
 
@@ -29,7 +29,6 @@ const DiscussionPage = () => {
       state.user.role.userType === msg.userType
         ? (msg.type = "self")
         : (msg.type = "other");
-      console.log(msg);
       setMessages((prevState) => [...prevState, msg]);
     };
 
