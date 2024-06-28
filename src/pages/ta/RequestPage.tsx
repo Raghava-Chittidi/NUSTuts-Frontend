@@ -10,13 +10,17 @@ export const RequestPage = () => {
   const { isLoggedIn, isLoggingIn, state } = useAuthContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [requests, setRequests] = useState<Request[]>([]);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const sendRequest = async () => {
       setIsLoading(true);
-      const res = await axios.get(`/api/requests/${state.user.tutorial?.ID}`, {
-        headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
-      });
+      const res = await axios.get(
+        `${BASE_URL}/api/requests/${state.user.tutorial?.ID}`,
+        {
+          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+        }
+      );
       setRequests(res.data.data);
       setIsLoading(false);
     };

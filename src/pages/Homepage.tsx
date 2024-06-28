@@ -3,12 +3,13 @@ import { Banner } from "../components/Banner";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import { isUserStudent } from "../util/user";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Homepage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { isLoggedIn, isLoggingIn, state } = useAuthContext();
+  const url = useLocation().pathname;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +21,9 @@ const Homepage = () => {
       }
     } else {
       if (!isLoggingIn) {
+        if (url !== "/") {
+          navigate("/");
+        }
         setIsLoading(false);
       }
     }

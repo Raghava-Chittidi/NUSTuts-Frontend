@@ -14,11 +14,13 @@ const AttendancePage = () => {
   const [attendanceString, setAttendanceString] = useState<AttendanceString>();
   const [attendanceList, setAttendanceList] = useState<Attendance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [code, setCode] = useState<string>();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const getTodayAttendanceList = async () => {
     try {
       const res = await axios.get(
-        `/api/attendance/${state.user.tutorial?.ID}/list`,
+        `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}/list`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
@@ -33,7 +35,7 @@ const AttendancePage = () => {
   const getExistingAttendanceString = async (): Promise<AttendanceString | null> => {
     try {
       const res = await axios.get(
-        `/api/attendance/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }
@@ -54,7 +56,7 @@ const AttendancePage = () => {
   const generateHandler = async () => {
     try {
       const res = await axios.get(
-        `/api/attendance/${state.user.tutorial?.ID}/generate`,
+        `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}/generate`,
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
         }

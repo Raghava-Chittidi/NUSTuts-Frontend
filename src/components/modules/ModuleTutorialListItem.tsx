@@ -18,11 +18,13 @@ const ModuleTutorialListItem = ({
 }) => {
   const { state } = useAuthContext();
   const [display, setDisplay] = useState<boolean>(show);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   const requestToJoinTutorialHandler = async () => {
     try {
       setDisplay(false);
       const res = await axios.post(
-        "/api/requests",
+        `${BASE_URL}/api/requests`,
         {
           studentId: state.user.id,
           moduleCode,

@@ -20,6 +20,7 @@ export const FileUpload = ({
   setFiles: React.Dispatch<React.SetStateAction<TutorialFile[]>>;
 }) => {
   const { state } = useAuthContext();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const uploadFile = async (event: React.FormEvent<HTMLInputElement>) => {
     if (state.user.role.userType === "student") {
@@ -52,7 +53,7 @@ export const FileUpload = ({
 
     try {
       const res = await axios.post(
-        `/api/files/upload/${state.user.tutorial?.ID}`,
+        `${BASE_URL}/api/files/upload/${state.user.tutorial?.ID}`,
         {
           name: file.name,
           week,
