@@ -14,11 +14,12 @@ const ViewAttendancePage = () => {
   const { tutorialId } = useOutletContext<TutorialContextType>();
   const [attendanceList, setAttendanceList] = useState<AttendanceListsView[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchAttendanceList = async () => {
       try {
-        const response = await axios.get(`/api/attendance/${tutorialId}/list/all`, 
+        const response = await axios.get(`${BASE_URL}/api/attendance/${tutorialId}/list/all`, 
           {
             headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
           });

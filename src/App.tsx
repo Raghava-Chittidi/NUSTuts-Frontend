@@ -43,7 +43,55 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Homepage />,
+      element: homepage,
+      children: [
+        {
+          path: "/modules",
+          element: <ModulesPage />,
+        },
+        {
+          path: "/modules/:moduleCode/tutorials",
+          element: <ModuleTutorialsPage />,
+        },
+        {
+          path: "/requests",
+          element: <RequestPage />,
+        },
+        {
+          path: "/tutorial/:tutorialId",
+          element: <TutorialPage />,
+          children: [
+            {
+              path: "discussion",
+              element: <DiscussionPage />,
+            },
+            {
+              path: "files",
+              element: <FilesPage />,
+            },
+            {
+              path: "files/weeks/:week",
+              element: <WeekFilesPage />,
+            },
+            {
+              path: "consultations/book",
+              element: <BookConsultationPage />,
+            },
+            {
+              path: "consultations/view",
+              element: <ViewConsultationPage />,
+            },
+            {
+              path: "attendance/today",
+              element: <AttendancePage />,
+            },
+            {
+              path: "attendance/view",
+              element: <ViewAttendancePage />,
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/login",
@@ -60,53 +108,6 @@ function App() {
     {
       path: "/student/signup",
       element: <StudentSignUpPage />,
-    },
-    // Render ModulesPage with dummy modules array, to be replaced with real data in future
-    {
-      path: "/modules",
-      element: <ModulesPage />,
-    },
-    {
-      path: "/modules/:moduleCode/tutorials",
-      element: <ModuleTutorialsPage />,
-    },
-    {
-      path: "/requests",
-      element: <RequestPage />,
-    },
-    {
-      path: "/tutorial/:tutorialId",
-      element: <TutorialPage />,
-      children: [
-        {
-          path: "discussion",
-          element: <DiscussionPage />,
-        },
-        {
-          path: "files",
-          element: <FilesPage />,
-        },
-        {
-          path: "files/weeks/:week",
-          element: <WeekFilesPage />,
-        },
-        {
-          path: "consultations/book",
-          element: <BookConsultationPage />,
-        },
-        {
-          path: "consultations/view",
-          element: <ViewConsultationPage />,
-        },
-        {
-          path: "attendance/today",
-          element: <AttendancePage />,
-        },
-        {
-          path: "attendance/view",
-          element: <ViewAttendancePage />,
-        }
-      ],
     },
   ]);
 
