@@ -20,12 +20,16 @@ export const useStudentSignup = () => {
     setSignUpError(null);
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/auth/student/signup`, {
-        Name: name,
-        Email: email,
-        Password: password,
-        Modules: modules,
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/auth/student/signup`,
+        {
+          Name: name,
+          Email: email,
+          Password: password,
+          Modules: modules,
+        },
+        { withCredentials: true }
+      );
       dispatch({ type: "LOGIN", payload: response.data.data });
       setIsLoggedIn(true);
       navigate("/modules");
