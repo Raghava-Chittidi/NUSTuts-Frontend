@@ -96,11 +96,11 @@ const TATodayAttendance = () => {
   }, [isTimerUp]);
   
   return isLoading ? <LoadingSpinner /> : (
-    <div className="flex w-full items-center justify-center">
+    <div className="flex w-full items-center justify-center min-h-screen pb-16">
       {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
           <Countdown expiredTime={attendanceString.expiresAt} handleTimerUp={() => setIsTimerUp(false)} />
-          <div className="text-[6rem]">{attendanceString.code}</div>
+          <div className="text-[3rem]">{attendanceString.code}</div>
         </div>
       ) : (
         <div className="flex flex-col items-center w-full space-y-5">
