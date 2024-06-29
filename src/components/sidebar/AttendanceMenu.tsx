@@ -1,5 +1,6 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { MdChecklist, MdDateRange } from "react-icons/md";
+import { FaCalendarCheck, FaHistory } from 'react-icons/fa';
 import SidebarButton from "./SidebarButton";
 
 const AttendanceMenu = () => {
@@ -16,12 +17,12 @@ const AttendanceMenu = () => {
     <>
       <SidebarButton
         name="Today's Attendance"
-        icon={<MdChecklist className="mr-2" size={23} />}
+        icon={<FaCalendarCheck className="mr-2" size={20} />}
         route="attendance/today"
       />
       <SidebarButton
         name="View Attendances"
-        icon={<MdChecklist className="mr-2" size={23} />}
+        icon={<FaHistory className="mr-2" size={20} />}
         route="attendance/view"
       />
     </>
