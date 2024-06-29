@@ -86,4 +86,33 @@ export type BookedConsultationsView = {
   consultations: Consultation[];
 }
 
+export type AttendanceString = {
+  ID: number;
+  code: string;
+  tutorialId: number;
+  expiresAt: string;
+}
+
+export type Attendance = {
+  id: number;
+  student: Student;
+  tutorialId: number;
+  date: string;
+  present: boolean;
+}
+
+export type StudentAttendance = {
+  ID: number;
+  studentId: number;
+  tutorialId: number;
+  date: string;
+  present: boolean;
+}
+
+export type AttendanceListsView = {
+  date: string;
+  attendance: Attendance[];
+}
+
 export type TutorialContextType = { tutorialId: number };
+

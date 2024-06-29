@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import SidebarButton from "./SidebarButton";
 import ConsultationsMenu from "./ConsultationsMenu";
+import AttendanceMenu from "./AttendanceMenu";
 
 export function Sidebar() {
   const { isLoggingIn, isLoggedIn } = useAuthContext();
@@ -33,10 +34,7 @@ export function Sidebar() {
         icon={<TbFiles className="mr-2" size={23} />}
       />
       <ConsultationsMenu />
-      <SidebarButton
-        name="Attendance"
-        icon={<MdChecklist className="mr-2" size={23} />}
-      />
+      <AttendanceMenu />
     </div>
   );
 }

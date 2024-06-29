@@ -17,13 +17,9 @@ import DiscussionPage from "./pages/discussion/DiscussionPage";
 import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 import ViewConsultationPage from "./pages/consultations/ViewConsultationPage";
 import AttendancePage from "./pages/attendance/AttendancePage";
+import ViewAttendancePage from "./pages/attendance/ViewAttendancePage";
 import { ReactNode, useEffect, useState } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
-
-/**
- * A browser router containing routes.
- * Add new routes here as needed.
- */
 
 function App() {
   const [homepage, setHomepage] = useState<ReactNode>(<LoadingSpinner />);
@@ -86,8 +82,12 @@ function App() {
               element: <ViewConsultationPage />,
             },
             {
-              path: "attendance",
+              path: "attendance/today",
               element: <AttendancePage />,
+            },
+            {
+              path: "attendance/view",
+              element: <ViewAttendancePage />,
             },
           ],
         },

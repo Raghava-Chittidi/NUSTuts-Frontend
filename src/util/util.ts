@@ -98,3 +98,11 @@ export const isCurrentDateTimePastGivenDateTime = (date: string, time: string) =
   return currentDate > givenDate;
 }
 
+// Utility function to convert expiredTime to remaining seconds
+export function getRemainingSeconds(expiredTime: string): number {
+  const targetDate = new Date(expiredTime).getTime();
+  const currentTime = new Date().getTime();
+  const difference = targetDate - currentTime;
+  return Math.max(Math.floor(difference / 1000), 0);
+}
+
