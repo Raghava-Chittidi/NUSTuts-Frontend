@@ -59,8 +59,7 @@ const StudentTodayAttendance = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
-      <div className="text-2xl font-bold mb-4 text-gray-700">Today's Attendance</div>
+    <div className="w-full p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
       <div className="my-4 text-lg text-gray-600">
         {isAttended ? 'You are marked as attended.' : 'You are not marked as attended.'}
       </div>

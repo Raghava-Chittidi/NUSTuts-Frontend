@@ -31,29 +31,30 @@ const StudentViewAttendance = () => {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
-      <div className="text-2xl font-bold mb-4 text-gray-700">Attendance History</div>
+    <div className="w-full p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
       {errorMessage ? (
         <div className="text-red-500">{errorMessage}</div>
       ) : (
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600">Date</th>
-              <th className="py-2 px-4 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendanceHistory.map((record) => (
-              <tr key={record.ID}>
-                <td className="py-2 px-4 border-b border-gray-300">{record.date}</td>
-                <td className={`py-2 px-4 border-b border-gray-300 ${record.present ? 'text-green-500' : 'text-red-500'}`}>
-                  {record.present ? 'Present' : 'Absent'}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b-2 border-gray-300 text-sm leading-4 text-gray-600">Date</th>
+                <th className="py-2 px-4 border-b-2 border-gray-300 text-sm leading-4 text-gray-600">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {attendanceHistory.map((record) => (
+                <tr key={record.ID}>
+                  <td className="py-2 px-4 border-b border-gray-300">{record.date}</td>
+                  <td className={`py-2 px-4 border-b border-gray-300 ${record.present ? 'text-green-500' : 'text-red-500'}`}>
+                    {record.present ? "Present" : "Absent"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
