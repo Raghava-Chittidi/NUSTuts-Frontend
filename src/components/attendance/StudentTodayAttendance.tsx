@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { TutorialContextType } from "../../types";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
+import LoadingSpinner from "../LoadingSpinner";
 
 const StudentTodayAttendance = () => {
   const { tutorialId } = useOutletContext<TutorialContextType>();
@@ -10,6 +11,7 @@ const StudentTodayAttendance = () => {
   const [isAttended, setIsAttended] = useState(false);
   const [attendanceCode, setAttendanceCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const StudentTodayAttendance = () => {
         console.log(res.data);
         const attended = await res.data.data;
         setIsAttended(attended);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching attendance status:', error);
       }
@@ -58,7 +61,7 @@ const StudentTodayAttendance = () => {
     }
   };
 
-  return (
+  return isLoading ? <LoadingSpinner /> : (
     <div className="w-full p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
       <div className="my-4 text-lg text-gray-600">
         {isAttended ? 'You are marked as attended.' : 'You are not marked as attended.'}
