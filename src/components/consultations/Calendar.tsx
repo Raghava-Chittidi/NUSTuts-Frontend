@@ -27,7 +27,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   // console.log(getCurrentDateValue());
   return (
     <>
-      <div className="mx-auto mb-5 flex items-center space-x-0">
+      <div className="mx-auto mb-5 flex items-center space-x-0 h-fit">
         <NextUiCalender
           weekdayStyle="long"
           minValue={getCurrentDateValue()}
@@ -40,7 +40,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
               "grid grid-cols-7 justify-items-center text-black font-semibold px-0 pt-4",
             grid: "bg-white",
             gridBody: "bg-white",
-            cell: "w-40 h-24 bg-white hover:bg-gray-200 duration-300 border-[0.05rem] border-gray-200 cursor-pointer",
+            cell: "w-40 h-16 bg-white hover:bg-gray-200 duration-300 border-[0.05rem] border-gray-200 cursor-pointer",
             gridWrapper: "p-0",
             cellButton: [
               "w-full h-full rounded-none flex justify-start items-start py-1 px-2",

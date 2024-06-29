@@ -2,8 +2,12 @@ import { Accordion, AccordionItem } from "@nextui-org/react";
 import { MdDateRange } from "react-icons/md";
 import { TbCalendarClock, TbCalendarMonth } from "react-icons/tb";
 import SidebarButton from "./SidebarButton";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { isUserStudent } from "../../util/user";
 
 const ConsultationsMenu = () => {
+  const { state } = useAuthContext();
+  const isStudent = isUserStudent(state.user);
   const itemClasses = {
     base: "py-0 w-full",
     title: "font-semibold text-small pl-1 sm:block hidden",
@@ -15,11 +19,11 @@ const ConsultationsMenu = () => {
 
   const defaultContent = (
     <>
-      <SidebarButton
+      {isStudent && <SidebarButton
         name="Book Consultation"
         icon={<TbCalendarClock className="mr-2" size={23} />}
         route="consultations/book"
-      />
+      />}
       <SidebarButton
         name="View Consultations"
         icon={<TbCalendarMonth className="mr-2" size={23} />}
