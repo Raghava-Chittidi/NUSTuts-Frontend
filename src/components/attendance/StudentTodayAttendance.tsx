@@ -4,6 +4,7 @@ import { TutorialContextType } from "../../types";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner";
+import { toast } from "react-toastify";
 
 const StudentTodayAttendance = () => {
   const { tutorialId } = useOutletContext<TutorialContextType>();
@@ -60,31 +61,33 @@ const StudentTodayAttendance = () => {
 
       setIsAttended(true);
       setErrorMessage("");
+      toast.success("Your attendance has been marked!");
     } catch (error) {
       console.error("Error submitting attendance code:", error);
       setErrorMessage(
         "An error occurred, you might have submitted the wrong code. Please try again."
       );
+      toast.error("Failed to mark your attendance!");
     }
   };
 
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div className="w-full p-6 text-center border border-gray-300 rounded-lg bg-white shadow-md">
-      <div className="my-4 text-lg text-gray-600">
+    <div className="w-full p-6 text-center flex flex-col justify-center">
+      <div className="my-4 text-lg ">
         {isAttended
-          ? "You are marked as attended."
-          : "You are not marked as attended."}
+          ? "Your attendance has been marked."
+          : "Your attendance has not been marked yet."}
       </div>
       {!isAttended && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center pb-14">
           <input
             type="text"
             value={attendanceCode}
             onChange={handleInputChange}
             placeholder="Enter attendance code"
-            className="p-2 mb-4 border border-gray-300 rounded w-full max-w-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 mb-4 border border-black rounded w-full max-w-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={handleSubmit}
