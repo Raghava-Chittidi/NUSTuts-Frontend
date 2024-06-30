@@ -29,10 +29,10 @@ const StudentTodayAttendance = () => {
         console.log(res.data);
         const attended = await res.data.data;
         setIsAttended(attended);
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching attendance status:", error);
       }
+      setIsLoading(false);
     };
 
     fetchAttendanceStatus();
