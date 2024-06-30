@@ -56,7 +56,7 @@ export const getCurrentDateTime = () => {
   const hours = padZero(now.getHours());
   const minutes = padZero(now.getMinutes());
 
-  const formattedDate = `${day}-${month}-${year}`;
+  const formattedDate = `${year}-${month}-${day}`;
   const formattedTime = `${hours}:${minutes}`;
 
   console.log(formattedDate, formattedTime);
@@ -82,7 +82,7 @@ export const getCurrentDateValue = () => {
 // time is in the format 'HH:MM'
 export const parseCustomDateString = (date: string, time: string) => {
   // Split the date component into day, month, and year
-  const [day, month, year] = date.split('-');
+  const [year, month, day] = date.split('-');
 
   // Rearrange to format 'YYYY-MM-DDTHH:MM:SS'
   const formattedDateString = `${year}-${month}-${day}T${time}:00`;
