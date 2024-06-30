@@ -4,7 +4,6 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import Countdown from "../../components/attendance/Countdown";
 import { Attendance, AttendanceString } from "../../types";
-import { getRemainingSeconds } from "../../util/util";
 import AttendanceDisplay from "../../components/attendance/AttendanceDisplay";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
@@ -14,7 +13,6 @@ const TATodayAttendance = () => {
   const [attendanceString, setAttendanceString] = useState<AttendanceString>();
   const [attendanceList, setAttendanceList] = useState<Attendance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [code, setCode] = useState<string>();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const getTodayAttendanceList = async () => {
@@ -29,29 +27,32 @@ const TATodayAttendance = () => {
       return res.data.data.attendances;
     } catch (error) {
       console.log(error);
-      return []
+      return [];
     }
-  }
-  const getExistingAttendanceString = async (): Promise<AttendanceString | null> => {
-    try {
-      const res = await axios.get(
-        `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}`,
-        {
-          headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
+  };
+  const getExistingAttendanceString =
+    async (): Promise<AttendanceString | null> => {
+      try {
+        const res = await axios.get(
+          `${BASE_URL}/api/attendance/${state.user.tutorial?.ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.user.tokens.accessToken}`,
+            },
+          }
+        );
+        const attendanceStringData = res.data.data;
+        console.log(res.data);
+        // Set attendance string if not expired, otherwise call generateHandler
+        if (attendanceStringData) {
+          return attendanceStringData.attendanceString;
         }
-      );
-      const attendanceStringData = res.data.data;
-      console.log(res.data);
-      // Set attendance string if not expired, otherwise call generateHandler
-      if (attendanceStringData) {
-        return attendanceStringData.attendanceString;
-      } 
-      return null;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  }
+        return null;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    };
 
   const generateHandler = async () => {
     try {
@@ -84,7 +85,7 @@ const TATodayAttendance = () => {
         } catch (error) {
           console.log(error);
         }
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -94,12 +95,17 @@ const TATodayAttendance = () => {
     fetchAttendanceStringOrAttendance();
     setIsLoading(false);
   }, [isTimerUp]);
-  
-  return isLoading ? <LoadingSpinner /> : (
+
+  return isLoading ? (
+    <LoadingSpinner />
+  ) : (
     <div className="flex w-full items-center justify-center min-h-screen pb-16">
       {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
-          <Countdown expiredTime={attendanceString.expiresAt} handleTimerUp={() => setIsTimerUp(false)} />
+          <Countdown
+            expiredTime={attendanceString.expiresAt}
+            handleTimerUp={() => setIsTimerUp(false)}
+          />
           <div className="text-[3rem]">{attendanceString.code}</div>
         </div>
       ) : (
