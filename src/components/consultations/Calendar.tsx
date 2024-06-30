@@ -76,7 +76,6 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">{`Consultations for ${selectedDate}`}</ModalHeader>
               <ModalBody>
                 <Consultations tutorialId={tutorialId} date={selectedDate} />
               </ModalBody>
