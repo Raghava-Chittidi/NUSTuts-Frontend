@@ -63,11 +63,9 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
             const month = e.month;
             const year = e.year;
             // setIsDateSelected(true);
-            // Parse date to dd-mm-yyyy format, e.g. 01-01-2022, even if day or month is single digit
+            // Parse date to yyyy-mm-dd format, e.g. 2022-01-02, even if day or month is single digit
             setSelectedDate(
-              `${day.toString().padStart(2, "0")}-${month
-                .toString()
-                .padStart(2, "0")}-${year}`
+              `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`
             );
 
             onOpen();
