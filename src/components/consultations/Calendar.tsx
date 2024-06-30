@@ -3,7 +3,6 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   Calendar as NextUiCalender,
   Modal as NextUIModal,
   useDisclosure,
@@ -27,7 +26,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   // console.log(getCurrentDateValue());
   return (
     <>
-      <div className="mx-auto mb-5 flex items-center space-x-0 h-fit">
+      <div className="mx-auto flex items-center space-x-0 h-screen pb-16">
         <NextUiCalender
           weekdayStyle="long"
           minValue={getCurrentDateValue()}
@@ -38,10 +37,12 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
             headerWrapper: "bg-blue-900",
             gridHeaderRow:
               "grid grid-cols-7 justify-items-center text-black font-semibold px-0 pt-4",
-            grid: "bg-white",
-            gridBody: "bg-white",
-            cell: "w-40 h-16 bg-white hover:bg-gray-200 duration-300 border-[0.05rem] border-gray-200 cursor-pointer",
-            gridWrapper: "p-0",
+            gridHeaderCell: "text-xs md:text-base",
+            grid: "bg-white w-full",
+            gridBody: "bg-white w-[10%]",
+            cell: "w-16 h-10 sm:w-16 sm:h-14 md:w-20 md:h-16 lg:w-[6.5rem] lg:h-18 xl:w-40 xl:h-24 bg-white hover:bg-gray-200 duration-300 border-[0.05rem] border-gray-200 cursor-pointer",
+            gridWrapper: "p-0 w-fit",
+            content: "w-fit",
             cellButton: [
               "w-full h-full rounded-none flex justify-start items-start py-1 px-2",
               // selected case
@@ -57,15 +58,17 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
           }}
           onChange={(e) => {
             console.log(e);
-            // Coult be 1 instead of 01
+            // Could be 1 instead of 01
             const day = e.day;
-            // Coult be 1 instead of 01
+            // Could be 1 instead of 01
             const month = e.month;
             const year = e.year;
             // setIsDateSelected(true);
             // Parse date to yyyy-mm-dd format, e.g. 2022-01-02, even if day or month is single digit
             setSelectedDate(
-              `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`
+              `${year}-${month.toString().padStart(2, "0")}-${day
+                .toString()
+                .padStart(2, "0")}`
             );
 
             onOpen();

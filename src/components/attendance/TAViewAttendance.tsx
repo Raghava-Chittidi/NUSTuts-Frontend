@@ -39,7 +39,7 @@ const TAViewAttendance = () => {
   return isLoading ? (
     <LoadingSpinner />
   ) : attendanceList.length > 0 ? (
-    <div className="p-14 bg-gray-100 h-screen w-full overflow-y-auto">
+    <div className="p-14 h-screen w-full overflow-y-auto">
       {attendanceList.map((attendanceGroup) => (
         <div key={attendanceGroup.date} className="mb-6">
           <h2 className="text-2xl font-semibold mb-4">
@@ -50,7 +50,7 @@ const TAViewAttendance = () => {
       ))}
     </div>
   ) : (
-    <div className="p-14 bg-gray-100 h-screen w-full flex items-center justify-center">
+    <div className="p-14 h-screen w-full flex items-center justify-center">
       <p className="text-xl font-semibold">No attendance found</p>
     </div>
   );
