@@ -8,15 +8,22 @@ import {
 import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { strToColour } from "../../util/util";
+import { useNavigate } from "react-router-dom";
 
 const AvatarDisplay = () => {
   const { user } = useAuthContext().state;
+  const navigate = useNavigate();
   const { logout } = useLogout();
 
   const handleLogOutClick = () => {
     // Log out logic
     logout();
   };
+
+  if (!user) {
+    navigate("/");
+    return;
+  }
 
   return (
     <Dropdown placement="bottom-end">
