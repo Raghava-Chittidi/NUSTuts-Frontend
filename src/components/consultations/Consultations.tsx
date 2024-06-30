@@ -49,10 +49,10 @@ const Consultations = ({
             return { consultationData: consultation, isClickable: isClickable };
           });
         setConsultations(consultationBookings);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
     fetchConsultations();
   }, [tutorialId]);
@@ -61,17 +61,19 @@ const Consultations = ({
     <LoadingSpinner />
   ) : consultations.filter((consultation) => consultation.isClickable).length >
     0 ? (
-    <div>
-      {consultations.map((consultation) => (
-        <ConsultationBooking
-          key={consultation.consultationData.id}
-          consultationData={consultation.consultationData}
-          isClickable={consultation.isClickable}
-        />
-      ))}
-    </div>
+  <div className="p-4">
+    <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
+    {consultations.map((consultation) => (
+      <ConsultationBooking
+        key={consultation.consultationData.id}
+        consultationData={consultation.consultationData}
+        isClickable={consultation.isClickable}
+      />
+    ))}
+  </div>
   ) : (
-    <div>
+    <div className="p-4">
+      <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
       <p>No consultations available, book consultations for another day</p>
     </div>
   );
