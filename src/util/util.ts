@@ -47,7 +47,7 @@ export const formatDate = (oldDate: string) => {
 export const getCurrentDateTime = () => {
   const now = new Date();
 
-  const padZero = (num: number): string => num.toString().padStart(2, '0');
+  const padZero = (num: number): string => num.toString().padStart(2, "0");
 
   const day = padZero(now.getDate());
   const month = padZero(now.getMonth() + 1); // Months are zero-based
@@ -59,7 +59,7 @@ export const getCurrentDateTime = () => {
   const formattedDate = `${year}-${month}-${day}`;
   const formattedTime = `${hours}:${minutes}`;
 
-  console.log(formattedDate, formattedTime);
+  // console.log(formattedDate, formattedTime);
   return { formattedDate, formattedTime };
 };
 
@@ -74,7 +74,15 @@ export const getCurrentDateValue = () => {
   const second = now.getSeconds();
   const millisecond = now.getMilliseconds();
 
-  return new CalendarDateTime(year, month, day, hour, minute, second, millisecond);
+  return new CalendarDateTime(
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+    millisecond
+  );
 };
 
 // Converts the booked date and time into a Date object
@@ -82,7 +90,7 @@ export const getCurrentDateValue = () => {
 // time is in the format 'HH:MM'
 export const parseCustomDateString = (date: string, time: string) => {
   // Split the date component into day, month, and year
-  const [year, month, day] = date.split('-');
+  const [year, month, day] = date.split("-");
 
   // Rearrange to format 'YYYY-MM-DDTHH:MM:SS'
   const formattedDateString = `${year}-${month}-${day}T${time}:00`;
@@ -91,12 +99,15 @@ export const parseCustomDateString = (date: string, time: string) => {
   return new Date(formattedDateString);
 };
 
-export const isCurrentDateTimePastGivenDateTime = (date: string, time: string) => {
+export const isCurrentDateTimePastGivenDateTime = (
+  date: string,
+  time: string
+) => {
   const { formattedDate, formattedTime } = getCurrentDateTime();
   const currentDate = parseCustomDateString(formattedDate, formattedTime);
   const givenDate = parseCustomDateString(date, time);
   return currentDate > givenDate;
-}
+};
 
 // Utility function to convert expiredTime to remaining seconds
 export function getRemainingSeconds(expiredTime: string): number {
@@ -105,4 +116,3 @@ export function getRemainingSeconds(expiredTime: string): number {
   const difference = targetDate - currentTime;
   return Math.max(Math.floor(difference / 1000), 0);
 }
-
