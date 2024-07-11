@@ -90,7 +90,7 @@ const WeekFilesPage = () => {
       );
       console.log(res.data);
 
-      await supabase.storage.from("NUSTuts").remove([filepath]);
+      await supabase.storage.from("NUSTuts").remove([path]);
       setFiles((prevState) =>
         prevState.filter((tutorialFile) => tutorialFile.filepath !== filepath)
       );

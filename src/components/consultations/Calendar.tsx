@@ -12,11 +12,14 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useState } from "react";
 import Consultations from "./Consultations";
 import { getCurrentDateValue } from "../../util/util";
+import { CalendarDateTime } from "@internationalized/date";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
   const { isLoggingIn } = useAuthContext();
   // const [isDateSelected, setIsDateSelected] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedCalendarDate, setSelectedCalendarDate] =
+    useState<CalendarDateTime | null>(getCurrentDateValue());
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   if (isLoggingIn) {
@@ -28,6 +31,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
     <>
       <div className="mx-auto flex items-center space-x-0 h-screen pb-16">
         <NextUiCalender
+          value={selectedCalendarDate}
           weekdayStyle="long"
           minValue={getCurrentDateValue()}
           classNames={{
@@ -70,6 +74,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
                 .toString()
                 .padStart(2, "0")}`
             );
+            setSelectedCalendarDate(new CalendarDateTime(year, month, day));
 
             onOpen();
           }}
