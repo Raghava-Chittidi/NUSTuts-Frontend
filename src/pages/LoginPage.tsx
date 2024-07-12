@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -91,6 +91,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   type="button"
                   variant="light"
                   onClick={() => setToggle(!toggle)}
+                  size="sm"
                   className="absolute top-1/2 right-3 transform -translate-y-1/2"
                 >
                   {toggle ? <EyeOff /> : <Eye />}
@@ -101,12 +102,6 @@ const LoginPage = ({ userType }: { userType: string }) => {
                   Password is required
                 </p>
               )} */}
-            </div>
-            <div className="flex items-center justify-between">
-              <Checkbox value="remember">Remember me</Checkbox>
-              <Link to="#" className="text-sm text-purple-600">
-                Forgot password?
-              </Link>
             </div>
             <Button
               type="submit"
