@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useLogin = (userType: string) => {
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ export const useLogin = (userType: string) => {
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    setError(null);
 
     const url =
       userType === "Student"
@@ -37,15 +36,19 @@ export const useLogin = (userType: string) => {
         navigate("/requests");
       }
     } catch (error: unknown) {
-      console.log("error: ", error);
+      let message = "";
       if (error instanceof AxiosError) {
-        setError(error.response?.data.message || error.message);
+        message = error.response?.data.message || error.message;
       } else if (error instanceof Error) {
-        setError(error.message);
+        message = error.message;
+      }
+
+      if (message) {
+        toast.error(message.charAt(0).toUpperCase() + message.slice(1));
       }
     }
 
     setIsLoading(false);
   };
-  return { login, isLoading, error };
+  return { login, isLoading };
 };

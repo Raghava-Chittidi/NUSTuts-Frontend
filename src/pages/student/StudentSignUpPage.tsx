@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
@@ -9,9 +9,32 @@ import { getCurrentAY } from "../../util/util";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import WindowedSelect from "react-windowed-select";
 
+const noError = {
+  name: null,
+  email: null,
+  password: null,
+  modules: null,
+};
+
 const StudentSignUpPage = () => {
   const user = useAuthContext().state.user;
   const navigate = useNavigate();
+  const { signup } = useStudentSignup();
+  const [toggle, setToggle] = useState<boolean>(false);
+  const nameRef = useRef<null | HTMLInputElement>(null);
+  const emailRef = useRef<null | HTMLInputElement>(null);
+  const passwordRef = useRef<null | HTMLInputElement>(null);
+  const [selectedModules, setSelectedModules] = useState<string[]>([]);
+  const [modules, setModules] = useState<{ value: string; label: string }[]>(
+    []
+  );
+
+  const [error, setError] = useState<{
+    name: null | string;
+    email: null | string;
+    password: null | string;
+    modules: null | string;
+  }>(noError);
 
   useEffect(() => {
     if (user) {
@@ -19,22 +42,7 @@ const StudentSignUpPage = () => {
     }
   }, [user]);
 
-  const { signup, signUpError } = useStudentSignup();
-
-  const [toggle, setToggle] = useState(false);
-
-  // const [nameError, setNameError] = useState(false);
-  // const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [modules, setModules] = useState<{ value: string; label: string }[]>(
-    []
-  );
-  const [selectedModules, setSelectedModules] = useState<string[]>([]);
   // // Reference: We are using nusmods API
-  // const { error, data, isLoading } = useSWR(
-  //     `https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`,
-  //     (url: string) => axios.get(url).then((res) => res.data)
-  // );
   useEffect(() => {
     const fetchModules = async () => {
       const moduleListResponse = await axios.get(
@@ -53,11 +61,6 @@ const StudentSignUpPage = () => {
     fetchModules();
   }, []);
 
-  // newValue and actionMeta types are supposed to be MultiValue<{ value: string; label: string }> and
-  // ActionMeta<{ value: string; label: string }> respectively, but the parameters
-  // are changed to unknown to avoid TypeScript error caused by react-windowed-select
-  // It is safe to typecast them to MultiValue<{ value: string; label: string }> and
-  // and ActionMeta<{ value: string; label: string }> respectively
   const handleSelectedChange = (
     newValue: unknown,
     actionMeta: ActionMeta<unknown>
@@ -70,35 +73,70 @@ const StudentSignUpPage = () => {
     setSelectedModules(newValueCasted.map((option) => option.value as string));
   };
 
-  // const loadOptions = async (searchValue: string) => {
-  //     const moduleListResponse = await axios.get(`https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`);
-  //     const moduleList = moduleListResponse.data;
-  //     return filterOptions(moduleList, searchValue);
-  // };
+  const resetError = (name: string) => {
+    if (error[name as keyof typeof error]) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          [name]: null,
+        };
+      });
+    }
+  };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    setError(noError);
 
-    const formData = new FormData(event.currentTarget);
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const name = nameRef.current!.value;
+    const email = emailRef.current!.value;
+    const password = passwordRef.current!.value;
 
-    if (!name || !email || !password) {
-      // if (!name) setNameError(true);
-      // if (!email) setEmailError(true);
-      if (!password) setPasswordError(true);
+    if (name.length === 0) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          name: "Invalid name!",
+        };
+      });
+    }
+
+    if (!email.includes("@")) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          email: "Invalid email!",
+        };
+      });
+    }
+
+    if (password.length < 6) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          password: "Invalid password! (Min 6 chars)",
+        };
+      });
+    }
+
+    if (selectedModules.length === 0) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          modules: "You need to choose at least one module!",
+        };
+      });
+    }
+
+    if (
+      name.length === 0 ||
+      !email.includes("@") ||
+      password.length < 6 ||
+      selectedModules.length === 0
+    ) {
       return;
     }
 
     await signup(name, email, password, selectedModules);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    // if (name === "name") setNameError(false);
-    // if (name === "email") setEmailError(false);
-    if (name === "password") setPasswordError(false);
   };
 
   return (
@@ -111,78 +149,78 @@ const StudentSignUpPage = () => {
           <h5 className="text-sm text-center text-gray-500 mb-4">
             Join tutorials by signing up as a student.
           </h5>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                type="text"
-                name="name"
-                label="Name"
-                autoComplete="name"
-                autoFocus
-                className="w-full"
-                onChange={handleInputChange}
-                isRequired
-              />
-            </div>
-            <div>
-              <Input
-                name="email"
-                isRequired
-                type="email"
-                label="Email"
-                className="w-full"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <div className="relative">
-                <Input
-                  name="password"
-                  isRequired
-                  type={toggle ? "text" : "password"}
-                  label="Password"
-                  className="w-full"
-                  onChange={handleInputChange}
-                />
+          <div className="space-y-4">
+            <Input
+              type="text"
+              name="name"
+              label="Name"
+              autoComplete="name"
+              autoFocus
+              className="w-full"
+              isRequired
+              isInvalid={!!error.name}
+              errorMessage={error.name}
+              ref={nameRef}
+              onChange={(e) => resetError(e.target.name)}
+            />
+            <Input
+              name="email"
+              type="email"
+              label="Email"
+              className="w-full"
+              isRequired
+              isInvalid={!!error.email}
+              errorMessage={error.email}
+              ref={emailRef}
+              onChange={(e) => resetError(e.target.name)}
+            />
+            <Input
+              name="password"
+              type={toggle ? "text" : "password"}
+              label="Password"
+              className="w-full"
+              isRequired
+              isInvalid={!!error.password}
+              errorMessage={error.password}
+              ref={passwordRef}
+              onChange={(e) => resetError(e.target.name)}
+              endContent={
                 <Button
                   type="button"
                   variant="light"
+                  size="sm"
                   onClick={() => setToggle(!toggle)}
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2"
                 >
                   {toggle ? <EyeOff /> : <Eye />}
                 </Button>
-              </div>
-              {passwordError && (
-                <p className="text-xs text-red-500 mt-1">
-                  Password is required
+              }
+            />
+            <div>
+              <WindowedSelect
+                defaultValue={[]}
+                isMulti
+                name="modules"
+                options={modules}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(newValue, actionMeta) => {
+                  handleSelectedChange(newValue, actionMeta);
+                  resetError(actionMeta.name!);
+                }}
+                placeholder="Select Modules"
+                windowThreshold={100}
+              />
+              {error.modules && (
+                <p className="text-red-500 text-xs pl-1 pt-1">
+                  {error.modules}
                 </p>
               )}
             </div>
-            {/* <AsyncSelect
-                    isMulti
-                    cacheOptions
-                    defaultOptions
-                    loadOptions={loadOptions}
-                    onChange={handleSelectedChange}
-                /> */}
-            <WindowedSelect
-              defaultValue={[]}
-              isMulti
-              name="modules"
-              options={modules}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={handleSelectedChange}
-              placeholder="Select Modules"
-              required
-              windowThreshold={100}
-            />
             <Button
-              type="submit"
               color="secondary"
               variant="solid"
               className="w-full"
+              onClick={handleSubmit}
             >
               SIGN UP
             </Button>
@@ -195,12 +233,7 @@ const StudentSignUpPage = () => {
                 Log in
               </Link>
             </div>
-            {signUpError && (
-              <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
-                <p className="text-sm">{signUpError}</p>
-              </div>
-            )}
-          </form>
+          </div>
         </div>
       </div>
     </div>

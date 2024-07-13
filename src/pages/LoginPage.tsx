@@ -1,13 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const noError = {
+  email: null,
+  password: null,
+};
+
 const LoginPage = ({ userType }: { userType: string }) => {
   const user = useAuthContext().state.user;
   const navigate = useNavigate();
+  const { login } = useLogin(userType);
+  const [toggle, setToggle] = useState<boolean>(false);
+  const emailRef = useRef<null | HTMLInputElement>(null);
+  const passwordRef = useRef<null | HTMLInputElement>(null);
+  const [error, setError] = useState<{
+    email: null | string;
+    password: null | string;
+  }>(noError);
 
   useEffect(() => {
     if (user) {
@@ -19,38 +32,44 @@ const LoginPage = ({ userType }: { userType: string }) => {
     }
   }, [user, userType]);
 
-  const { login, error } = useLogin(userType);
+  const resetError = (name: string) => {
+    if (error[name as keyof typeof error]) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          [name]: null,
+        };
+      });
+    }
+  };
 
-  const [toggle, setToggle] = useState(false);
+  const handleSubmit = async () => {
+    const email = emailRef.current!.value;
+    const password = passwordRef.current!.value;
 
-  // const [emailError, setEmailError] = useState(false);
-  // const [passwordError, setPasswordError] = useState(false);
+    if (!email.includes("@")) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          email: "Invalid email!",
+        };
+      });
+    }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    if (!password) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          password: "Invalid password",
+        };
+      });
+    }
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    if (!email || !password) {
-      // if (!email) setEmailError(true);
-      // if (!password) setPasswordError(true);
+    if (!email.includes("@") || !password) {
       return;
     }
 
     await login(email, password);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-
-    if (name === "email") {
-      // setEmailError(false);
-    }
-    if (name === "password") {
-      // setPasswordError(false);
-    }
   };
 
   return (
@@ -63,51 +82,44 @@ const LoginPage = ({ userType }: { userType: string }) => {
           <h5 className="text-sm text-center text-gray-500 mb-4">
             Welcome back! Please enter your details
           </h5>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                name="email"
-                isRequired
-                type="email"
-                label="Email"
-                className="w-full"
-                onChange={handleInputChange}
-              />
-              {/* {emailError && (
-                <p className="text-xs text-red-500 mt-1">Email is required</p>
-              )} */}
-            </div>
-            <div>
-              <div className="relative">
-                <Input
-                  name="password"
-                  isRequired
-                  type={toggle ? "text" : "password"}
-                  label="Password"
-                  className="w-full"
-                  onChange={handleInputChange}
-                />
+          <div className="space-y-4">
+            <Input
+              name="email"
+              isRequired
+              type="email"
+              label="Email"
+              className="w-full"
+              isInvalid={!!error.email}
+              errorMessage={error.email}
+              ref={emailRef}
+              onChange={(e) => resetError(e.target.name)}
+            />
+            <Input
+              name="password"
+              isRequired
+              type={toggle ? "text" : "password"}
+              label="Password"
+              className="w-full"
+              isInvalid={!!error.password}
+              errorMessage={error.password}
+              ref={passwordRef}
+              onChange={(e) => resetError(e.target.name)}
+              endContent={
                 <Button
                   type="button"
                   variant="light"
-                  onClick={() => setToggle(!toggle)}
                   size="sm"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2"
+                  onClick={() => setToggle(!toggle)}
                 >
                   {toggle ? <EyeOff /> : <Eye />}
                 </Button>
-              </div>
-              {/* {passwordError && (
-                <p className="text-xs text-red-500 mt-1">
-                  Password is required
-                </p>
-              )} */}
-            </div>
+              }
+            />
             <Button
-              type="submit"
               color="secondary"
               variant="solid"
               className="w-full"
+              onClick={handleSubmit}
             >
               LOGIN
             </Button>
@@ -122,12 +134,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
                 </Link>
               </div>
             )}
-            {error && (
-              <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
-                <p className="text-sm">{error}</p>
-              </div>
-            )}
-          </form>
+          </div>
         </div>
       </div>
     </div>
