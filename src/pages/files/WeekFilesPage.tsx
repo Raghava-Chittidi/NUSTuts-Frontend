@@ -82,7 +82,7 @@ const WeekFilesPage = () => {
       const res = await axios.patch(
         `${BASE_URL}/api/files/delete/${state.user.tutorial?.ID}`,
         {
-          filepath: path,
+          filepath: path.replaceAll("%20", " "),
         },
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
@@ -113,7 +113,7 @@ const WeekFilesPage = () => {
       const res = await axios.patch(
         `${BASE_URL}/api/files/private/${state.user.tutorial?.ID}`,
         {
-          filepath: path,
+          filepath: path.replaceAll("%20", " "),
         },
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
@@ -143,7 +143,7 @@ const WeekFilesPage = () => {
       const res = await axios.patch(
         `${BASE_URL}/api/files/unprivate/${state.user.tutorial?.ID}`,
         {
-          filepath: path,
+          filepath: path.replaceAll("%20", " "),
         },
         {
           headers: { Authorization: `Bearer ${state.user.tokens.accessToken}` },
