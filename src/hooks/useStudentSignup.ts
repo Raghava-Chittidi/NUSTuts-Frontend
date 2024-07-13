@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useStudentSignup = () => {
-  const [signUpError, setSignUpError] = useState<string | null>(null);
   const [isSignUpLoading, setIsSignUpLoading] = useState<boolean | null>(null);
   const { dispatch, setIsLoggedIn } = useAuthContext();
   const navigate = useNavigate();
@@ -17,7 +17,6 @@ export const useStudentSignup = () => {
     modules: string[]
   ) => {
     setIsSignUpLoading(true);
-    setSignUpError(null);
 
     try {
       const response = await axios.post(
@@ -33,16 +32,20 @@ export const useStudentSignup = () => {
       dispatch({ type: "LOGIN", payload: response.data.data });
       setIsLoggedIn(true);
       navigate("/modules");
-    } catch (error: unknown) {
-      console.log("error: ", error);
+    } catch (error) {
+      let message = "";
       if (error instanceof AxiosError) {
-        setSignUpError(error.response?.data.message || error.message);
+        message = error.response?.data.message || error.message;
       } else if (error instanceof Error) {
-        setSignUpError(error.message);
+        message = error.message;
+      }
+
+      if (message) {
+        toast.error(message.charAt(0).toUpperCase() + message.slice(1));
       }
     }
 
     setIsSignUpLoading(false);
   };
-  return { signup, isSignUpLoading, signUpError };
+  return { signup, isSignUpLoading };
 };
