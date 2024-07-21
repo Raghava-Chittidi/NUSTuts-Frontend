@@ -1,3 +1,15 @@
+# Deployed website: https://nustuts.netlify.app
+
+# Test accounts
+
+**Student:**
+Email: zack@gmail.com
+Password: zack
+
+**TA for CS1101S Tutorial 5:**
+Email: ta135600@gmail.com
+Password: ta135600
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
