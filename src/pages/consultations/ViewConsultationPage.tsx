@@ -1,15 +1,112 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useOutletContext } from "react-router-dom";
-import { BookedConsultationsView, TutorialContextType } from "../../types";
+import {
+  BookedConsultationsView,
+  TutorialContextType,
+  Consultation,
+} from "../../types";
 import { getCurrentDateTime } from "../../util/util";
 import { isUserStudent } from "../../util/user";
-import {
-  cancelConsultation,
-  getAllBookedConsultationsForStudent,
-  getAllBookedConsultationsForTeachingAssistant,
-} from "../../services/consultations";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import axios from "axios";
+import { AuthenticatedUser } from "../../context/AuthContext";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const getAllBookedConsultationsForStudent = async (
+  tutorialId: number,
+  date: string,
+  time: string,
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
+  try {
+    const studentBookedConsultations = await getAllBookedConsultations(
+      true,
+      tutorialId,
+      date,
+      time,
+      user
+    );
+    return studentBookedConsultations;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const getAllBookedConsultationsForTeachingAssistant = async (
+  tutorialId: number,
+  date: string,
+  time: string,
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
+  try {
+    const teachingAssistantBookedConsultations =
+      await getAllBookedConsultations(false, tutorialId, date, time, user);
+    return teachingAssistantBookedConsultations;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const getAllBookedConsultations = async (
+  isStudent: boolean,
+  tutorialId: number,
+  date: string,
+  time: string,
+  user: AuthenticatedUser
+): Promise<BookedConsultationsView[]> => {
+  try {
+    const res = isStudent
+      ? await axios.get(
+          `${BASE_URL}/api/consultations/student/${tutorialId}/${user.id}`,
+          {
+            params: {
+              date: date,
+              time: time,
+            },
+            headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+          }
+        )
+      : await axios.get(
+          `${BASE_URL}/api/consultations/teachingAssistant/${tutorialId}`,
+          {
+            params: {
+              date: date,
+              time: time,
+            },
+            headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+          }
+        );
+    return res.data.data.bookedConsultations;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const cancelConsultation = async (
+  tutorialId: number,
+  consultationId: number,
+  user: AuthenticatedUser
+): Promise<Consultation | null> => {
+  try {
+    const res = await axios.put(
+      `${BASE_URL}/api/consultations/${tutorialId}/cancel/${consultationId}`,
+      {},
+      {
+        params: { userId: user.id },
+        headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+      }
+    );
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
 const ViewConsultationPage = () => {
   const { state } = useAuthContext();

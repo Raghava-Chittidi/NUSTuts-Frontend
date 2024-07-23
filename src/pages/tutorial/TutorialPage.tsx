@@ -28,7 +28,7 @@ const TutorialPage = () => {
 
       if (!conn) {
         const ws = new WebSocket(
-          `ws://localhost:8000/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
+          `wss://nustuts-backend.onrender.com/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
         );
         if (ws.OPEN) {
           setConn(ws);

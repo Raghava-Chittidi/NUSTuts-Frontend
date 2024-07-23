@@ -1,11 +1,33 @@
+import axios from "axios";
+import { AuthenticatedUser } from "../../context/AuthContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Consultation } from "../../types";
+import { cancelConsultation } from "../../pages/consultations/ViewConsultationPage";
 import { useState } from "react";
-import {
-  bookConsultation,
-  cancelConsultation,
-} from "../../services/consultations";
 import { toast } from "react-toastify";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const bookConsultation = async (
+  tutorialId: number,
+  consultationId: number,
+  user: AuthenticatedUser
+): Promise<Consultation | null> => {
+  try {
+    const res = await axios.put(
+      `${BASE_URL}/api/consultations/${tutorialId}/book/${consultationId}`,
+      {},
+      {
+        params: { userId: user.id },
+        headers: { Authorization: `Bearer ${user.tokens.accessToken}` },
+      }
+    );
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
 const ConsultationBooking = ({
   consultationData,
