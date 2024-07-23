@@ -15,8 +15,7 @@ const AvatarDisplay = () => {
   const navigate = useNavigate();
   const { logout } = useLogout();
 
-  const handleLogOutClick = () => {
-    // Log out logic
+  const logoutHandler = () => {
     logout();
   };
 
@@ -45,7 +44,7 @@ const AvatarDisplay = () => {
           </p>
           <p className="font-semibold">{user.email}</p>
         </DropdownItem>
-        <DropdownItem key="logout" color="danger" onClick={handleLogOutClick}>
+        <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
           Log Out
         </DropdownItem>
       </DropdownMenu>

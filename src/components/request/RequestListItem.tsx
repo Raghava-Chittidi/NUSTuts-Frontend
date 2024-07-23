@@ -20,6 +20,7 @@ const RequestListItem = ({
   const { state } = useAuthContext();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Accepts student's request to join the tutorial
   const acceptRequestHandler = async () => {
     try {
       const res = await axios.patch(
@@ -36,6 +37,7 @@ const RequestListItem = ({
     }
   };
 
+  // Rejects student's request to join the tutorial
   const rejectRequestHandler = async () => {
     try {
       const res = await axios.patch(

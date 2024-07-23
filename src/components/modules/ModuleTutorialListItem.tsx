@@ -16,10 +16,13 @@ const ModuleTutorialListItem = ({
   moduleCode: string;
   show: boolean;
 }) => {
-  const { state } = useAuthContext();
-  const [display, setDisplay] = useState<boolean>(show);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const { state } = useAuthContext();
 
+  // A student can only request to join a specific tutorial once
+  const [display, setDisplay] = useState<boolean>(show);
+
+  // Sends a request indicating that the student wants to join this tutorial
   const requestToJoinTutorialHandler = async () => {
     try {
       setDisplay(false);

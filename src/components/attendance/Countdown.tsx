@@ -3,13 +3,20 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import Timer from "./Timer";
 import { getRemainingSeconds } from "../../util/util";
 
-const Countdown = ({ expiredTime, handleTimerUp }: { expiredTime: string, handleTimerUp: () => void}) => {
+const Countdown = ({
+  expiredTime,
+  handleTimerUp,
+}: {
+  expiredTime: string;
+  handleTimerUp: () => void;
+}) => {
   // Calculate the initial remaining seconds
   const initialRemainingSeconds = getRemainingSeconds(expiredTime);
 
   const [seconds, setSeconds] = useState<number>(initialRemainingSeconds);
 
   useEffect(() => {
+    // Countdown the time
     const interval = setInterval(() => {
       const newRemainingSeconds = getRemainingSeconds(expiredTime);
       if (newRemainingSeconds <= 0) {
@@ -34,7 +41,7 @@ const Countdown = ({ expiredTime, handleTimerUp }: { expiredTime: string, handle
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[120, 90, 60, 30]}
       children={() => <Timer remainingTime={seconds} />}
-    ></CountdownCircleTimer>
+    />
   );
 };
 

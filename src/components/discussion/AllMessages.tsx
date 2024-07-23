@@ -3,10 +3,11 @@ import MessageItem from "./MessageItem";
 import { Message } from "../../types";
 
 const AllMessages = ({ messages }: { messages: Message[] }) => {
-  let changedSender = false;
+  let changedSender: boolean = false;
   let previousSender: string | null = null;
   const divRef = useRef<HTMLDivElement | null>(null);
 
+  // For auto scrolling to latest messages on page load
   useEffect(() => {
     divRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -14,6 +15,7 @@ const AllMessages = ({ messages }: { messages: Message[] }) => {
   return (
     <div className="h-[87.5%] max-h-[87.5%] space-y-1 overflow-y-scroll">
       {messages.map((message: Message, index) => {
+        // To see if sender of the current message has changed from the previous sender
         message.sender != previousSender
           ? (changedSender = true)
           : (changedSender = false);
