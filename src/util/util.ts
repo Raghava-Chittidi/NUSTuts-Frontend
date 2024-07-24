@@ -1,5 +1,7 @@
 import { CalendarDateTime } from "@internationalized/date";
 
+export const daysArr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 export const monthsArr = [
   "January",
   "February",

@@ -18,13 +18,40 @@ export default function NavBar() {
   const { user } = useAuthContext().state;
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const menuItems = ["Modules", "Current Tutorials"];
+  const studentNavHeaders = [
+    <div
+      onClick={() => {
+        setIsMenuOpen(false);
+        navigate("/modules");
+      }}
+    >
+      Modules
+    </div>,
+  ];
+  const teachingAssistantNavHeaders = [
+    <div
+      onClick={() => {
+        setIsMenuOpen(false);
+        navigate(`/tutorial/${user.tutorial?.ID}`);
+      }}
+    >
+      Tutorial
+    </div>,
+    <div
+      onClick={() => {
+        setIsMenuOpen(false);
+        navigate("/requests");
+      }}
+    >
+      Requests
+    </div>,
+  ];
 
-  // Only should see modules and current tutorials after student is logged in
   return (
     <Navbar
       maxWidth="full"
       className="border-b-1 border-b-gray-200"
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent>
@@ -49,35 +76,29 @@ export default function NavBar() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {isUserStudent(user) && (
-          <>
-            <NavbarItem className="cursor-pointer">
-              <div onClick={() => navigate("/modules")}>Modules</div>
-            </NavbarItem>
-          </>
-        )}
-        {!isUserStudent(user) && (
-          <>
-            <NavbarItem className="cursor-pointer">
-              <div onClick={() => navigate(`/tutorial/${user.tutorial?.ID}`)}>
-                Tutorial
-              </div>
-            </NavbarItem>
-            <NavbarItem className="cursor-pointer">
-              <div onClick={() => navigate("/requests")}>Requests</div>
-            </NavbarItem>
-          </>
-        )}
+        {isUserStudent(user)
+          ? studentNavHeaders.map((header) => (
+              <NavbarItem className="cursor-pointer">{header}</NavbarItem>
+            ))
+          : teachingAssistantNavHeaders.map((header) => (
+              <NavbarItem className="cursor-pointer">{header}</NavbarItem>
+            ))}
         <NavbarItem>
           <AvatarDisplay />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <div onClick={() => {}}>{item}</div>
-          </NavbarMenuItem>
-        ))}
+        {isUserStudent(user)
+          ? studentNavHeaders.map((header) => (
+              <NavbarMenuItem className="cursor-pointer">
+                {header}
+              </NavbarMenuItem>
+            ))
+          : teachingAssistantNavHeaders.map((header) => (
+              <NavbarMenuItem className="cursor-pointer">
+                {header}
+              </NavbarMenuItem>
+            ))}
       </NavbarMenu>
     </Navbar>
   );

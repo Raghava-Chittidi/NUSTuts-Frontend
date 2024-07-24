@@ -11,7 +11,6 @@ const SidebarButton = ({
   icon: ReactNode;
   route?: string;
 }) => {
-  //   const url = use;
   const dest = route ? route : name.toLowerCase();
   const navigate = useNavigate();
   const url = useLocation().pathname;

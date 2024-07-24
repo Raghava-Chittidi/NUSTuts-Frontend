@@ -11,6 +11,7 @@ import { isUserStudent } from "../../util/user";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import axios from "axios";
 import { AuthenticatedUser } from "../../context/AuthContext";
+import ConsultationBookingItem from "../../components/consultations/ConsultationBookingItem";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -167,68 +168,18 @@ const ViewConsultationPage = () => {
   return isLoading ? (
     <LoadingSpinner />
   ) : bookedConsultations.length > 0 ? (
-    <div className="p-14 h-screen w-full overflow-y-auto">
+    <div className="p-10 px-6 lg:px-14 h-screen w-full overflow-y-auto">
       {bookedConsultations.map((consultationGroup) => (
         <div key={consultationGroup.date} className="mb-6">
           <h2 className="text-2xl font-semibold mb-4">
             {consultationGroup.date}
           </h2>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            {consultationGroup.consultations.map((consultation) => (
-              <div
-                key={consultation.id}
-                className="border-b border-gray-200 py-4"
-              >
-                <div className="mb-2">
-                  <p className="text-lg font-semibold">
-                    Time: {consultation.startTime} - {consultation.endTime}
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <p className="font-medium">
-                      TA Name:{" "}
-                      <span className="font-normal">
-                        {consultation.teachingAssistant.name}
-                      </span>
-                    </p>
-                    <p className="font-medium">
-                      TA Email:{" "}
-                      <span className="font-normal">
-                        {consultation.teachingAssistant.email}
-                      </span>
-                    </p>
-                  </div>
-                  {consultation.student && (
-                    <div>
-                      <p className="font-medium">
-                        Student Name:{" "}
-                        <span className="font-normal">
-                          {consultation.student.name}
-                        </span>
-                      </p>
-                      <p className="font-medium">
-                        Student Email:{" "}
-                        <span className="font-normal">
-                          {consultation.student.email}
-                        </span>
-                      </p>
-                    </div>
-                  )}
-                </div>
-                {isStudent && (
-                  <div className="flex justify-end">
-                    <button
-                      onClick={() => handleCancelBooking(consultation.id)}
-                      className="text-red-500 hover:underline"
-                    >
-                      Unbook
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          {consultationGroup.consultations.map((consultation) => (
+            <ConsultationBookingItem
+              consultation={consultation}
+              cancelBooking={handleCancelBooking}
+            />
+          ))}
         </div>
       ))}
     </div>

@@ -23,7 +23,7 @@ const Consultations = ({
   const [consultations, setConsultations] = useState<
     ConsultationBookingClickable[]
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
@@ -56,6 +56,7 @@ const Consultations = ({
       }
       setIsLoading(false);
     };
+
     fetchConsultations();
   }, [tutorialId]);
 
@@ -79,24 +80,34 @@ const Consultations = ({
     }
   };
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : consultations.filter((consultation) => consultation.isClickable).length >
-    0 ? (
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (
+    consultations.filter((consultation) => consultation.isClickable).length > 0
+  ) {
+    return (
+      <div className="p-4">
+        <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
+        {consultations.map((consultation) => (
+          <ConsultationBooking
+            key={consultation.consultationData.id}
+            consultationData={consultation.consultationData}
+            isClickable={consultation.isClickable}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
-      {consultations.map((consultation) => (
-        <ConsultationBooking
-          key={consultation.consultationData.id}
-          consultationData={consultation.consultationData}
-          isClickable={consultation.isClickable}
-        />
-      ))}
-    </div>
-  ) : (
-    <div className="p-4">
-      <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
-      <p>No consultations available, book consultations for another day</p>
+      <p>
+        The consultation slots for this day has been fully booked! Please book a
+        slot on another day
+      </p>
     </div>
   );
 };
