@@ -8,6 +8,7 @@ import { ActionMeta, MultiValue } from "react-select";
 import { getCurrentAY } from "../../util/util";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import WindowedSelect from "react-windowed-select";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const noError = {
   name: null,
@@ -17,10 +18,12 @@ const noError = {
 };
 
 const StudentSignUpPage = () => {
-  const user = useAuthContext().state.user;
+  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
   const navigate = useNavigate();
   const { signup } = useStudentSignup();
+  const user = state.user;
   const [toggle, setToggle] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const nameRef = useRef<null | HTMLInputElement>(null);
   const emailRef = useRef<null | HTMLInputElement>(null);
   const passwordRef = useRef<null | HTMLInputElement>(null);
@@ -38,9 +41,11 @@ const StudentSignUpPage = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/modules");
+      navigate("/");
+    } else if (!isLoggingIn && !isLoggedIn) {
+      setIsLoading(false);
     }
-  }, [user]);
+  }, [user, isLoggingIn]);
 
   // // Reference: We are using nusmods API
   useEffect(() => {
@@ -138,6 +143,10 @@ const StudentSignUpPage = () => {
 
     await signup(name, email, password, selectedModules);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="min-h-screen flex">

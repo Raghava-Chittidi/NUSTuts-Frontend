@@ -10,7 +10,7 @@ import { useWebsocketContext } from "../../hooks/useWebsocketContext";
 
 const DiscussionPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const { isLoggingIn, isLoggedIn, state } = useAuthContext();
+  const { state } = useAuthContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { conn } = useWebsocketContext();
   const params = useParams();
@@ -66,12 +66,10 @@ const DiscussionPage = () => {
       }
     };
 
-    if (isLoggedIn) {
-      sendRequest();
-    }
-  }, [isLoggedIn]);
+    sendRequest();
+  }, []);
 
-  if (isLoggingIn || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

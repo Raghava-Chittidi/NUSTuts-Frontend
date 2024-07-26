@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 const WeekFilesPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { isLoggingIn, isLoggedIn, state } = useAuthContext();
+  const { state } = useAuthContext();
   const [files, setFiles] = useState<TutorialFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [uploadFileLoading, setUploadFileLoading] = useState<boolean>(false);
@@ -52,22 +52,16 @@ const WeekFilesPage = () => {
       setIsLoading(false);
     };
 
-    if (isLoggedIn) {
-      sendRequest();
-    }
-  }, [isLoggedIn]);
+    sendRequest();
+  }, []);
 
   useEffect(() => {
-    if (
-      (!isLoggingIn && !isLoggedIn) ||
-      +params.week! > 13 ||
-      +params.week! <= 0
-    ) {
+    if (+params.week! > 13 || +params.week! <= 0) {
       navigate("/");
     }
-  }, [isLoggingIn]);
+  }, []);
 
-  if (isLoggingIn || !isLoggedIn || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -169,7 +163,7 @@ const WeekFilesPage = () => {
         <span className="pl-2">Filename</span>
         <div className="flex items-center space-x-8 md:space-x-10">
           <span>Modified on</span>
-          {!isLoggingIn && state.user.role.userType === "teachingAssistant" && (
+          {state.user.role.userType === "teachingAssistant" && (
             <span className="pr-2">Actions</span>
           )}
         </div>
@@ -195,49 +189,48 @@ const WeekFilesPage = () => {
               </div>
               <div className="flex items-center space-x-10 text-xs md:text-sm lg:text-base">
                 <span>{formatDate(file.UpdatedAt)}</span>
-                {!isLoggingIn &&
-                  state.user.role.userType === "teachingAssistant" && (
-                    <div className="flex space-x-0 sm:space-x-1 items-center">
-                      <div className="w-8 h-8 flex items-center">
-                        <Modal
-                          title="Warning!"
-                          body="This action is irreversible! Are you sure you want to delete this file?"
-                          component={
-                            <FaTrash
-                              title="Delete file"
-                              className="rounded-lg p-1 cursor-pointer hover:bg-red-600 hover:bg-opacity-15 duration-400 text-red-600 text-xl sm:text-2xl"
-                            />
-                          }
-                          handler={() => deleteFileHandler(file.filepath)}
-                        />
-                      </div>
-                      <div className="w-8 h-8 flex items-center">
-                        {!file.visible ? (
-                          <FaEyeSlash
-                            title="Unprivate file"
-                            className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
-                            onClick={() =>
-                              unprivateFileHandler(file.filepath, index)
-                            }
+                {state.user.role.userType === "teachingAssistant" && (
+                  <div className="flex space-x-0 sm:space-x-1 items-center">
+                    <div className="w-8 h-8 flex items-center">
+                      <Modal
+                        title="Warning!"
+                        body="This action is irreversible! Are you sure you want to delete this file?"
+                        component={
+                          <FaTrash
+                            title="Delete file"
+                            className="rounded-lg p-1 cursor-pointer hover:bg-red-600 hover:bg-opacity-15 duration-400 text-red-600 text-xl sm:text-2xl"
                           />
-                        ) : (
-                          <FaEye
-                            title="Private file"
-                            className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
-                            onClick={() =>
-                              privateFileHandler(file.filepath, index)
-                            }
-                          />
-                        )}
-                      </div>
+                        }
+                        handler={() => deleteFileHandler(file.filepath)}
+                      />
                     </div>
-                  )}
+                    <div className="w-8 h-8 flex items-center">
+                      {!file.visible ? (
+                        <FaEyeSlash
+                          title="Unprivate file"
+                          className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
+                          onClick={() =>
+                            unprivateFileHandler(file.filepath, index)
+                          }
+                        />
+                      ) : (
+                        <FaEye
+                          title="Private file"
+                          className="rounded-lg p-1 cursor-pointer hover:bg-green-600 hover:bg-opacity-15 duration-400 text-green-600 text-xl sm:text-2xl"
+                          onClick={() =>
+                            privateFileHandler(file.filepath, index)
+                          }
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <hr className="w-full border-gray-300" />
           </div>
         ))}
-      {!isLoggingIn && state.user.role.userType === "teachingAssistant" && (
+      {state.user.role.userType === "teachingAssistant" && (
         <div className="pt-5 pl-2">
           <h1 className="font-bold text-blue-950 pb-5">Upload Files</h1>
           <div className="flex items-center space-x-5">

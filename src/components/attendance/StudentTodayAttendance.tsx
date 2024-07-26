@@ -9,16 +9,18 @@ import { toast } from "react-toastify";
 const StudentTodayAttendance = () => {
   const { tutorialId } = useOutletContext<TutorialContextType>();
   const { state } = useAuthContext();
-  const [isAttended, setIsAttended] = useState(false);
-  const [attendanceCode, setAttendanceCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAttended, setIsAttended] = useState<boolean>(false);
+  const [attendanceCode, setAttendanceCode] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [unopenedMessage, setUnopenedMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
-    // Fetch the current attendance status from the server
+    // Fetch the current attendance status of student from the server
     const fetchAttendanceStatus = async () => {
       try {
+        setUnopenedMessage("");
         const res = await axios.get(
           `${BASE_URL}/api/attendance/student/${tutorialId}/attended/${state.user.id}`,
           {
@@ -31,7 +33,10 @@ const StudentTodayAttendance = () => {
         const attended = await res.data.data;
         setIsAttended(attended);
       } catch (error) {
-        console.error("Error fetching attendance status:", error);
+        setUnopenedMessage(
+          "Teaching Assistant has not opened attendance marking yet"
+        );
+        console.log(error);
       }
       setIsLoading(false);
     };
@@ -63,7 +68,7 @@ const StudentTodayAttendance = () => {
       setErrorMessage("");
       toast.success("Your attendance has been marked!");
     } catch (error) {
-      console.error("Error submitting attendance code:", error);
+      console.log("Error submitting attendance code:", error);
       setErrorMessage(
         "An error occurred, you might have submitted the wrong code. Please try again."
       );
@@ -71,12 +76,16 @@ const StudentTodayAttendance = () => {
     }
   };
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : (
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
     <div className="w-full p-6 text-center flex flex-col justify-center">
       <div className="my-4 text-lg ">
-        {isAttended
+        {unopenedMessage
+          ? "Teaching assistant has not opened attendance marking yet!"
+          : isAttended
           ? "Your attendance has been marked."
           : "Your attendance has not been marked yet."}
       </div>

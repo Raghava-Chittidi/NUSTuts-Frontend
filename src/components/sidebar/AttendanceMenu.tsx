@@ -1,6 +1,6 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { MdChecklist } from "react-icons/md";
-import { FaCalendarCheck, FaHistory } from 'react-icons/fa';
+import { FaCalendarCheck, FaHistory } from "react-icons/fa";
 import SidebarButton from "./SidebarButton";
 
 const AttendanceMenu = () => {

@@ -34,11 +34,13 @@ export const FileUpload = ({
       return;
     }
 
+    // Get the uploaded file and create its filepath
     const file = files[0];
     const filepath = `${state.user.tutorial?.ID}/${week}/${uuidv4()}-${
       file.name
     }`;
 
+    // Upload this file into supabase storage
     const { error } = await supabase.storage
       .from("NUSTuts")
       .upload(filepath, file);
@@ -51,6 +53,7 @@ export const FileUpload = ({
       return;
     }
 
+    // Upload the tutorial file information into the db
     try {
       const res = await axios.post(
         `${BASE_URL}/api/files/upload/${state.user.tutorial?.ID}`,
@@ -81,6 +84,7 @@ export const FileUpload = ({
       };
 
       target.value = "";
+      // Add uploaded file into the current list of files that are displayed
       setFiles((prevState) => [...prevState, tutorialFile]);
       setLoading(false);
       toast.success("File successfully uploaded!");

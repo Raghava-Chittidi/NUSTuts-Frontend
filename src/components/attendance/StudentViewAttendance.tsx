@@ -12,11 +12,11 @@ const StudentViewAttendance = () => {
     StudentAttendance[]
   >([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
-    // Fetch the attendance history from the server
+    // Fetch the attendance history of student from the server
     const fetchAttendanceHistory = async () => {
       try {
         const response = await axios.get(
@@ -30,7 +30,7 @@ const StudentViewAttendance = () => {
         setAttendanceHistory(response.data.data.attendance);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching attendance history:", error);
+        console.log("Error fetching attendance history:", error);
         setErrorMessage(
           "Failed to load attendance history. Please try again later."
         );
@@ -40,9 +40,11 @@ const StudentViewAttendance = () => {
     fetchAttendanceHistory();
   }, []);
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : attendanceHistory.length > 0 ? (
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return attendanceHistory.length > 0 ? (
     <div className="w-full p-6 text-center">
       {errorMessage ? (
         <div className="text-red-500">{errorMessage}</div>

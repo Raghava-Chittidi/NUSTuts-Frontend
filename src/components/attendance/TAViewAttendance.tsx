@@ -12,7 +12,7 @@ const TAViewAttendance = () => {
   const [attendanceList, setAttendanceList] = useState<AttendanceListsView[]>(
     []
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {

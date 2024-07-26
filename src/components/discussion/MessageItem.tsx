@@ -12,6 +12,13 @@ const MessageItem = ({
 }) => {
   const { state } = useAuthContext();
 
+  /* 
+    To ensure messages of the same sender are grouped together. Messages of different senders
+    have gaps between them. Messages sent by the logged in user should always appear at the
+    right side while messages sent by other users should always appear at the left side of the
+    screen
+  */
+
   return (
     <div className={`${changed && "pt-5"}`}>
       <div

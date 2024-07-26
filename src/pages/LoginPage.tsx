@@ -4,6 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import { Eye, EyeOff } from "@geist-ui/react-icons";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthContext } from "../hooks/useAuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const noError = {
   email: null,
@@ -11,10 +12,12 @@ const noError = {
 };
 
 const LoginPage = ({ userType }: { userType: string }) => {
-  const user = useAuthContext().state.user;
+  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
+  const user = state.user;
   const navigate = useNavigate();
   const { login } = useLogin(userType);
   const [toggle, setToggle] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const emailRef = useRef<null | HTMLInputElement>(null);
   const passwordRef = useRef<null | HTMLInputElement>(null);
   const [error, setError] = useState<{
@@ -24,13 +27,11 @@ const LoginPage = ({ userType }: { userType: string }) => {
 
   useEffect(() => {
     if (user) {
-      if (userType === "Student") {
-        navigate("/modules");
-      } else {
-        navigate("/requests");
-      }
+      navigate("/");
+    } else if (!isLoggingIn && !isLoggedIn) {
+      setIsLoading(false);
     }
-  }, [user, userType]);
+  }, [user, isLoggingIn]);
 
   const resetError = (name: string) => {
     if (error[name as keyof typeof error]) {
@@ -71,6 +72,10 @@ const LoginPage = ({ userType }: { userType: string }) => {
 
     await login(email, password);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="min-h-screen flex">

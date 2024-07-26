@@ -7,26 +7,17 @@ import {
   Modal as NextUIModal,
   useDisclosure,
 } from "@nextui-org/react";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import LoadingSpinner from "../LoadingSpinner";
 import { useState } from "react";
 import Consultations from "./Consultations";
 import { getCurrentDateValue } from "../../util/util";
 import { CalendarDateTime } from "@internationalized/date";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
-  const { isLoggingIn } = useAuthContext();
-  // const [isDateSelected, setIsDateSelected] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedCalendarDate, setSelectedCalendarDate] =
     useState<CalendarDateTime | null>(getCurrentDateValue());
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  if (isLoggingIn) {
-    return <LoadingSpinner />;
-  }
-
-  // console.log(getCurrentDateValue());
   return (
     <>
       <div className="mx-auto flex items-center space-x-0 h-screen pb-16">
@@ -89,7 +80,7 @@ export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
               </ModalBody>
               <ModalFooter>
                 <Button variant="light" onPress={onClose}>
-                  Cancel
+                  Confirm
                 </Button>
               </ModalFooter>
             </>

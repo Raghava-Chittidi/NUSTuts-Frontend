@@ -12,7 +12,7 @@ const TATodayAttendance = () => {
   const [isTimerUp, setIsTimerUp] = useState<boolean>(false);
   const [attendanceString, setAttendanceString] = useState<AttendanceString>();
   const [attendanceList, setAttendanceList] = useState<Attendance[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const getTodayAttendanceList = async () => {
@@ -96,9 +96,11 @@ const TATodayAttendance = () => {
     setIsLoading(false);
   }, [isTimerUp]);
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : (
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
     <div className="flex w-full items-center justify-center min-h-screen pb-16">
       {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">

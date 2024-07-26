@@ -15,6 +15,7 @@ export default function ModuleListItem({ module }: { module: Module }) {
 
   useEffect(() => {
     if (!isLoggingIn) {
+      // Checks if user has joined a tutorial for this module. If they have, they are able to see an arrow icon to visit the tutorial
       setTutorial(
         state.user.tutorials?.find(
           (tutorial) => tutorial.module === module.code

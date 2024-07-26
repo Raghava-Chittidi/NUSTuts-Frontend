@@ -14,7 +14,7 @@ const FilesPage = () => {
           <div className="flex items-center space-x-4 pl-2 my-2">
             <FaFolder size={23} className="text-gray-400" />
             <Link
-              onClick={() =>
+              onPress={() =>
                 navigate(`/tutorial/${params.tutorialId}/files/weeks/${week}`)
               }
               className="cursor-pointer hover:underline"

@@ -8,7 +8,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ModulesPage = () => {
-  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
+  const { state } = useAuthContext();
   const [mods, setMods] = useState<Module[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -37,12 +37,10 @@ const ModulesPage = () => {
       setIsLoading(false);
     };
 
-    if (isLoggedIn) {
-      getMods();
-    }
-  }, [isLoggedIn]);
+    getMods();
+  }, []);
 
-  if (isLoggingIn || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
