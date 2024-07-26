@@ -12,6 +12,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import axios from "axios";
 import { AuthenticatedUser } from "../../context/AuthContext";
 import ConsultationBookingItem from "../../components/consultations/ConsultationBookingItem";
+import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -138,6 +139,7 @@ const ViewConsultationPage = () => {
         setBookedConsultations(response);
         setIsLoading(false);
       } catch (error) {
+        toast.error("Failed to fetch consultations!");
         console.log(error);
       }
     };
@@ -161,31 +163,36 @@ const ViewConsultationPage = () => {
       );
       setIsLoading(false);
     } catch (error) {
+      toast.error("Failed to fetch consultations!");
       console.log(error);
     }
   };
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : bookedConsultations.length > 0 ? (
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
     <div className="p-10 px-6 lg:px-14 h-screen w-full overflow-y-auto">
-      {bookedConsultations.map((consultationGroup) => (
-        <div key={consultationGroup.date} className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            {consultationGroup.date}
-          </h2>
-          {consultationGroup.consultations.map((consultation) => (
-            <ConsultationBookingItem
-              consultation={consultation}
-              cancelBooking={handleCancelBooking}
-            />
-          ))}
-        </div>
-      ))}
-    </div>
-  ) : (
-    <div className="p-14 h-screen w-full flex items-center justify-center">
-      <p className="text-xl font-semibold">No booked consultations</p>
+      {bookedConsultations.length === 0 ? (
+        <p className="text-xl font-semibold w-full h-full text-center flex justify-center items-center pb-16">
+          No booked consultations!
+        </p>
+      ) : (
+        bookedConsultations.map((consultationGroup) => (
+          <div key={consultationGroup.date} className="mb-6">
+            <h2 className="text-2xl font-semibold mb-4">
+              {consultationGroup.date}
+            </h2>
+            {consultationGroup.consultations.map((consultation) => (
+              <ConsultationBookingItem
+                consultation={consultation}
+                cancelBooking={handleCancelBooking}
+              />
+            ))}
+          </div>
+        ))
+      )}
     </div>
   );
 };

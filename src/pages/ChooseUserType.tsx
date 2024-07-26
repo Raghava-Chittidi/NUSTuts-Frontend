@@ -1,11 +1,26 @@
-import {
-  AcademicCapIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/solid";
+import { AcademicCapIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ChooseUserType = () => {
+  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const user = state.user;
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    } else if (!isLoggingIn && !isLoggedIn) {
+      setIsLoading(false);
+    }
+  }, [user, isLoggingIn]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="bg-gradient-to-b from-[#411d70] to-[#19118b] h-screen flex flex-col items-center p-8">

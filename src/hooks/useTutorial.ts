@@ -2,20 +2,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
 import { useState } from "react";
 
+// Ensures that the users can only visit valid tutorials that they are inside
 export const useTutorial = () => {
   const { tutorialId } = useParams();
-  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
+  const user = useAuthContext().state.user;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   const validateTutorialId = () => {
-    if ((!isLoggingIn && !isLoggedIn) || +tutorialId! <= 0) {
+    if (+tutorialId! <= 0) {
       navigate("/");
       return;
     }
 
-    if (state.user.role.userType === "student") {
-      const id = state.user.tutorials?.findIndex(
+    if (user.role.userType === "student") {
+      // Check whether the student that wants to visit this tutorial is already inside this tutorial
+      const id = user.tutorials?.findIndex(
         (tutorial) => tutorial.ID === +tutorialId!
       );
 
@@ -24,7 +26,8 @@ export const useTutorial = () => {
         return;
       }
     } else {
-      if (+tutorialId! !== state.user.tutorial?.ID) {
+      // Check whether the teaching assistant that wants to visit this tutorial teaches this tutorial
+      if (+tutorialId! !== user.tutorial?.ID) {
         navigate("/");
         return;
       }

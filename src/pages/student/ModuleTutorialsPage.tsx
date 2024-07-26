@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ModuleTutorialsPage = () => {
-  const { state, isLoggedIn, isLoggingIn } = useAuthContext();
+  const { state } = useAuthContext();
   const { moduleCode } = useParams();
   const [classNo, setClassNo] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -43,18 +43,20 @@ const ModuleTutorialsPage = () => {
       }
     };
 
-    if (isLoggedIn) {
-      sendRequest();
-    }
-  }, [isLoggedIn]);
+    sendRequest();
+  }, []);
 
-  if (isLoggingIn || loading || isLoading) {
+  if (loading || isLoading) {
     return <LoadingSpinner />;
   }
 
   const curSem =
     data?.semesterData.find((sem: any) => sem.semester === getCurrentSem()) ||
     [];
+
+  const tutorials: FetchedTutorial[] = curSem.timetable.filter(
+    (tutorial: FetchedTutorial) => tutorial.lessonType === "Tutorial"
+  );
 
   return (
     <PrivateRoute userType="student">
@@ -63,18 +65,21 @@ const ModuleTutorialsPage = () => {
           Showing all tutorials for {moduleCode}:
         </h1>
         <div className="flex flex-col w-full items-center space-y-5 mt-5">
-          {curSem.timetable
-            .filter(
-              (tutorial: FetchedTutorial) => tutorial.lessonType === "Tutorial"
-            )
-            .map((tutorial: FetchedTutorial, index: number) => (
+          {tutorials.length === 0 ? (
+            <p>
+              This module does not have any tutorials. It may only have
+              lectures, recitations or labs.
+            </p>
+          ) : (
+            tutorials.map((tutorial: FetchedTutorial, index: number) => (
               <ModuleTutorialListItem
                 key={index}
                 tutorial={tutorial}
                 moduleCode={moduleCode!}
                 show={!classNo.includes(tutorial.classNo)}
               />
-            ))}
+            ))
+          )}
         </div>
       </div>
     </PrivateRoute>

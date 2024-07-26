@@ -9,7 +9,7 @@ import axios from "axios";
 import { useWebsocketContext } from "../../hooks/useWebsocketContext";
 
 const TutorialPage = () => {
-  const { isLoggingIn, isLoggedIn, state } = useAuthContext();
+  const { state } = useAuthContext();
   const { tutorialId } = useParams();
   const { isLoading, validateTutorialId } = useTutorial();
   const { setConn, conn } = useWebsocketContext();
@@ -40,16 +40,14 @@ const TutorialPage = () => {
   };
 
   useEffect(() => {
-    if (!isLoggingIn && isLoggedIn) {
-      validateTutorialId();
-      if (!once) {
-        joinDiscussionHandler();
-        once = true;
-      }
+    validateTutorialId();
+    if (!once) {
+      joinDiscussionHandler();
+      once = true;
     }
-  }, [isLoggingIn, isLoggedIn]);
+  }, []);
 
-  if (isLoggingIn || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

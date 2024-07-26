@@ -18,32 +18,21 @@ import BookConsultationPage from "./pages/consultations/BookConsultationPage";
 import ViewConsultationPage from "./pages/consultations/ViewConsultationPage";
 import AttendancePage from "./pages/attendance/AttendancePage";
 import ViewAttendancePage from "./pages/attendance/ViewAttendancePage";
-import { ReactNode, useEffect, useState } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
-  const [homepage, setHomepage] = useState<ReactNode>(<LoadingSpinner />);
   const { isLoggedIn, isLoggingIn } = useAuthContext();
-  console.log(isLoggedIn, isLoggingIn);
-
-  useEffect(() => {
-    if (isLoggingIn) {
-      setHomepage(<LoadingSpinner />);
-    }
-
-    if (!isLoggingIn && isLoggedIn) {
-      setHomepage(<Layout />);
-    }
-
-    if (!isLoggingIn && !isLoggedIn) {
-      setHomepage(<Homepage />);
-    }
-  }, [isLoggedIn, isLoggingIn]);
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: homepage,
+      element: isLoggingIn ? (
+        <LoadingSpinner />
+      ) : isLoggedIn ? (
+        <Layout />
+      ) : (
+        <Homepage />
+      ),
       children: [
         {
           path: "/modules",

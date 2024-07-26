@@ -7,23 +7,16 @@ import {
   Modal as NextUIModal,
   useDisclosure,
 } from "@nextui-org/react";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import LoadingSpinner from "../LoadingSpinner";
 import { useState } from "react";
 import Consultations from "./Consultations";
 import { getCurrentDateValue } from "../../util/util";
 import { CalendarDateTime } from "@internationalized/date";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
-  const { isLoggingIn } = useAuthContext();
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedCalendarDate, setSelectedCalendarDate] =
     useState<CalendarDateTime | null>(getCurrentDateValue());
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  if (isLoggingIn) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <>

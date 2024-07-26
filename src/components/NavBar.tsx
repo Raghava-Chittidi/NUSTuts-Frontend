@@ -77,11 +77,15 @@ export default function NavBar() {
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {isUserStudent(user)
-          ? studentNavHeaders.map((header) => (
-              <NavbarItem className="cursor-pointer">{header}</NavbarItem>
+          ? studentNavHeaders.map((header, index) => (
+              <NavbarItem className="cursor-pointer" key={index}>
+                {header}
+              </NavbarItem>
             ))
-          : teachingAssistantNavHeaders.map((header) => (
-              <NavbarItem className="cursor-pointer">{header}</NavbarItem>
+          : teachingAssistantNavHeaders.map((header, index) => (
+              <NavbarItem className="cursor-pointer" key={index}>
+                {header}
+              </NavbarItem>
             ))}
         <NavbarItem>
           <AvatarDisplay />
@@ -89,13 +93,13 @@ export default function NavBar() {
       </NavbarContent>
       <NavbarMenu>
         {isUserStudent(user)
-          ? studentNavHeaders.map((header) => (
-              <NavbarMenuItem className="cursor-pointer">
+          ? studentNavHeaders.map((header, index) => (
+              <NavbarMenuItem className="cursor-pointer" key={index}>
                 {header}
               </NavbarMenuItem>
             ))
-          : teachingAssistantNavHeaders.map((header) => (
-              <NavbarMenuItem className="cursor-pointer">
+          : teachingAssistantNavHeaders.map((header, index) => (
+              <NavbarMenuItem className="cursor-pointer" key={index}>
                 {header}
               </NavbarMenuItem>
             ))}
