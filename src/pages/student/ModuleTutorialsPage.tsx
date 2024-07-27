@@ -23,6 +23,7 @@ const ModuleTutorialsPage = () => {
   );
 
   useEffect(() => {
+    // Sends a request to get the class number of the student for the module
     const sendRequest = async () => {
       try {
         setIsLoading(true);
@@ -50,6 +51,7 @@ const ModuleTutorialsPage = () => {
     return <LoadingSpinner />;
   }
 
+  // Filters out tutorials from the current semester
   const curSem =
     data?.semesterData.find((sem: any) => sem.semester === getCurrentSem()) ||
     [];

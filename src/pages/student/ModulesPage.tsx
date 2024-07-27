@@ -13,6 +13,7 @@ const ModulesPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    // Retrieves modules for the current academic year using NUSMods API
     const getMods = async () => {
       setIsLoading(true);
       const modules = state.user.modules;

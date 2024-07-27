@@ -24,6 +24,7 @@ const WeekFilesPage = () => {
   const [uploadFileLoading, setUploadFileLoading] = useState<boolean>(false);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Fetch files for the current week using supabase
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(
@@ -35,6 +36,7 @@ const WeekFilesPage = () => {
 
       const promises = [];
       for (const file of res.data.data.files) {
+        // Fetch the file from supabase storage using the filepath
         const fetchedFile = await supabase.storage
           .from("NUSTuts")
           .getPublicUrl(file.filepath);
@@ -55,6 +57,7 @@ const WeekFilesPage = () => {
     sendRequest();
   }, []);
 
+  // Redirect to homepage if week is invalid
   useEffect(() => {
     if (+params.week! > 13 || +params.week! <= 0) {
       navigate("/");
@@ -66,12 +69,14 @@ const WeekFilesPage = () => {
   }
 
   const deleteFileHandler = async (filepath: string) => {
+    // Only teaching assistants can delete files
     if (state.user.role.userType === "student") {
       return;
     }
 
     try {
       setIsLoading(true);
+      // Remove the file from the database
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
         `${BASE_URL}/api/files/delete/${state.user.tutorial?.ID}`,
@@ -98,11 +103,13 @@ const WeekFilesPage = () => {
   };
 
   const privateFileHandler = async (filepath: string, index: number) => {
+    // Only teaching assistants can private files
     if (state.user.role.userType === "student") {
       return;
     }
 
     try {
+      // Update the file to be private in the database
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
         `${BASE_URL}/api/files/private/${state.user.tutorial?.ID}`,
@@ -128,11 +135,13 @@ const WeekFilesPage = () => {
   };
 
   const unprivateFileHandler = async (filepath: string, index: number) => {
+    // Only teaching assistants can unprivate files
     if (state.user.role.userType === "student") {
       return;
     }
 
     try {
+      // Update the file to be visible / unprivated in the database
       const path = filepath.split("NUSTuts/")[1];
       const res = await axios.patch(
         `${BASE_URL}/api/files/unprivate/${state.user.tutorial?.ID}`,

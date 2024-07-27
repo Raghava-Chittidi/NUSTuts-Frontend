@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// Gets all booked consultations for a student
 const getAllBookedConsultationsForStudent = async (
   tutorialId: number,
   date: string,
@@ -37,6 +38,7 @@ const getAllBookedConsultationsForStudent = async (
   }
 };
 
+// Gets all booked consultations for a teaching assistant
 const getAllBookedConsultationsForTeachingAssistant = async (
   tutorialId: number,
   date: string,
@@ -53,6 +55,7 @@ const getAllBookedConsultationsForTeachingAssistant = async (
   }
 };
 
+// Gets all booked consultations for a student or teaching assistant
 const getAllBookedConsultations = async (
   isStudent: boolean,
   tutorialId: number,
@@ -89,6 +92,7 @@ const getAllBookedConsultations = async (
   }
 };
 
+// Cancels a consultation
 export const cancelConsultation = async (
   tutorialId: number,
   consultationId: number,
@@ -112,6 +116,7 @@ export const cancelConsultation = async (
 
 const ViewConsultationPage = () => {
   const { state } = useAuthContext();
+  // Gets tutorial id from the page url
   const { tutorialId } = useOutletContext<TutorialContextType>();
   const [bookedConsultations, setBookedConsultations] = useState<
     BookedConsultationsView[]
@@ -119,6 +124,7 @@ const ViewConsultationPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const isStudent = isUserStudent(state.user);
 
+  // Initially fetches all booked consultations
   useEffect(() => {
     const fetchBookedConsultations = async () => {
       try {
@@ -147,6 +153,9 @@ const ViewConsultationPage = () => {
     fetchBookedConsultations();
   }, []);
 
+  // Cancels a booked consultation.
+  // Sets booked consultations after cancelling a consultation.
+  // Removes the consultation from the booked consultations list.
   const handleCancelBooking = async (consultationId: number) => {
     try {
       setIsLoading(true);

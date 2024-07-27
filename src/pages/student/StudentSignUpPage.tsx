@@ -47,8 +47,9 @@ const StudentSignUpPage = () => {
     }
   }, [user, isLoggingIn]);
 
-  // // Reference: We are using nusmods API
+  // Reference: We are using nusmods API
   useEffect(() => {
+    // Fetches all modules from NUSMods API for the current academic year
     const fetchModules = async () => {
       const moduleListResponse = await axios.get(
         `https://api.nusmods.com/v2/${getCurrentAY()}/moduleList.json`
@@ -66,6 +67,7 @@ const StudentSignUpPage = () => {
     fetchModules();
   }, []);
 
+  // Handles the change in selected modules
   const handleSelectedChange = (
     newValue: unknown,
     actionMeta: ActionMeta<unknown>
@@ -96,6 +98,7 @@ const StudentSignUpPage = () => {
     const email = emailRef.current!.value;
     const password = passwordRef.current!.value;
 
+    // Validates name to be non-empty
     if (name.length === 0) {
       setError((prevState) => {
         return {
@@ -105,6 +108,7 @@ const StudentSignUpPage = () => {
       });
     }
 
+    // Validates email to contain '@' symbol
     if (!email.includes("@")) {
       setError((prevState) => {
         return {
@@ -114,6 +118,7 @@ const StudentSignUpPage = () => {
       });
     }
 
+    // Validates password to be at least 6 characters long
     if (password.length < 6) {
       setError((prevState) => {
         return {
@@ -123,6 +128,7 @@ const StudentSignUpPage = () => {
       });
     }
 
+    // Validates module selected by student to be at least 1
     if (selectedModules.length === 0) {
       setError((prevState) => {
         return {
