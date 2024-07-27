@@ -1,7 +1,6 @@
 import { User } from "../types";
 
-// Checks if user is a student
-// True if user is a student, false if user is a teaching assistant
+// Checks if user is a student. Returns true if user is a student, false if user is a teaching assistant
 export const isUserStudent = (user: User) => {
   return user && user.role.userType === "student";
 };

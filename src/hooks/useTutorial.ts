@@ -10,6 +10,7 @@ export const useTutorial = () => {
   const navigate = useNavigate();
 
   const validateTutorialId = () => {
+    // Check for invalid tutorial id
     if (+tutorialId! <= 0) {
       navigate("/");
       return;

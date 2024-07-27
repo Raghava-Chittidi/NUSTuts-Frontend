@@ -24,7 +24,7 @@ const WeekFilesPage = () => {
   const [uploadFileLoading, setUploadFileLoading] = useState<boolean>(false);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // Fetch files for the current week using supabase
+  // Fetch tutorial files for the current week from the server
   useEffect(() => {
     const sendRequest = async () => {
       const res = await axios.get(
@@ -36,7 +36,7 @@ const WeekFilesPage = () => {
 
       const promises = [];
       for (const file of res.data.data.files) {
-        // Fetch the file from supabase storage using the filepath
+        // Fetch each file from supabase storage using the filepath
         const fetchedFile = await supabase.storage
           .from("NUSTuts")
           .getPublicUrl(file.filepath);
@@ -57,7 +57,7 @@ const WeekFilesPage = () => {
     sendRequest();
   }, []);
 
-  // Redirect to homepage if week is invalid
+  // Redirects to homepage if week is invalid
   useEffect(() => {
     if (+params.week! > 13 || +params.week! <= 0) {
       navigate("/");
@@ -76,8 +76,9 @@ const WeekFilesPage = () => {
 
     try {
       setIsLoading(true);
-      // Remove the file from the database
       const path = filepath.split("NUSTuts/")[1];
+
+      // Remove the file from the database
       const res = await axios.patch(
         `${BASE_URL}/api/files/delete/${state.user.tutorial?.ID}`,
         {
@@ -89,6 +90,7 @@ const WeekFilesPage = () => {
       );
       console.log(res.data);
 
+      // Remove the file from supabase storage
       await supabase.storage.from("NUSTuts").remove([path]);
       setFiles((prevState) =>
         prevState.filter((tutorialFile) => tutorialFile.filepath !== filepath)
@@ -109,8 +111,9 @@ const WeekFilesPage = () => {
     }
 
     try {
-      // Update the file to be private in the database
       const path = filepath.split("NUSTuts/")[1];
+
+      // Update the tutorial file to be private in the database
       const res = await axios.patch(
         `${BASE_URL}/api/files/private/${state.user.tutorial?.ID}`,
         {
@@ -122,6 +125,7 @@ const WeekFilesPage = () => {
       );
       console.log(res.data);
 
+      // Hide the file that is set to private
       setFiles((prevState) => {
         const newState = [...prevState];
         prevState[index].visible = false;
@@ -141,8 +145,9 @@ const WeekFilesPage = () => {
     }
 
     try {
-      // Update the file to be visible / unprivated in the database
       const path = filepath.split("NUSTuts/")[1];
+
+      // Update the tutorial file to be unprivated in the database
       const res = await axios.patch(
         `${BASE_URL}/api/files/unprivate/${state.user.tutorial?.ID}`,
         {
@@ -154,6 +159,7 @@ const WeekFilesPage = () => {
       );
       console.log(res.data);
 
+      // Display the file that is unprivated
       setFiles((prevState) => {
         const newState = [...prevState];
         prevState[index].visible = true;

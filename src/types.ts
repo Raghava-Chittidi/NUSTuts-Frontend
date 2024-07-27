@@ -72,26 +72,26 @@ export type Message = {
 
 export type Consultation = {
   id: number;
-	tutorial: Tutorial;
-	student?: Student;
+  tutorial: Tutorial;
+  student?: Student;
   teachingAssistant: TeachingAssistant;
-	date: string;
-	startTime: string;
-	endTime: string;
-	booked: boolean
-}
+  date: string;
+  startTime: string;
+  endTime: string;
+  booked: boolean;
+};
 
 export type BookedConsultationsView = {
   date: string;
   consultations: Consultation[];
-}
+};
 
 export type AttendanceString = {
   ID: number;
   code: string;
   tutorialId: number;
   expiresAt: string;
-}
+};
 
 export type Attendance = {
   id: number;
@@ -99,7 +99,7 @@ export type Attendance = {
   tutorialId: number;
   date: string;
   present: boolean;
-}
+};
 
 export type StudentAttendance = {
   ID: number;
@@ -107,12 +107,11 @@ export type StudentAttendance = {
   tutorialId: number;
   date: string;
   present: boolean;
-}
+};
 
 export type AttendanceListsView = {
   date: string;
   attendance: Attendance[];
-}
+};
 
 export type TutorialContextType = { tutorialId: number };
-

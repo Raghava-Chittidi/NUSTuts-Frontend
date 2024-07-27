@@ -10,6 +10,7 @@ export const useLogin = (userType: string) => {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Logs users in, based on their user type
   const login = async (email: string, password: string) => {
     setIsLoading(true);
 
@@ -30,6 +31,8 @@ export const useLogin = (userType: string) => {
 
       dispatch({ type: "LOGIN", payload: response.data.data });
       setIsLoggedIn(true);
+
+      // Redirects them to their homepage, based on the user type
       if (userType == "Student") {
         navigate("/modules");
       } else {
@@ -43,6 +46,7 @@ export const useLogin = (userType: string) => {
         message = error.message;
       }
 
+      // Display error message as a toast
       if (message) {
         toast.error(message.charAt(0).toUpperCase() + message.slice(1));
       }

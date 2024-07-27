@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Message } from "../../types";
 import { useWebsocketContext } from "../../hooks/useWebsocketContext";
+import { toast } from "react-toastify";
 
 const DiscussionPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -17,8 +18,7 @@ const DiscussionPage = () => {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // useEffect to register listeners for incoming messages,
-  // and to define behaviour when the connection is closed, errors, or opened
+  // Listens for message events and sets messages to include the new messages
   useEffect(() => {
     if (conn === null) {
       navigate(`/tutorial/${params.tutorialId}/discussion`);
@@ -39,7 +39,7 @@ const DiscussionPage = () => {
     conn.onopen = () => {};
   }, [conn, messages]);
 
-  // useEffect to fetch messages from the server
+  // Fetch tutorial message history from the server
   useEffect(() => {
     const sendRequest = async () => {
       try {
@@ -52,8 +52,7 @@ const DiscussionPage = () => {
           }
         );
 
-        // Maps messages to include a type field
-        // to differentiate between self and other messages
+        // Maps messages to include a type field to differentiate between self and other messages
         const allMessages = res.data.data.messages.map((message: any) => {
           return {
             ...message,
@@ -67,6 +66,7 @@ const DiscussionPage = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        toast.error("Failed to fetch messages!");
         setIsLoading(false);
       }
     };

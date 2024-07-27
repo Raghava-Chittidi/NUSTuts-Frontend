@@ -23,6 +23,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 function App() {
   const { isLoggedIn, isLoggingIn } = useAuthContext();
 
+  // Application routes
   const router = createBrowserRouter([
     {
       path: "/",
