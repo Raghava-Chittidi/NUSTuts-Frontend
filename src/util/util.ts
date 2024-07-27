@@ -1,7 +1,9 @@
 import { CalendarDateTime } from "@internationalized/date";
 
+// Weekday short form names
 export const daysArr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+// Month names
 export const monthsArr = [
   "January",
   "February",
@@ -17,6 +19,7 @@ export const monthsArr = [
   "December",
 ];
 
+// User avatar background colour, based on their name
 export const strToColour = (str: string) => {
   let hash = 0;
   const arr = str.split("");
@@ -27,11 +30,13 @@ export const strToColour = (str: string) => {
   return `hsl(${hash % 360}, 100%, 70%)`;
 };
 
+// Get current semester based on the current date and time
 export const getCurrentSem = () => {
   const month = new Date().getMonth();
   return month <= 7 ? 2 : 1;
 };
 
+// Get current academic year based on the current date and time
 export const getCurrentAY = () => {
   const year = new Date().getFullYear();
   const sem = getCurrentSem();
@@ -63,7 +68,6 @@ export const getCurrentDateTime = () => {
   const formattedDate = `${year}-${month}-${day}`;
   const formattedTime = `${hours}:${minutes}`;
 
-  // console.log(formattedDate, formattedTime);
   return { formattedDate, formattedTime };
 };
 
@@ -91,8 +95,7 @@ export const getCurrentDateValue = () => {
 };
 
 // Converts the booked date and time into a Date object
-// date is in the format 'DD-MM-YYYY'
-// time is in the format 'HH:MM'
+// Date is in the format 'DD-MM-YYYY'. Time is in the format 'HH:MM'
 export const parseCustomDateString = (date: string, time: string) => {
   // Split the date component into day, month, and year
   const [year, month, day] = date.split("-");
@@ -115,7 +118,7 @@ export const isCurrentDateTimePastGivenDateTime = (
   return currentDate > givenDate;
 };
 
-// Utility function to convert expiredTime to remaining seconds
+// Utility function to convert expiredTime to remaining seconds from the current time
 export function getRemainingSeconds(expiredTime: string): number {
   const targetDate = new Date(expiredTime).getTime();
   const currentTime = new Date().getTime();

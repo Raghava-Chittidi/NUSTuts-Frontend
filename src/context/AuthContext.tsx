@@ -35,6 +35,7 @@ export const AuthContext = createContext<AuthContextInterface>(
 );
 
 export const authReducer = (state: AuthState, action: AuthAction) => {
+  // Type of auth actions
   switch (action.type) {
     case "LOGIN":
       return {
@@ -54,7 +55,7 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  // Access token is valid only for 15mins
+  // Access token is valid only for 15 mins
   const TOKEN_EXPIRY_TIME = 15 * 60 * 1000;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(true);
@@ -63,6 +64,7 @@ export const AuthContextProvider = ({
   });
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Send request to refresh auth status
   const sendRefreshRequest = async () => {
     try {
       setIsLoggingIn(true);
@@ -84,10 +86,9 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     if (!isLoggedIn) {
-      // Send request to refresh auth status
       sendRefreshRequest();
     } else {
-      // Auto log out user after 15mins
+      // Auto log user out after 15 mins
       const timer = setTimeout(() => {
         setIsLoggedIn(false);
         setIsLoggingIn(true);

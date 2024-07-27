@@ -13,11 +13,10 @@ const TutorialPage = () => {
   const { tutorialId } = useParams();
   const { isLoading, validateTutorialId } = useTutorial();
   const { setConn, conn } = useWebsocketContext();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
   let once = false;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // Joins the discussion for the tutorial by
-  // connecting websocket to the server with tutorialId as the room
+  // Joins the discussion for the tutorial by connecting websocket to the server with tutorialId as the room
   const joinDiscussionHandler = async () => {
     try {
       await axios.post(
@@ -28,9 +27,12 @@ const TutorialPage = () => {
         }
       );
 
+      // Change path and protocol based on env variable (for dev vs deployment)
+      const path: string = BASE_URL.split("//")[1];
+      const websocketProtocol = path.includes("localhost") ? "ws" : "wss";
       if (!conn) {
         const ws = new WebSocket(
-          `ws://localhost:8000/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
+          `${websocketProtocol}://${path}/api/public/ws/${tutorialId}/join?userId=${state.user.id}&name=${state.user.name}&userType=${state.user.role.userType}`
         );
         if (ws.OPEN) {
           setConn(ws);
@@ -41,9 +43,11 @@ const TutorialPage = () => {
     }
   };
 
+  // Check if user can visit this tutorial page
   useEffect(() => {
     validateTutorialId();
     if (!once) {
+      // User should only join the discussion once
       joinDiscussionHandler();
       once = true;
     }

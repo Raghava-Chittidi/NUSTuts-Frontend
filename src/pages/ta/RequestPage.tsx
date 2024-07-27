@@ -33,6 +33,7 @@ export const RequestPage = () => {
     return <LoadingSpinner />;
   }
 
+  // Hide request from the list once it has been accepted or rejected
   const removeRequestFromListHandler = (id: number) => {
     setRequests((prevState) =>
       prevState.filter((request) => request.id !== id)

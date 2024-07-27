@@ -121,7 +121,7 @@ const ViewConsultationPage = () => {
   const [bookedConsultations, setBookedConsultations] = useState<
     BookedConsultationsView[]
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const isStudent = isUserStudent(state.user);
 
   // Initially fetches all booked consultations

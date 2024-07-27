@@ -11,6 +11,7 @@ export const WebsocketContext = createContext<{
 });
 
 const WebsocketProvider = ({ children }: { children: ReactNode }) => {
+  // Websocket connection
   const [conn, setConn] = useState<Conn>(null);
 
   return (

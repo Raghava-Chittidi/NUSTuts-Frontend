@@ -23,7 +23,10 @@ const ModuleTutorialsPage = () => {
   );
 
   useEffect(() => {
-    // Sends a request to get the class number of the student for the module
+    /* 
+      Checks whether the student has requested to join this tutorial before. If he has, hide
+      the request button to prevent them from sending a request to the same tutorial again.
+    */
     const sendRequest = async () => {
       try {
         setIsLoading(true);
@@ -51,11 +54,12 @@ const ModuleTutorialsPage = () => {
     return <LoadingSpinner />;
   }
 
-  // Filters out tutorials from the current semester
+  // Get the timetable for the module for the current semester
   const curSem =
     data?.semesterData.find((sem: any) => sem.semester === getCurrentSem()) ||
     [];
 
+  // Filters out tutorials from the current semester
   const tutorials: FetchedTutorial[] = curSem.timetable.filter(
     (tutorial: FetchedTutorial) => tutorial.lessonType === "Tutorial"
   );

@@ -10,6 +10,7 @@ export const useStudentSignup = () => {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Signs up a student and redirects them to the modules page
   const signup = async (
     name: string,
     email: string,
