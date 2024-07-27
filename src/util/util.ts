@@ -38,6 +38,7 @@ export const getCurrentAY = () => {
   return sem == 1 ? `${year}-${year + 1}` : `${year - 1}-${year}`;
 };
 
+// Function to format date in the format 'MM-DD-YYYY'
 export const formatDate = (oldDate: string) => {
   const date = new Date(oldDate);
   const d = date.getDate();
@@ -46,6 +47,7 @@ export const formatDate = (oldDate: string) => {
   return `${m} ${d} ${yr}`;
 };
 
+// Gets current date and current time in the format 'YYYY-MM-DD' and 'HH:MM' respectively
 export const getCurrentDateTime = () => {
   const now = new Date();
 
@@ -65,6 +67,7 @@ export const getCurrentDateTime = () => {
   return { formattedDate, formattedTime };
 };
 
+// Gets CalendarDateTime object of the current date and time
 export const getCurrentDateValue = () => {
   const now = new Date();
 
@@ -101,6 +104,7 @@ export const parseCustomDateString = (date: string, time: string) => {
   return new Date(formattedDateString);
 };
 
+// Checks if the current date and time is past the given date and time
 export const isCurrentDateTimePastGivenDateTime = (
   date: string,
   time: string
