@@ -13,6 +13,7 @@ export const RequestPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
+    // Gets all pending requests for the current tutorial
     const sendRequest = async () => {
       setIsLoading(true);
       const res = await axios.get(

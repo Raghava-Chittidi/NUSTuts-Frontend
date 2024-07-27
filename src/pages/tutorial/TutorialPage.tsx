@@ -16,6 +16,8 @@ const TutorialPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   let once = false;
 
+  // Joins the discussion for the tutorial by
+  // connecting websocket to the server with tutorialId as the room
   const joinDiscussionHandler = async () => {
     try {
       await axios.post(

@@ -3,6 +3,7 @@ import { Banner } from "../components/Banner";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// This is the homepage component that is displayed when the user is not logged in.
 const Homepage = () => {
   const url = useLocation().pathname;
   const navigate = useNavigate();

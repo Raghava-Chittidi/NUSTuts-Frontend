@@ -25,6 +25,9 @@ const LoginPage = ({ userType }: { userType: string }) => {
     password: null | string;
   }>(noError);
 
+
+  // If user is already logged in, redirect to homepage
+  // If user is logging in, show loading spinner
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -48,6 +51,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
     const email = emailRef.current!.value;
     const password = passwordRef.current!.value;
 
+    // Validates email to contain '@' symbol
     if (!email.includes("@")) {
       setError((prevState) => {
         return {
@@ -57,6 +61,7 @@ const LoginPage = ({ userType }: { userType: string }) => {
       });
     }
 
+    // Validates password to be non-empty
     if (!password) {
       setError((prevState) => {
         return {

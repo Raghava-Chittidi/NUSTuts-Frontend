@@ -17,6 +17,8 @@ const DiscussionPage = () => {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // useEffect to register listeners for incoming messages,
+  // and to define behaviour when the connection is closed, errors, or opened
   useEffect(() => {
     if (conn === null) {
       navigate(`/tutorial/${params.tutorialId}/discussion`);
@@ -37,6 +39,7 @@ const DiscussionPage = () => {
     conn.onopen = () => {};
   }, [conn, messages]);
 
+  // useEffect to fetch messages from the server
   useEffect(() => {
     const sendRequest = async () => {
       try {
@@ -49,6 +52,8 @@ const DiscussionPage = () => {
           }
         );
 
+        // Maps messages to include a type field
+        // to differentiate between self and other messages
         const allMessages = res.data.data.messages.map((message: any) => {
           return {
             ...message,
