@@ -54,13 +54,14 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  // Access token is valid only for 15mins
   const TOKEN_EXPIRY_TIME = 15 * 60 * 1000;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(true);
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const sendRefreshRequest = async () => {
     try {
@@ -68,8 +69,8 @@ export const AuthContextProvider = ({
       const res = await axios.get(`${BASE_URL}/api/auth/refresh`, {
         withCredentials: true,
       });
-      console.log(res.data);
       if (res.data?.data) {
+        // Login
         dispatch({ type: "LOGIN", payload: res.data.data });
         setIsLoggedIn(true);
       }
@@ -83,8 +84,10 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     if (!isLoggedIn) {
+      // Send request to refresh auth status
       sendRefreshRequest();
     } else {
+      // Auto log out user after 15mins
       const timer = setTimeout(() => {
         setIsLoggedIn(false);
         setIsLoggingIn(true);
@@ -93,8 +96,6 @@ export const AuthContextProvider = ({
       return () => clearTimeout(timer);
     }
   }, [isLoggedIn]);
-
-  console.log("AuthContext state: ", state);
 
   return (
     <AuthContext.Provider
