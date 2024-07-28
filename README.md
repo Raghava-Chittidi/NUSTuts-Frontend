@@ -21,7 +21,6 @@ https://docs.google.com/spreadsheets/d/1NA-8EaBFYRfzXTh352eEwP2trf-CBc02v0mFFmVL
 
 ### Some Student Accounts
 
-Student:
 Email: zack@gmail.com
 Password: zack
 
