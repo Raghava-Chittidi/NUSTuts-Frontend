@@ -101,7 +101,7 @@ const TATodayAttendance = () => {
   }
 
   return (
-    <div className="flex w-full items-center justify-center min-h-screen pb-16">
+    <div className="flex w-full items-center justify-center mb-16">
       {isTimerUp && attendanceString ? (
         <div className="flex flex-col items-center justify-center w-full space-y-5">
           <Countdown
@@ -111,22 +111,28 @@ const TATodayAttendance = () => {
           <div className="text-[3rem]">{attendanceString.code}</div>
         </div>
       ) : (
-        <div className="flex flex-col items-center w-full space-y-5">
+        <div
+          className={`flex flex-col items-center w-full space-y-5 overflow-y-scroll max-h-[calc(100vh-65px)] ${
+            attendanceList.length > 0 && "mt-20"
+          }`}
+        >
+          <div className="w-full h-[50vh] flex justify-center items-center pt-6 pb-2">
+            <Button
+              size="lg"
+              className="text-xl px-10 py-6"
+              onClick={generateHandler}
+              variant="ghost"
+              color="primary"
+            >
+              Generate attendance code
+            </Button>
+          </div>
           {attendanceList.length > 0 && (
             <div className="w-full flex flex-col items-center">
               <h1 className="text-2xl font-bold">Session attendance</h1>
               <AttendanceDisplay attendances={attendanceList} />
             </div>
           )}
-          <Button
-            size="lg"
-            className="text-3xl px-10 py-8 mt-5"
-            onClick={generateHandler}
-            variant="ghost"
-            color="primary"
-          >
-            Generate attendance code
-          </Button>
         </div>
       )}
     </div>
