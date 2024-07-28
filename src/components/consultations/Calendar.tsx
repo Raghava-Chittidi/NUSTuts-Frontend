@@ -13,7 +13,9 @@ import { getCurrentDateValue } from "../../util/util";
 import { CalendarDateTime } from "@internationalized/date";
 
 export const Calendar = ({ tutorialId }: { tutorialId: number }) => {
+  // State to store the selected date in the form of string, in the format yyyy-mm-dd
   const [selectedDate, setSelectedDate] = useState<string>("");
+  // State to store the selected date in the form of CalendarDateTime object
   const [selectedCalendarDate, setSelectedCalendarDate] =
     useState<CalendarDateTime | null>(getCurrentDateValue());
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
