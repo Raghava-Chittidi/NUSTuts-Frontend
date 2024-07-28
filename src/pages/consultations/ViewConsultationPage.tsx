@@ -182,7 +182,7 @@ const ViewConsultationPage = () => {
   }
 
   return (
-    <div className="p-10 px-6 lg:px-14 h-screen w-full overflow-y-auto">
+    <div className="pt-6 pb-16 px-6 lg:px-14 h-screen w-full overflow-y-scroll">
       {bookedConsultations.length === 0 ? (
         <p className="text-xl font-semibold w-full h-full text-center flex justify-center items-center pb-16">
           No booked consultations!
@@ -193,10 +193,11 @@ const ViewConsultationPage = () => {
             <h2 className="text-2xl font-semibold mb-4">
               {consultationGroup.date}
             </h2>
-            {consultationGroup.consultations.map((consultation) => (
+            {consultationGroup.consultations.map((consultation, index) => (
               <ConsultationBookingItem
                 consultation={consultation}
                 cancelBooking={handleCancelBooking}
+                key={index}
               />
             ))}
           </div>

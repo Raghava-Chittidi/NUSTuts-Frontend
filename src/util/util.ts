@@ -1,7 +1,7 @@
 import { CalendarDateTime } from "@internationalized/date";
 
 // Weekday short form names
-export const daysArr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const daysArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 // Month names
 export const monthsArr = [

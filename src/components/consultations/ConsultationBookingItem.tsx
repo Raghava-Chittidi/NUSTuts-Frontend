@@ -16,7 +16,7 @@ const ConsultationBookingItem = ({
   return (
     <div className="h-36 min-w-[30rem] w-full flex p-5 border-2 rounded-lg bg-white py-4 mb-4">
       <div className="md:w-[6rem] lg:w-[7rem] h-full flex flex-col justify-center items-center md:text-base lg:text-xl border-gray-400 border-r-2 pr-4">
-        <div>{daysArr[date.getDay() - 1]}</div>
+        <div>{daysArr[date.getDay()]}</div>
         <div className="text-4xl lg:text-5xl">{date.getDate()}</div>
       </div>
       <div className="h-full w-full flex items-center space-x-2 md:space-x-6 lg:space-x-10 justify-between">
