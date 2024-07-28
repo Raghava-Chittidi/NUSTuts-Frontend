@@ -21,17 +21,17 @@ https://docs.google.com/spreadsheets/d/1NA-8EaBFYRfzXTh352eEwP2trf-CBc02v0mFFmVL
 
 ### Some Student Accounts
 
-Email: zack@gmail.com
-Password: zack
+Email: zack@gmail.com  
+Password: zack  
 
-Email: hello@gmail.com
-Password: hello1
+Email: hello@gmail.com  
+Password: hello1  
 
-Email: rag@gmail.com
-Password: rag
+Email: rag@gmail.com  
+Password: rag  
 
-Email: cy@gmail.com
-Password: cy
+Email: cy@gmail.com  
+Password: cy  
 
 
 ### Some TA Accounts
