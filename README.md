@@ -42,4 +42,5 @@ Below are images of the tutorials and their respective TAs.
 
 Module Name & TA id       |  TA id & Account details
 :-------------------------:|:-------------------------:
-![](https://...Dark.png)  |  ![](https://...Ocean.png)
+![](public/Modules-1.png)  |  ![](public/TAs-1.png)  
+![](public/Modules-2.png)  |  ![](public/TAs-2.png) 
