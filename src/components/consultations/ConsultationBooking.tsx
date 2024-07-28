@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// Book a consultation slot for the student
 const bookConsultation = async (
   tutorialId: number,
   consultationId: number,
@@ -37,9 +38,11 @@ const ConsultationBooking = ({
   isClickable: boolean;
 }) => {
   const { state } = useAuthContext();
+  // State to store the consultation slot data
   const [consultation, setConsultation] =
     useState<Consultation>(consultationData);
 
+  // Book a consultation slot for the student
   const handleBookConsultation = async () => {
     try {
       const res = await bookConsultation(
@@ -57,6 +60,7 @@ const ConsultationBooking = ({
     }
   };
 
+  // Cancel a booked consultation slot for the student
   const handleCancelConsultation = async () => {
     try {
       const res = await cancelConsultation(

@@ -26,6 +26,7 @@ const Consultations = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Fetch the consultation slots for the given date
   useEffect(() => {
     const fetchConsultations = async () => {
       try {
@@ -36,12 +37,16 @@ const Consultations = ({
         );
         const consultationBookings: ConsultationBookingClickable[] =
           consultations.map((consultation: Consultation) => {
+            // Check if the consultation slot is booked by the current user
             const bookedByCurrentUser =
               consultation.booked &&
               !!(
                 consultation.student &&
                 state.user.id === consultation.student.ID
               );
+            // Check if the consultation slot is clickable,
+            // i.e. the consultation is not in the past and
+            // the slot is booked by the current user or is not booked yet
             const isClickable =
               !isCurrentDateTimePastGivenDateTime(
                 consultation.date,
@@ -60,6 +65,7 @@ const Consultations = ({
     fetchConsultations();
   }, [tutorialId]);
 
+  // Fetch the consultation slots for the given date
   const getConsultationsForDate = async (
     tutorialId: number,
     date: string,
@@ -84,6 +90,7 @@ const Consultations = ({
     return <LoadingSpinner />;
   }
 
+  // Display the consultation slots for the given date, only if all slots are clickable
   if (
     consultations.filter((consultation) => consultation.isClickable).length > 0
   ) {
@@ -101,6 +108,7 @@ const Consultations = ({
     );
   }
 
+  // Display a message if all consultation slots are not clickable
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4 border-b pb-2">{`Consultations for ${date}`}</h1>
