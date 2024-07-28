@@ -1,5 +1,5 @@
-# 1. Deployed website: 
-https://nustuts.netlify.app
+# 1. Deployed website
+## https://nustuts.netlify.app
 
 
 # 2. Proof-of-Concept
