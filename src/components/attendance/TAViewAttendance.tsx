@@ -9,12 +9,15 @@ import AttendanceDisplay from "../../components/attendance/AttendanceDisplay";
 const TAViewAttendance = () => {
   const { state } = useAuthContext();
   const { tutorialId } = useOutletContext<TutorialContextType>();
+  // State to store the attendance list of students for the tutorial, grouped by date,
+  // sorted from most recent to oldest
   const [attendanceList, setAttendanceList] = useState<AttendanceListsView[]>(
     []
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  // Fetch the attendance list of students for the tutorial
   useEffect(() => {
     const fetchAttendanceList = async () => {
       try {

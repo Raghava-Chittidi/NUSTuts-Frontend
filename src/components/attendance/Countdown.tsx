@@ -29,6 +29,7 @@ const Countdown = ({
       }
     }, 1000);
 
+    // Clear the interval when the component is unmounted
     return () => clearInterval(interval);
   }, [expiredTime]);
 

@@ -12,6 +12,7 @@ const StudentTodayAttendance = () => {
   const [isAttended, setIsAttended] = useState<boolean>(false);
   const [attendanceCode, setAttendanceCode] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  // Message to display when attendance is not opened yet
   const [unopenedMessage, setUnopenedMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -33,6 +34,7 @@ const StudentTodayAttendance = () => {
         const attended = await res.data.data;
         setIsAttended(attended);
       } catch (error) {
+        // If the attendance is not opened by TA yet, display a message
         setUnopenedMessage(
           "Teaching Assistant has not opened attendance marking yet"
         );
@@ -53,7 +55,7 @@ const StudentTodayAttendance = () => {
 
     // Validate and submit the attendance code
     try {
-      await axios.post(
+      const res = await axios.post(
         `${BASE_URL}/api/attendance/student/${tutorialId}/mark`,
         {
           studentId: state.user.id,
@@ -64,10 +66,18 @@ const StudentTodayAttendance = () => {
         }
       );
 
-      setIsAttended(true);
-      setErrorMessage("");
-      toast.success("Your attendance has been marked!");
+      // If the attendance code is correct and not expired, set the attendance status to true
+      if (res.status == 200 && res.data.message === "Your attendance has been marked successfully!") {
+        setIsAttended(true);
+        setErrorMessage("");
+        toast.success("Your attendance has been marked!");
+      } else {
+        // If the attendance code is incorrect or expired, display an error message
+        setErrorMessage("Attendance code has expired or is incorrect.");
+        toast.error("Failed to mark your attendance!");
+      }
     } catch (error) {
+      // If an error occurs while submitting the attendance code, display an error message
       console.log("Error submitting attendance code:", error);
       setErrorMessage(
         "An error occurred, you might have submitted the wrong code. Please try again."

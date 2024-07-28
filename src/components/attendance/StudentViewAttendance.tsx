@@ -8,6 +8,7 @@ import LoadingSpinner from "../LoadingSpinner";
 const StudentViewAttendance = () => {
   const { tutorialId } = useOutletContext<TutorialContextType>();
   const { state } = useAuthContext();
+  // State to store the attendance history of student, sorted from most recent to oldest
   const [attendanceHistory, setAttendanceHistory] = useState<
     StudentAttendance[]
   >([]);
