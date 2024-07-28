@@ -95,11 +95,11 @@ const TATodayAttendance = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchAttendanceStringOrAttendance();
-    setIsLoading(false);
   }, [isTimerUp]);
 
   if (isLoading) {
